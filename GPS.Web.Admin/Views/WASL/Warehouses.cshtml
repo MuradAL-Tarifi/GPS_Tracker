@@ -1,0 +1,168 @@
+﻿@model GPS.Integration.WaslModels.WaslInquiryModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@using System.Web;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+    ViewBag.PageBarTitle = Localizer["PageTitle"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <form asp-action="Warehouses" method="post">
+                <div class="card-header">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>
+                                        @SharedLocalizer["Fleet"]
+                                    </label>
+                                    <select id="FleetsSelect" name="FleetId" class="form-control select2 select" asp-items="ViewBag.Fleets" data-placeholder="-">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <button id="searchbtn" class="btn btn-primary">
+                            @SharedLocalizer["Search"]
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div id="table-div" class="card-body">
+                @if (Model != null)
+                {
+                    <table class="table form-table text-left" dir="ltr">
+                        <tr>
+                            <td class="text-bold" style="width:5%!important">
+                                @Localizer["StatusCode"]
+                            </td>
+                            <td>
+                                <span class="form-control text-left">
+                                    @Model.StatusCode.ToString()
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:5%!important">
+                                @Localizer["Request"]
+                            </td>
+                            <td dir="ltr">
+                                <div class="form-control text-left" style="height:auto">
+                                    @Model.Request
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:5%!important">
+                                @Localizer["Response"]
+                            </td>
+                            <td dir="ltr">
+                                <div class="form-control text-left" style="height:auto">
+                                    <pre id="responsePre"></pre>
+                                </div>
+                            </td>
+                        </tr>
+                    </table> 
+                 }
+                else
+                {
+                <h5 class="text-center">
+                    @SharedLocalizer["NoData"]
+                </h5>
+                }
+            </div>
+            <div class="card-footer clearfix center">
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+@section css
+{
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <style>
+        pre {
+            outline: 1px solid #ccc;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script src="@Url.Content("~/js/wasl/operating-companies.js")" asp-append-version="true"></script>
+    <script>
+        var selectFleet = '@Localizer["SelectFleet"]';
+        var text = '@Localizer["ConfirmDelete"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+
+           function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+    var jsonResponse = JSON.parse("@(Html.Raw(HttpUtility.JavaScriptStringEncode(Json.Serialize(ViewBag.JsonResponse).ToString())))");
+              document.getElementById('responsePre').innerHTML = syntaxHighlight(jsonResponse);
+    </script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

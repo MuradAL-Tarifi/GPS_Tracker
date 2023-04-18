@@ -1,0 +1,19 @@
+﻿.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+/*.dtp-control .form-control {
+    text-align: center;
+}*/
+
+
+.alertify-notifier.ajs-center {
+    right: 9%;
+    left: auto;
+}

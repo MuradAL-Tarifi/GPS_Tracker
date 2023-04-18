@@ -1,0 +1,115 @@
+﻿@model GPS.Domain.Views.FleetView
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@using GPS.Helper;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageFleets"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageFleets"];
+    ViewBag.PageBarDescription = Localizer["PageDescription"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">@Localizer["SubTitle"]</h3>
+            </div>
+            <section id="multiple-column-form">
+                <div class="row p-1">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="AgentIdSelect">@SharedLocalizer["Agent"]</label>
+                            @if (isEnglish)
+                            {
+                                <input readonly id="AgentNameEn" asp-for="Agent.NameEn" class="form-control" maxlength="100" />
+                            }
+                            else
+                            {
+                                <input readonly id="AgentName" asp-for="Agent.Name" class="form-control" maxlength="100" />
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="FleetName">@SharedLocalizer["FleetNameAr"]</label>
+                            <input readonly id="FleetName" asp-for="Name" class="form-control" maxlength="100" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="FleetNameEn">@SharedLocalizer["FleetNameEn"]</label>
+                            <input readonly id="FleetNameEn" asp-for="NameEn" class="form-control" maxlength="100" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="TaxRegistrationNumber">@SharedLocalizer["TaxRegistrationNumber"]</label>
+                            <input readonly id="TaxRegistrationNumber" asp-for="TaxRegistrationNumber" class="form-control" maxlength="50" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="CommercialRegistrationNumber">@SharedLocalizer["CommercialRegistrationNumber"]</label>
+                            <input readonly id="CommercialRegistrationNumber" asp-for="CommercialRegistrationNumber" class="form-control" maxlength="50" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="ManagerEmail">@Localizer["ManagerEmail"]</label>
+                            <div class="input-group ltr">
+                                <input readonly id="ManagerEmail" asp-for="ManagerEmail" class="form-control" type="email" maxlength="50" />
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="ManagerMobile">@Localizer["ManagerMobile"]</label>
+                            <div class="input-group ltr">
+                                <input readonly id="ManagerMobile" asp-for="ManagerMobile" class="form-control" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask />
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="SupervisorEmail">@Localizer["SupervisorEmail"]</label>
+                            <div class="input-group ltr">
+                                <input readonly id="SupervisorEmail" asp-for="SupervisorEmail" class="form-control" type="email" maxlength="50" />
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="SupervisorMobile">@Localizer["SupervisorMobile"]</label>
+                            <div class="input-group ltr">
+                                <input readonly asp-for="SupervisorMobile" class="form-control" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask />
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fa fa-rotate-left"></i>
+                    @SharedLocalizer["Back"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

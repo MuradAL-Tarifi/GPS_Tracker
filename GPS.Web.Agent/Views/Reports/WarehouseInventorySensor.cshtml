@@ -1,0 +1,463 @@
+﻿@using System.Threading;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewLocalizer Localizer
+
+
+@{ ViewData["Title"] = SharedLocalizer["InventoryHistoryReport"];
+    ViewBag.PageBarTitle = SharedLocalizer["InventoryHistoryReport"];
+    var lang = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US") ? "en" : "ar";
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var dir = isEnglish ? "ltr" : "rtl"; }
+
+<div id="app" v-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12 pt-1 pb-1">
+                            <div class="d-flex flex-row-reverse">
+                                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewInventoryHistoryReport))
+                                {
+                                    <button id="searchbtn" class="btn btn-danger" v-on:click="exportToPDF" v-bind:disabled="emptyResult || loading">
+                                        @*@SharedLocalizer["PDF"]*@
+                                        <i class="fa fa-file-pdf"></i>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div id="treeContainer">
+                                <input type="text" class="form-control jstree-selected-sensors" id="selectedSensors" placeholder="@SharedLocalizer["Sensors"]" readonly="readonly" v-model="sensorsSNText" />
+                                <div type="text" id="selectNodeTree" style="display:none;" class="form-control">
+                                    <div id="jstree-warehouses-inventories-sensors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group dtp-control">
+                                <label>@SharedLocalizer["FromDate"]</label>
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                    </div>
+                                    <input type="text" id="fp-date-time" class="form-control flatpickr-date-time flatpickr-input active" placeholder="YYYY-MM-DD HH:MM" readonly="readonly" v-model="fromDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group dtp-control">
+                                <label>@SharedLocalizer["ToDate"]</label>
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                    </div>
+                                    <input type="text" id="fp-date-time" class="form-control flatpickr-date-time flatpickr-input active" placeholder="YYYY-MM-DD HH:MM" readonly="readonly" v-model="toDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label> @SharedLocalizer["groupUpdatesBy"] </label>
+
+                                <ul class="list-unstyled price-range" id="price-range">
+                                    <li>
+                                        <div class="custom-control custom-radio">
+                                            <input id="day" type="radio" class="custom-control-input" v-model="groupUpdatesByType" name="groupUpdatesByType" value="day">
+                                            <label class="custom-control-label" for="day">@SharedLocalizer["Day"]</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="custom-control custom-radio">
+                                            <input id="hour" type="radio" class="custom-control-input" v-model="groupUpdatesByType" name="groupUpdatesByType" value="hour">
+                                            <label class="custom-control-label" for="hour">@SharedLocalizer["Hour"]</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div v-if="groupUpdatesByType=='day'" class="d-inline">
+                                    -
+                                    @SharedLocalizer["Each"]
+                                    <input type="number" style="width:60px" v-model="groupUpdatesValue" v-on:change="groupUpdatesValueChanged" />
+                                    @SharedLocalizer["TheDay"]
+                                </div>
+                                <div v-else-if="groupUpdatesByType=='hour'" class="d-inline">
+                                    -
+                                    @SharedLocalizer["Each"]
+                                    <input type="number" style="width:60px" v-model="groupUpdatesValue" v-on:change="groupUpdatesValueChanged" />
+                                    @SharedLocalizer["TheHour"]
+                                </div>
+                                <div class="d-inline" v-if="groupUpdatesByType">
+                                    - <input type="radio" v-model="groupUpdatesByType" name="groupUpdatesByType" value="" class="text-danger" /> @SharedLocalizer["Cancel"]
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 pt-1 pb-1">
+                            <button id="searchbtn" class="btn btn-primary" v-on:click="search" v-bind:disabled="!canSearch()">
+                                @SharedLocalizer["Search"]
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div dir="@dir">
+                        <i class="fa fa-arrow-up text-danger"></i> @SharedLocalizer["Max"]  -
+                        <i class="fa fa-random"></i> @SharedLocalizer["Average"]  -
+                        <i class="fa fa-arrow-down text-info"></i> @SharedLocalizer["Min"]
+                    </div>
+                    <div id="accordion" class="card collapse-icon" v-if="reportData && reportData.length > 0">
+                        <div class="card-header text-center">
+                            @*<h4 class="card-title">{{selectedInventoryName}}</h4>*@
+                        </div>
+                        <div class="card-body">
+                            <div class="collapse-default">
+                                <div class="card" v-for="(warehoue, indexWarehouse) in warehouses">
+                                    <div v-bind:id="'headingCollapse_warehouse'+warehoue.warehouseId" class="card-header" data-toggle="collapse" role="button" v-bind:data-target="'#collapse_warehouse'+warehoue.warehouseId" aria-expanded="false" v-bind:aria-controls="'collapse_warehouse'+warehoue.warehouseId">
+                                        <span class="lead collapse-title text-center">{{warehoue.warehouseName}}</span>
+                                    </div>
+                                    <div v-bind:id="'collapse_warehouse'+warehoue.warehouseId" role="tabpanel" v-bind:aria-labelledby="'headingCollapse_warehouse'+warehoue.warehouseId" class="collapse">
+                                        <div class="card-body">
+                                            <div class="collapse-default">
+                                                <div class="card border border-info mb-2 rounded-right rounded-left" v-for="(inventory, indexInventory) in inventories.filter(obj => obj.warehouseId == warehoue.warehouseId)">
+                                                    <div v-bind:id="'headingCollapse_inventory'+inventory.inventoryId" class="card-header" data-toggle="collapse" role="button" v-bind:data-target="'#collapse_inventory'+inventory.inventoryId" aria-expanded="false" v-bind:aria-controls="'collapse_inventory'+inventory.inventoryId">
+                                                        <span class="lead collapse-title">{{inventory.inventoryName}}</span>
+                                                    </div>
+                                                    <div v-bind:id="'collapse_inventory'+inventory.inventoryId" role="tabpanel" v-bind:aria-labelledby="'headingCollapse_inventory'+inventory.inventoryId" class="collapse">
+                                                        <div class="card-body">
+                                                            <div class="collapse-default">
+                                                                <div class="card" v-for="(sensorItem, index) in reportData.filter(obj => obj.warehouseId == warehoue.warehouseId && obj.inventoryId == inventory.inventoryId)">
+                                                                    <div v-bind:id="'headingCollapse_sensor'+sensorItem.serial" class="card-header" data-toggle="collapse" role="button" v-bind:data-target="'#collapse_sensor'+sensorItem.serial" aria-expanded="false" v-bind:aria-controls="'collapse_sensor'+sensorItem.serial">
+                                                                        <span class="lead collapse-title">{{sensorItem.name}}</span>
+                                                                        <div class="m-auto">
+                                                                            <table class="d-inline-block header-info">
+                                                                                <tr>
+                                                                                    <th>
+                                                                                        @SharedLocalizer["TheTemperature"]
+                                                                                    </th>
+                                                                                    <td><i class="fa fa-arrow-up text-danger text-sm"></i> {{sensorItem.sensorHistoryReport.headerInfo.maxTemperature}}</td>
+                                                                                    <td><i class="fa fa-random text-sm"></i> {{sensorItem.sensorHistoryReport.headerInfo.averageTemperature}}</td>
+                                                                                    <td><i class="fa fa-arrow-down text-info text-sm"></i> {{sensorItem.sensorHistoryReport.headerInfo.minTemperature}}</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <table class="d-inline-block header-info">
+                                                                                <tr>
+                                                                                    <th>
+                                                                                        @SharedLocalizer["Humidity"]
+                                                                                    </th>
+                                                                                    <td><i class="fa fa-arrow-up text-danger text-sm"></i> {{sensorItem.sensorHistoryReport.headerInfo.maxHumidity}}</td>
+                                                                                    <td><i class="fa fa-random text-sm"></i> {{sensorItem.sensorHistoryReport.headerInfo.averageHumidity}}</td>
+                                                                                    <td><i class="fa fa-arrow-down text-info text-sm"></i> {{sensorItem.sensorHistoryReport.headerInfo.minHumidity}}</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div v-bind:id="'collapse_sensor'+sensorItem.serial" role="tabpanel" v-bind:aria-labelledby="'headingCollapse_sensor'+sensorItem.serial" class="collapse">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                    <div class="table-responsive">
+                                                                                        <table v-if="sensorItem.sensorHistoryReport" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+                                                                                            <tbody>
+                                                                                                <template v-if="sensorItem.sensorHistoryReport">
+                                                                                                    <tr style='background-color: #625ac9 !important; color: #fff !important;'>
+                                                                                                        <th v-bind:colspan="colSpan"></th>
+                                                                                                        <th>
+                                                                                                            @SharedLocalizer["TheTemperature"]
+                                                                                                        </th>
+                                                                                                        <th>
+                                                                                                            @SharedLocalizer["Humidity"]
+                                                                                                        </th>
+                                                                                                    </tr>
+                                                                                                    <tr style='background-color: #625ac9 !important; color: #fff !important;'>
+                                                                                                        <th v-bind:colspan="colSpan" class="align-middle">@SharedLocalizer["Total"]</th>
+                                                                                                        <th class="p-0">
+                                                                                                            <template>
+                                                                                                                <table class="table m-0">
+                                                                                                                    <tr>
+                                                                                                                        <td><i class="fa fa-arrow-up text-danger"></i> {{sensorItem.sensorHistoryReport.headerInfo.maxTemperature}}</td>
+                                                                                                                        <td><i class="fa fa-random"></i> {{sensorItem.sensorHistoryReport.headerInfo.averageTemperature}}</td>
+                                                                                                                        <td><i class="fa fa-arrow-down text-info"></i> {{sensorItem.sensorHistoryReport.headerInfo.minTemperature}}</td>
+                                                                                                                    </tr>
+                                                                                                                </table>
+                                                                                                            </template>
+                                                                                                        </th>
+                                                                                                        <th class="p-0">
+                                                                                                            <template>
+                                                                                                                <table class="table m-0">
+                                                                                                                    <tr>
+                                                                                                                        <td><i class="fa fa-arrow-up text-danger"></i> {{sensorItem.sensorHistoryReport.headerInfo.maxHumidity}}</td>
+                                                                                                                        <td><i class="fa fa-random"></i> {{sensorItem.sensorHistoryReport.headerInfo.averageHumidity}}</td>
+                                                                                                                        <td><i class="fa fa-arrow-down text-info"></i> {{sensorItem.sensorHistoryReport.headerInfo.minHumidity}}</td>
+                                                                                                                    </tr>
+                                                                                                                </table>
+                                                                                                            </template>
+                                                                                                        </th>
+                                                                                                    </tr>
+                                                                                                </template>
+                                                                                                <template v-for="(monthItem, index) in sensorItem.sensorHistoryReport.monthList">
+                                                                                                    <tr style='background-color: #625ac9 !important; color: #fff !important;'>
+                                                                                                        <th v-bind:colspan="colSpan" class="align-middle">
+                                                                                                            <div v-html="monthItem.headerInfo.dateText"></div>
+                                                                                                        </th>
+                                                                                                        <th class="p-0">
+                                                                                                            <template v-if="monthItem.headerInfo.maxTemperature">
+                                                                                                                <table class="table m-0">
+                                                                                                                    <tr>
+                                                                                                                        <td><i class="fa fa-arrow-up text-danger"></i> {{monthItem.headerInfo.maxTemperature}}</td>
+                                                                                                                        <td><i class="fa fa-random"></i> {{monthItem.headerInfo.averageTemperature}}</td>
+                                                                                                                        <td><i class="fa fa-arrow-down text-info"></i>{{monthItem.headerInfo.minTemperature}}</td>
+                                                                                                                    </tr>
+                                                                                                                </table>
+                                                                                                            </template>
+                                                                                                        </th>
+                                                                                                        <th class="p-0">
+                                                                                                            <template v-if="monthItem.headerInfo.maxHumidity">
+                                                                                                                <table class="table m-0">
+                                                                                                                    <tr>
+                                                                                                                        <td><i class="fa fa-arrow-up text-danger"></i> {{monthItem.headerInfo.maxHumidity}}</td>
+                                                                                                                        <td><i class="fa fa-random"></i> {{monthItem.headerInfo.averageHumidity}}</td>
+                                                                                                                        <td><i class="fa fa-arrow-down text-info"></i> {{monthItem.headerInfo.minHumidity}}</td>
+                                                                                                                    </tr>
+                                                                                                                </table>
+                                                                                                            </template>
+                                                                                                        </th>
+                                                                                                    </tr>
+                                                                                                    <template v-for="(dayItem, index) in monthItem.dayList">
+                                                                                                        <tr style='background-color: #625ac9 !important; color: #fff !important;'>
+                                                                                                            <th v-bind:colspan="colSpan" class="align-middle day-sep">
+                                                                                                                <div v-html="dayItem.headerInfo.dateText"></div>
+                                                                                                            </th>
+                                                                                                            <th class="p-0 day-sep">
+                                                                                                                <template v-if="dayItem.headerInfo.maxTemperature">
+                                                                                                                    <table class="table m-0">
+                                                                                                                        <tr>
+                                                                                                                            <td><i class="fa fa-arrow-up text-danger"></i> {{dayItem.headerInfo.maxTemperature}}</td>
+                                                                                                                            <td><i class="fa fa-random"></i> {{dayItem.headerInfo.averageTemperature}}</td>
+                                                                                                                            <td><i class="fa fa-arrow-down text-info"></i> {{dayItem.headerInfo.minTemperature}}</td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
+                                                                                                                </template>
+                                                                                                            </th>
+                                                                                                            <th class="p-0 day-sep">
+                                                                                                                <template v-if="dayItem.headerInfo.maxHumidity">
+                                                                                                                    <table class="table m-0">
+                                                                                                                        <tr>
+                                                                                                                            <td><i class="fa fa-arrow-up text-danger"></i> {{dayItem.headerInfo.maxHumidity}}</td>
+                                                                                                                            <td><i class="fa fa-random"></i> {{dayItem.headerInfo.averageHumidity}}</td>
+                                                                                                                            <td><i class="fa fa-arrow-down text-info"></i> {{dayItem.headerInfo.minHumidity}}</td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
+                                                                                                                </template>
+                                                                                                            </th>
+                                                                                                        </tr>
+                                                                                                        <template v-for="(item, index) in dayItem.historyList">
+                                                                                                            <tr>
+                                                                                                                <template v-if="!groupUpdatesByTypeValue">
+                                                                                                                    <td>
+                                                                                                                        {{index+1}}
+                                                                                                                    </td>
+                                                                                                                </template>
+                                                                                                                <td dir="ltr">
+                                                                                                                    <div v-html="item.gpsDate"></div>
+                                                                                                                </td>
+                                                                                                                <td class="p-0">
+                                                                                                                    <div v-html="item.temperature"></div>
+                                                                                                                </td>
+                                                                                                                <td class="p-0">
+                                                                                                                    <div v-html="item.humidity"></div>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                        </template>
+                                                                                                    </template>
+                                                                                                </template>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="reportData && reportData.length ==0">
+                        @SharedLocalizer["NoData"]
+                    </div>
+                </div>
+                <div class="card-footer clearfix center">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+
+    <!-- alertify -->
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/pickers/flatpickr/flatpickr.min.css")" rel="stylesheet">
+    <!-- BEGIN: jstree CSS-->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/jstree.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-tree.css")" rel="stylesheet">
+    <!-- END: jstree CSS-->
+    <!-- vue select -->
+    <link href="@Url.Content("~/lib/vue-select/vue-select.css")" rel="stylesheet" />
+    @if (isEnglish)
+    {
+<link href="@Url.Content("~/app-assets/app-theme/css/plugins/forms/pickers/form-flat-pickr.css")" rel="stylesheet">
+ }
+else
+{
+<link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.css")" rel="stylesheet">
+}
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+
+    <!-- footable style -->
+    <link href="@Url.Content("~/lib/footable/css/footable.bootstrap.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/css/reports/reports.css")" rel="stylesheet" asp-append-version="true" />
+
+    @if (isEnglish)
+    {
+<link href="@Url.Content("~/css/reports/reports-en.css")" rel="stylesheet" asp-append-version="true" /> }
+                else
+                {
+<link href="@Url.Content("~/css/reports/reports-ar.css")" rel="stylesheet" asp-append-version="true" />
+}
+
+    <style>
+        .table th, .table td {
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .day-sep {
+            border-bottom: 1px solid #9BC2E6 !important;
+        }
+
+        .header-info {
+            border-collapse: collapse;
+            border-radius: 0.25rem;
+            border-style: hidden;
+            box-shadow: 0 0 0 0.5px #ced4da;
+        }
+
+            .header-info th, td {
+                padding: 5px;
+                border: 0.5px solid #ced4da;
+                border-top: 0 !important;
+                border-bottom: 0 !important;
+            }
+
+            .header-info th {
+                color: #17a2b8;
+            }
+
+                .header-info th:first-child {
+                    border-right: 0 !important;
+                }
+
+            .header-info td:last-child {
+                border-left: 0 !important;
+            }
+
+        #treeContainer {
+            position: relative;
+        }
+
+        #selectNodeTree {
+            position: absolute;
+            height: 400px !important;
+            top: 38px;
+            left: 0;
+            background-color: #fdfdfd;
+            z-index: 555;
+            border: 1px solid #101010 !important;
+            overflow: auto;
+        }
+        .dark-layout #selectNodeTree {
+            background-color: #283046;
+        }
+    </style>
+}
+
+@section Scripts
+{
+
+    <!-- development version, includes helpful console warnings -->
+    @*<partial name="_VueScript" />*@
+    <!-- Axios -->
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+
+    <!-- footable -->
+    <script src="@Url.Content("~/lib/footable/js/footable.js")"></script>
+
+    @* for pager *@
+    <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+
+    <!-- Alertify -->
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+
+    <!-- moment -->
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/picker.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/picker.date.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/picker.time.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/legacy.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    @* vue select *@
+    <script src="@Url.Content("~/lib/vue-select/vue-select.js")"></script>
+    <!-- jstree -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/jstree.min.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+
+
+
+    <script>
+        var ErrorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var all = '@SharedLocalizer["All"]';
+        var SelectWarehouseText = '@SharedLocalizer["SelectWarehouse"]';
+        var SelectInventoryText = '@SharedLocalizer["SelectInventory"]';
+        var MinTemperatureText = '@SharedLocalizer["MinTemperature"]';
+        var MinHumidityText = '@SharedLocalizer["MinHumidity"]';
+        var MaxTemperatureText = '@SharedLocalizer["MaxTemperature"]';
+        var MaxHumidityText = '@SharedLocalizer["MaxHumidity"]';
+        var errorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var WarehousesInventoriesSensors =@Html.Raw(ViewBag.WarehousesInventoriesSensors);
+    </script>
+    <script src="@Url.Content("~/js/reports/warehouse/warehouse-inventory-sensor-report.js")" asp-append-version="true"></script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

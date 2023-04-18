@@ -1,0 +1,139 @@
+﻿@model StaticPagedList<GPS.Domain.Views.CustomAlertView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbCustomAlerts" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th style="width:3%"></th>
+            <th style="width:12%">
+                @SharedLocalizer["Title"]
+            </th>
+            <th style="width:10%">
+                @SharedLocalizer["AlertType"]
+            </th>
+            <th style="width:5%">
+                @SharedLocalizer["Interval"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:5%">
+                @SharedLocalizer["LessThanTemperature"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:5%">
+                @SharedLocalizer["HigherThanTemperature"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:5%">
+                @SharedLocalizer["LessThanHumidity"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:5%">
+                @SharedLocalizer["HigherThanHumidity"]
+            </th>
+            <th data-breakpoints="xs sm" style="width: 15%;">
+                @SharedLocalizer["ToEmails"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:5%">
+                @SharedLocalizer["IsActive"]
+            </th>
+            <th data-breakpoints="xs sm" style="width: 5%;">
+                @SharedLocalizer["Warehouses"]
+            </th>
+            <th data-breakpoints="xs sm" style="width: 15%;">
+                @SharedLocalizer["Inventories"]
+            </th>
+            @if (Model.Count > 0 && _loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageCustomAlerts))
+            {
+                <th data-breakpoints="xs sm" style="width: 10%;"></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@(index)">
+                <td>@index</td>
+                <td class="ar-font">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @switch (item.AlertTypeLookupId)
+                    {
+                        case 1:
+                            <span class="badge badge-warning text-wrap">@SharedLocalizer["HumidityOutOfRang"]</span>
+                            break;
+                        case 2:
+                            <span class="badge badge-warning text-wrap">@SharedLocalizer["TemperatureOutOfRang"]</span>
+                            break;
+                        case 3:
+                            <span class="badge badge-warning text-wrap">@SharedLocalizer["TemperatureAndHumidityOutOfRang"]</span>
+                            break;
+                    }
+                </td>
+                <td>
+                    @(isEnglish ? "every" : "كل")  <span>(@item.Interval)</span>  @(isEnglish ? "minutes" : "دقيقة")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinValueTemperature)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.MaxValueTemperature)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.MinValueHumidity)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.MaxValueHumidity)
+                </td>
+                <td style="overflow-wrap: anywhere;direction:ltr;text-align:left">
+                   @Html.DisplayFor(modelItem => item.ToEmails)
+                </td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge badge-success">@SharedLocalizer["Active"]</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@SharedLocalizer["NotActive"]</span>
+                    }
+                </td>
+                <td>
+                    <span class="badge badge-dark">
+                        @if (item.Inventories.Count > 0)
+                        {
+                            @item.Inventories.First().Warehouse.Name
+                        }
+                     </span>
+                </td>
+                <td>
+                    <div style="max-height:200px !important; overflow-y:scroll!important;">
+                        @foreach (var inventory in item.Inventories)
+                        {
+                            <span class="badge badge-dark">@inventory.Name</span>
+                        }
+                    </div>
+                </td>
+                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageCustomAlerts))
+                {
+                <td>
+                    <button type="button" class="btn btn-icon btn-sm rounded-circle btn-outline-warning waves-effect mx-1 mb-1" onclick="onEdit(@item.Id,@Model.PageNumber)">
+                        <i class="far fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1 mb-1" onclick="onDelete(@item.Id,@Model.PageNumber)">
+                        <i class="fa fa-trash-alt"></i>
+                    </button>
+                </td>
+                }
+        </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

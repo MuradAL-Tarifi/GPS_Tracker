@@ -1,0 +1,1833 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accept" xml:space="preserve">
+    <value>اعتماد</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>الجهاز</value>
+  </data>
+  <data name="AccountExpirationDate" xml:space="preserve">
+    <value>تاريخ انتهاء الجهاز</value>
+  </data>
+  <data name="AccountInfo" xml:space="preserve">
+    <value>بيانات الجهاز</value>
+  </data>
+  <data name="AccountNameExists" xml:space="preserve">
+    <value>الاسم مستخدم مسبقاً</value>
+  </data>
+  <data name="AccountNotExists" xml:space="preserve">
+    <value>الجهاز غير موجود</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>الأجهزة</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>الحركة</value>
+  </data>
+  <data name="ActionDate" xml:space="preserve">
+    <value>تاريخ الحركة</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>تفعيل</value>
+  </data>
+  <data name="ActivationDate" xml:space="preserve">
+    <value>تاريخ التفعيل</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>مفعل</value>
+  </data>
+  <data name="ActivityType" xml:space="preserve">
+    <value>نوع النشاط</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="AddDriverSuccess" xml:space="preserve">
+    <value>تم إضافة السائق</value>
+  </data>
+  <data name="AddInventorySensors" xml:space="preserve">
+    <value>إضافة حساسات المخزن</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>إضافة جديدة</value>
+  </data>
+  <data name="AddNewAccount" xml:space="preserve">
+    <value>إضافة جهاز جديد</value>
+  </data>
+  <data name="AddNewAds" xml:space="preserve">
+    <value>اضافة اعلان جديد</value>
+  </data>
+  <data name="AddNewDriver" xml:space="preserve">
+    <value>إضافة سائق جديد</value>
+  </data>
+  <data name="AddNewFleet" xml:space="preserve">
+    <value>إضافة شركة</value>
+  </data>
+  <data name="AddNewGateway" xml:space="preserve">
+    <value>إضافة جيت وي</value>
+  </data>
+  <data name="AddNewGroup" xml:space="preserve">
+    <value>إضافة مجموعة جديدة</value>
+  </data>
+  <data name="AddNewInventory" xml:space="preserve">
+    <value>إضافة مخزن جديد</value>
+  </data>
+  <data name="AddNewMaintenanceOperation" xml:space="preserve">
+    <value>إضافة عملية صيانة</value>
+  </data>
+  <data name="AddNewOilChangeOperation" xml:space="preserve">
+    <value>إضافة عملية تغيير زيت</value>
+  </data>
+  <data name="AddNewSensor" xml:space="preserve">
+    <value>اضافة حساس جديد</value>
+  </data>
+  <data name="AddNewTireChangeOperation" xml:space="preserve">
+    <value>إضافة عملية تغيير إطار</value>
+  </data>
+  <data name="AddNewUser" xml:space="preserve">
+    <value>إضافة مستخدم جديد</value>
+  </data>
+  <data name="AddNewVehicle" xml:space="preserve">
+    <value>إضافة مركبة جديدة</value>
+  </data>
+  <data name="AddNewWarehouse" xml:space="preserve">
+    <value>إضافة مستودع جديد</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="AddSuccess" xml:space="preserve">
+    <value>تمت الاضافة بنجاح</value>
+  </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>مدير نظام</value>
+  </data>
+  <data name="AdsScreen" xml:space="preserve">
+    <value>شاشات الإعلانات</value>
+  </data>
+  <data name="AdsScreenInfo" xml:space="preserve">
+    <value>بيانات الاعلان</value>
+  </data>
+  <data name="AgencyMaintenance" xml:space="preserve">
+    <value>صيانة وكالة</value>
+  </data>
+  <data name="Agent" xml:space="preserve">
+    <value>الوكيل</value>
+  </data>
+  <data name="AgentRole" xml:space="preserve">
+    <value>عميل</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>التنبيه</value>
+  </data>
+  <data name="AlertReport" xml:space="preserve">
+    <value>تقرير الإنذارات</value>
+  </data>
+  <data name="Alerts" xml:space="preserve">
+    <value>تنبيهات</value>
+  </data>
+  <data name="AlertsExists" xml:space="preserve">
+    <value>يوجد إنذارات</value>
+  </data>
+  <data name="AlertsReport" xml:space="preserve">
+    <value>تقرير الإنذارات</value>
+  </data>
+  <data name="AlertsReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير الإنذارات</value>
+  </data>
+  <data name="AlertType" xml:space="preserve">
+    <value>نوع الإنذار</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="AtLeastOneFeildMustBeChecked" xml:space="preserve">
+    <value>يجب اختيار حقل واحد على الأقل</value>
+  </data>
+  <data name="AutoUpdate" xml:space="preserve">
+    <value>التحديث التلقائي</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>متوسط</value>
+  </data>
+  <data name="AverageDailyTemperatureAndHumidityReport" xml:space="preserve">
+    <value>متوسط الحرارة والرطوبة اليومي</value>
+  </data>
+  <data name="AverageHumidity" xml:space="preserve">
+    <value>متوسط الرطوبة</value>
+  </data>
+  <data name="AverageTemperature" xml:space="preserve">
+    <value>متوسط الحرارة</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>عودة</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>الماركة</value>
+  </data>
+  <data name="Brands" xml:space="preserve">
+    <value>العلامات التجارية</value>
+  </data>
+  <data name="Calibrated" xml:space="preserve">
+    <value>معاير</value>
+  </data>
+  <data name="CalibrationDate" xml:space="preserve">
+    <value>تاريخ المعايرة</value>
+  </data>
+  <data name="CalibrationStatus" xml:space="preserve">
+    <value>حالة المعايرة</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="CarName" xml:space="preserve">
+    <value>اسم المركبة</value>
+  </data>
+  <data name="CarNumber" xml:space="preserve">
+    <value>رقم السيارة</value>
+  </data>
+  <data name="ChangeAfter" xml:space="preserve">
+    <value>التغيير بعد</value>
+  </data>
+  <data name="ChangeDate" xml:space="preserve">
+    <value>تاريخ التغيير</value>
+  </data>
+  <data name="ChangeLocation" xml:space="preserve">
+    <value>تغيير الموقع</value>
+  </data>
+  <data name="CheckSchedulingDataValidity" xml:space="preserve">
+    <value>يرجى التحقق من صحة بيانات الجدولة</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>المدينة</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>مسح</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="CloseLocation" xml:space="preserve">
+    <value>موقع الإغلاق</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>اللون</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>الأعمدة</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>الأمر</value>
+  </data>
+  <data name="CommandCode" xml:space="preserve">
+    <value>رمز الأمر</value>
+  </data>
+  <data name="CommercialRecordIssueDateHijri" xml:space="preserve">
+    <value>تاريخ السجل التجاري هجري</value>
+  </data>
+  <data name="CommercialRecordNumber" xml:space="preserve">
+    <value>رقم السجل التجاري</value>
+  </data>
+  <data name="CommercialRegistrationNumber" xml:space="preserve">
+    <value>رقم السجل التجاري</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>شركة</value>
+  </data>
+  <data name="ConfirmCreateDriver" xml:space="preserve">
+    <value>هل انت متأكد من إضافة السائق ؟</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>هل انت متأكد من حذف العنصر المحدد ؟</value>
+  </data>
+  <data name="ConfirmSave" xml:space="preserve">
+    <value>هل انت متأكد ؟</value>
+  </data>
+  <data name="ConfirmUpdate" xml:space="preserve">
+    <value>هل انت متأكد من تعديل بيانات الشركة ؟</value>
+  </data>
+  <data name="ConfirmUpdateDriver" xml:space="preserve">
+    <value>هل انت متأكد من تعديل بيانات السائق ؟</value>
+  </data>
+  <data name="ConfirmUpdateFleet" xml:space="preserve">
+    <value>هل انت متأكد من تعديل بيانات الشركة ؟</value>
+  </data>
+  <data name="ConfirmUpdateVehicle" xml:space="preserve">
+    <value>هل انت متأكد من تعديل بيانات المركبة ؟</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>المحتوى</value>
+  </data>
+  <data name="ContentEn" xml:space="preserve">
+    <value>المحتوى انجليزي</value>
+  </data>
+  <data name="ContinueEdit" xml:space="preserve">
+    <value>متابعة التعديل</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>التكلفة</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="CreateAndScheduleReport" xml:space="preserve">
+    <value>إنشاء وجدولة تقرير</value>
+  </data>
+  <data name="CurrentOdometer" xml:space="preserve">
+    <value>عداد المسافة الحالي</value>
+  </data>
+  <data name="CustomAlerts" xml:space="preserve">
+    <value>الإنذارات المخصصة</value>
+  </data>
+  <data name="Daily" xml:space="preserve">
+    <value>يومي</value>
+  </data>
+  <data name="DailyWarehousesReport" xml:space="preserve">
+    <value>تقرير المستودعات اليومي</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>تاريخ الميلاد</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>اليوم</value>
+  </data>
+  <data name="DayAndTime" xml:space="preserve">
+    <value>اليوم والساعة</value>
+  </data>
+  <data name="DayOfMonth" xml:space="preserve">
+    <value>اليوم في الشهر</value>
+  </data>
+  <data name="DayOfWeek" xml:space="preserve">
+    <value>اليوم في الاسبوع</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>أيام</value>
+  </data>
+  <data name="DeActivate" xml:space="preserve">
+    <value>تعطيل</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="DeleteSuccess" xml:space="preserve">
+    <value>تم الحذف بنجاح</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>تفاصيل</value>
+  </data>
+  <data name="DetailsSubTitle" xml:space="preserve">
+    <value>بيانات الشركة لهيئة النقل</value>
+  </data>
+  <data name="DeviceIMEI" xml:space="preserve">
+    <value>رقم IMEI</value>
+  </data>
+  <data name="DeviceIMEIExists" xml:space="preserve">
+    <value>رقم IMEI مستخدم مسبقاً</value>
+  </data>
+  <data name="DeviceType" xml:space="preserve">
+    <value>نوع الجهاز</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>تجاهل</value>
+  </data>
+  <data name="Disconnected" xml:space="preserve">
+    <value>منقطع</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>المسافة (Km)</value>
+  </data>
+  <data name="DistanceReport" xml:space="preserve">
+    <value>تقرير المسافات</value>
+  </data>
+  <data name="DistanceReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير المسافات</value>
+  </data>
+  <data name="DistancesReport" xml:space="preserve">
+    <value>تقرير المسافات</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="Door" xml:space="preserve">
+    <value>الباب</value>
+  </data>
+  <data name="Door1" xml:space="preserve">
+    <value>باب 1</value>
+  </data>
+  <data name="Door2" xml:space="preserve">
+    <value>باب 2</value>
+  </data>
+  <data name="Driver" xml:space="preserve">
+    <value>السائق</value>
+  </data>
+  <data name="DriverInfo" xml:space="preserve">
+    <value>بيانات السائق</value>
+  </data>
+  <data name="DriverName" xml:space="preserve">
+    <value>اسم السائق</value>
+  </data>
+  <data name="DriverNotExists" xml:space="preserve">
+    <value>السائق غير موجود</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>المدة</value>
+  </data>
+  <data name="Each" xml:space="preserve">
+    <value>كل</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="EditDriver" xml:space="preserve">
+    <value>تعديل بيانات سائق</value>
+  </data>
+  <data name="EditFleet" xml:space="preserve">
+    <value>تعديل بيانات الشركة</value>
+  </data>
+  <data name="EditGateway" xml:space="preserve">
+    <value>تعديل بيانات Gateway</value>
+  </data>
+  <data name="EditGroup" xml:space="preserve">
+    <value>تعديل بيانات مجموعة</value>
+  </data>
+  <data name="EditInventory" xml:space="preserve">
+    <value>تعديل مخزن</value>
+  </data>
+  <data name="EditMaintenanceOperation" xml:space="preserve">
+    <value>تعديل عملية صيانة</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>تعديل بيانات المستخدم</value>
+  </data>
+  <data name="EditVehicle" xml:space="preserve">
+    <value>تعديل بيانات المركبة</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>بريد الكتروني</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="EmptyVoltage" xml:space="preserve">
+    <value>فولطية فارغ</value>
+  </data>
+  <data name="EmptyWeight" xml:space="preserve">
+    <value>الوزن فارغ</value>
+  </data>
+  <data name="EnableAddByUploadingExcel" xml:space="preserve">
+    <value>تفعيل الإضافة بواسطة ملف الإكسيل</value>
+  </data>
+  <data name="EnableAlertByUsers" xml:space="preserve">
+    <value>تفعيل الإشعارات للمستخدمين</value>
+  </data>
+  <data name="EnableAlerts" xml:space="preserve">
+    <value>تفعيل التنبيهات</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>النهاية</value>
+  </data>
+  <data name="Engine" xml:space="preserve">
+    <value>المحرك</value>
+  </data>
+  <data name="EngineOff" xml:space="preserve">
+    <value>لا يعمل</value>
+  </data>
+  <data name="EngineOn" xml:space="preserve">
+    <value>يعمل</value>
+  </data>
+  <data name="EngineStopped" xml:space="preserve">
+    <value>توقف المحرك؟</value>
+  </data>
+  <data name="EngineWorkingDuration" xml:space="preserve">
+    <value>مدة عمل المحرك</value>
+  </data>
+  <data name="Entry" xml:space="preserve">
+    <value>دخول</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>حدث خطأ أثناء العملية</value>
+  </data>
+  <data name="EWECompany" xml:space="preserve">
+    <value>شركة ضمان المهندس.</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>تاريخ الانتهاء</value>
+  </data>
+  <data name="ExportSampleExcelFormat" xml:space="preserve">
+    <value>تحميل نموذج التعبئة</value>
+  </data>
+  <data name="ExtensionNumber" xml:space="preserve">
+    <value>التحويلة</value>
+  </data>
+  <data name="FieldIsRequired" xml:space="preserve">
+    <value>الحقل مطلوب</value>
+  </data>
+  <data name="FilterWorkingAndNotWorkingSensors" xml:space="preserve">
+    <value>حالة الحساس</value>
+  </data>
+  <data name="Fleet" xml:space="preserve">
+    <value>الشركة</value>
+  </data>
+  <data name="FleetNameAr" xml:space="preserve">
+    <value>اسم الشركة - عربي</value>
+  </data>
+  <data name="FleetNameEn" xml:space="preserve">
+    <value>اسم الشركة - انجليزي</value>
+  </data>
+  <data name="FleetNotExists" xml:space="preserve">
+    <value>الشركة غير موجودة</value>
+  </data>
+  <data name="FleetType" xml:space="preserve">
+    <value>نوع الشركة</value>
+  </data>
+  <data name="FollowVehicle" xml:space="preserve">
+    <value>تتبع المركبة</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>الجمعة</value>
+  </data>
+  <data name="from" xml:space="preserve">
+    <value>من</value>
+  </data>
+  <data name="FromAddress" xml:space="preserve">
+    <value>من عنوان</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>من تاريخ</value>
+  </data>
+  <data name="FullMaintenanceReport" xml:space="preserve">
+    <value>تقرير الصيانة الشامل</value>
+  </data>
+  <data name="Gateway" xml:space="preserve">
+    <value>Gateway</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="GenerateReport" xml:space="preserve">
+    <value>إنشاء تقرير</value>
+  </data>
+  <data name="Geofence" xml:space="preserve">
+    <value>السياج الجغرافي</value>
+  </data>
+  <data name="GeofenceReport" xml:space="preserve">
+    <value>تقرير السياج الجغرافي</value>
+  </data>
+  <data name="GeofenceReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير السياج الجغرافي</value>
+  </data>
+  <data name="GeoFences" xml:space="preserve">
+    <value>الأسيجة الجغرافية</value>
+  </data>
+  <data name="GPSDate" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>المجموعة</value>
+  </data>
+  <data name="GroupInfo" xml:space="preserve">
+    <value>بيانات المجموعة</value>
+  </data>
+  <data name="GroupNameAr" xml:space="preserve">
+    <value>اسم المجموعة - عربي</value>
+  </data>
+  <data name="GroupNameEn" xml:space="preserve">
+    <value>اسم المجموعة - إنجليزي</value>
+  </data>
+  <data name="GroupNotExists" xml:space="preserve">
+    <value>المجموعة غير موجودة</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>المجموعات</value>
+  </data>
+  <data name="groupUpdatesBy" xml:space="preserve">
+    <value>تجميع تحديث الجهاز حسب</value>
+  </data>
+  <data name="HasDoorSensor" xml:space="preserve">
+    <value>يوجد حساس باب</value>
+  </data>
+  <data name="HasTemperatureAndHumiditySensor" xml:space="preserve">
+    <value>يوجد حساس حرارة ورطوبة</value>
+  </data>
+  <data name="HigherThan" xml:space="preserve">
+    <value>أكثر من</value>
+  </data>
+  <data name="HigherThanHumidity" xml:space="preserve">
+    <value>أعلى من درجة رطوبة</value>
+  </data>
+  <data name="HigherThanTemperature" xml:space="preserve">
+    <value>أعلى من درجة حرارة</value>
+  </data>
+  <data name="HistoryRecord" xml:space="preserve">
+    <value>سجل الأحداث</value>
+  </data>
+  <data name="HistoryReport" xml:space="preserve">
+    <value>تقرير سجل المركبة</value>
+  </data>
+  <data name="HistoryReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير سجل المركبة</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>الساعة</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>ساعات</value>
+  </data>
+  <data name="Humidity" xml:space="preserve">
+    <value>الرطوبة</value>
+  </data>
+  <data name="Humidity1" xml:space="preserve">
+    <value>رطوبة 1</value>
+  </data>
+  <data name="Humidity2" xml:space="preserve">
+    <value>رطوبة 2</value>
+  </data>
+  <data name="Humidity3" xml:space="preserve">
+    <value>رطوبة 3</value>
+  </data>
+  <data name="Humidity4" xml:space="preserve">
+    <value>رطوبة 4</value>
+  </data>
+  <data name="HumidityOutOfRang" xml:space="preserve">
+    <value>درجة الرطوبة خارج المعدل</value>
+  </data>
+  <data name="IdentityNumber" xml:space="preserve">
+    <value>رقم الهوية</value>
+  </data>
+  <data name="Idle" xml:space="preserve">
+    <value>خامل</value>
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>رقم IMEI</value>
+  </data>
+  <data name="Individual" xml:space="preserve">
+    <value>فرد</value>
+  </data>
+  <data name="InitialOdometer" xml:space="preserve">
+    <value>عداد المسافات الأولي</value>
+  </data>
+  <data name="IntegrationError" xml:space="preserve">
+    <value>حدث خطأ أثناء الاتصال بالخدمة</value>
+  </data>
+  <data name="Interval" xml:space="preserve">
+    <value>مدة عدم التكرار</value>
+  </data>
+  <data name="IntervalInMinutes" xml:space="preserve">
+    <value>مدة عدم تكرار الإنذار</value>
+  </data>
+  <data name="InvalidCustomAlertMinInterval" xml:space="preserve">
+    <value>مدة عدم التكرار يجب ان تكون أكبر او تساوي {0}</value>
+  </data>
+  <data name="InvalidEmails" xml:space="preserve">
+    <value>صيغة الايميلات غير صحيحة</value>
+  </data>
+  <data name="Inventories" xml:space="preserve">
+    <value>المخازن</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>المخزن</value>
+  </data>
+  <data name="InventoryHistoryReport" xml:space="preserve">
+    <value>تقرير سجل المخزن</value>
+  </data>
+  <data name="InventoryHistoryReportTitle" xml:space="preserve">
+    <value>{0} - تقرير سجل المخزن</value>
+  </data>
+  <data name="InventoryInfo" xml:space="preserve">
+    <value>بيانات المخزن</value>
+  </data>
+  <data name="InventoryNotExists" xml:space="preserve">
+    <value>المخزن غير موجود</value>
+  </data>
+  <data name="InventoryNumber" xml:space="preserve">
+    <value>رقم المخزن</value>
+  </data>
+  <data name="InventorySensorHistoryReport" xml:space="preserve">
+    <value>تقرير حساس المستودع</value>
+  </data>
+  <data name="InventorySensorHistoryReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير حساس المستودع</value>
+  </data>
+  <data name="InventorySensorInfo" xml:space="preserve">
+    <value>بيانات الحساسات</value>
+  </data>
+  <data name="InventorySensors" xml:space="preserve">
+    <value>حساسات المخزن</value>
+  </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>مفعل</value>
+  </data>
+  <data name="IsRegistered" xml:space="preserve">
+    <value>مسجل</value>
+  </data>
+  <data name="LandAreaInSquareMeter" xml:space="preserve">
+    <value>مساحة الأرض (متر مربع)</value>
+  </data>
+  <data name="Last50Alerts" xml:space="preserve">
+    <value>آخر 50 إنذار</value>
+  </data>
+  <data name="LastOdometerUpdateDate" xml:space="preserve">
+    <value>تاريخ آخر تحديث لعداد المسافة</value>
+  </data>
+  <data name="LastOpenLocation" xml:space="preserve">
+    <value>آخر موقع فتح</value>
+  </data>
+  <data name="LatestUpdateDateTime" xml:space="preserve">
+    <value>تاريخ ووقت آخر تحديث</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>خط الطول</value>
+  </data>
+  <data name="LessThan" xml:space="preserve">
+    <value>أقل من</value>
+  </data>
+  <data name="LessThanHumidity" xml:space="preserve">
+    <value>أقل من درجة رطوبة</value>
+  </data>
+  <data name="LessThanTemperature" xml:space="preserve">
+    <value>أقل من درجة حرارة</value>
+  </data>
+  <data name="LicenseExpiryDate" xml:space="preserve">
+    <value>تاريخ انتهاء الرخصة</value>
+  </data>
+  <data name="LicenseIssueDate" xml:space="preserve">
+    <value>تاريخ اصدار الرخصة</value>
+  </data>
+  <data name="LicenseNumber" xml:space="preserve">
+    <value>رقم الرخصة</value>
+  </data>
+  <data name="LinkedWithRaqeb" xml:space="preserve">
+    <value>مرتبط في راقب</value>
+  </data>
+  <data name="LinkedWithWasl" xml:space="preserve">
+    <value>مرتبط في واصل</value>
+  </data>
+  <data name="LinkWithRaqeb" xml:space="preserve">
+    <value>ربط مع راقب</value>
+  </data>
+  <data name="LinkWithWasl" xml:space="preserve">
+    <value>ربط مع وصل</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>الموقع</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>خط العرض</value>
+  </data>
+  <data name="MaintenanceDate" xml:space="preserve">
+    <value>تاريخ الصيانة</value>
+  </data>
+  <data name="MaintenanceInfo" xml:space="preserve">
+    <value>بيانات الصيانة</value>
+  </data>
+  <data name="MaintenanceOperationReport" xml:space="preserve">
+    <value>تقرير عمليات الصيانة</value>
+  </data>
+  <data name="MaintenanceReports" xml:space="preserve">
+    <value>تقارير الصيانة</value>
+  </data>
+  <data name="MaintenanceType" xml:space="preserve">
+    <value>نوع الصيانة</value>
+  </data>
+  <data name="ManageAccounts" xml:space="preserve">
+    <value>إدارة الأجهزة</value>
+  </data>
+  <data name="ManageAdsScreen" xml:space="preserve">
+    <value>ادارة شاشة الاعلانات</value>
+  </data>
+  <data name="ManageDrivers" xml:space="preserve">
+    <value>إدارة السائقين</value>
+  </data>
+  <data name="ManageFleets" xml:space="preserve">
+    <value>إدارة الشركات</value>
+  </data>
+  <data name="ManageGateways" xml:space="preserve">
+    <value>إدارة Gateways</value>
+  </data>
+  <data name="ManageGroups" xml:space="preserve">
+    <value>إدارة المجموعات</value>
+  </data>
+  <data name="ManageInventories" xml:space="preserve">
+    <value>إدارة المخازن</value>
+  </data>
+  <data name="ManagePOIs" xml:space="preserve">
+    <value>إدارة نقاط الاهتمام</value>
+  </data>
+  <data name="ManagerEmail" xml:space="preserve">
+    <value>إيميل مدير الشركة</value>
+  </data>
+  <data name="ManagerMobile" xml:space="preserve">
+    <value>جوال مدير الشركة</value>
+  </data>
+  <data name="ManagerMobileNumber" xml:space="preserve">
+    <value>رقم جوال المدير</value>
+  </data>
+  <data name="ManagerName" xml:space="preserve">
+    <value>اسم المدير </value>
+  </data>
+  <data name="ManagerPhoneNumber" xml:space="preserve">
+    <value>رقم هاتف المدير</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>إدارة المستخدمين</value>
+  </data>
+  <data name="ManageVehicles" xml:space="preserve">
+    <value>إدارة المركبات</value>
+  </data>
+  <data name="ManageWarehouses" xml:space="preserve">
+    <value>إدارة المستودعات</value>
+  </data>
+  <data name="MapOptions" xml:space="preserve">
+    <value>خيارات الخريطة</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>أقصى</value>
+  </data>
+  <data name="MaxHumidity" xml:space="preserve">
+    <value>أعلى رطوبة</value>
+  </data>
+  <data name="MaxSpeed" xml:space="preserve">
+    <value>السرعة القصوى</value>
+  </data>
+  <data name="MaxTemperature" xml:space="preserve">
+    <value>أعلى درجة حرارة</value>
+  </data>
+  <data name="MaxValue" xml:space="preserve">
+    <value>القيمة الكبرى</value>
+  </data>
+  <data name="MaxWeight" xml:space="preserve">
+    <value>أقصى وزن</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>أدنى</value>
+  </data>
+  <data name="MinHumidity" xml:space="preserve">
+    <value>أقل درجة رطوبة</value>
+  </data>
+  <data name="MinTemperature" xml:space="preserve">
+    <value>أقل درجة حرارة</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>دقائق</value>
+  </data>
+  <data name="MinValue" xml:space="preserve">
+    <value>القيمة الصغرى</value>
+  </data>
+  <data name="MinWeight" xml:space="preserve">
+    <value>أقل وزن</value>
+  </data>
+  <data name="MobileNumber" xml:space="preserve">
+    <value>رقم الجوال</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>الاثنين</value>
+  </data>
+  <data name="Monthly" xml:space="preserve">
+    <value>شهري</value>
+  </data>
+  <data name="MovementReport" xml:space="preserve">
+    <value>تقرير حركة المركبة</value>
+  </data>
+  <data name="MovementReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير حركة المركبة</value>
+  </data>
+  <data name="Moving" xml:space="preserve">
+    <value>متحركة</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="NameAr" xml:space="preserve">
+    <value>الاسم - عربي</value>
+  </data>
+  <data name="NameEn" xml:space="preserve">
+    <value>الاسم - انجليزي</value>
+  </data>
+  <data name="NaqabaNumber" xml:space="preserve">
+    <value>رقم الشركة في النقابة</value>
+  </data>
+  <data name="NewerToOlder" xml:space="preserve">
+    <value>من الأحدث للأقدم</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="NextChangeDate" xml:space="preserve">
+    <value>تاريخ التغيير التالي</value>
+  </data>
+  <data name="NextMaintenanceAfterDistance" xml:space="preserve">
+    <value>الصيانة التالية بعد مسافة</value>
+  </data>
+  <data name="NoAgents" xml:space="preserve">
+    <value>لا يوجد عملاء</value>
+  </data>
+  <data name="NoAlerts" xml:space="preserve">
+    <value>لا يوجد إنذارات</value>
+  </data>
+  <data name="NoAlertsToday" xml:space="preserve">
+    <value>لا يوجد إنذارات اليوم</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>لا يوجد بيانات</value>
+  </data>
+  <data name="NoneOption" xml:space="preserve">
+    <value>لا يوجد</value>
+  </data>
+  <data name="NoResultMessage" xml:space="preserve">
+    <value>لا يوجد نتيجة مطابقة للبحث</value>
+  </data>
+  <data name="NotActive" xml:space="preserve">
+    <value>غير مفعل</value>
+  </data>
+  <data name="NotAssigned" xml:space="preserve">
+    <value>عدم تعيين</value>
+  </data>
+  <data name="NotCalibrated" xml:space="preserve">
+    <value>غير معاير</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>الملاحظات</value>
+  </data>
+  <data name="NotLinkedWithWasl" xml:space="preserve">
+    <value>غير مرتبط في وصل</value>
+  </data>
+  <data name="NotRegistered" xml:space="preserve">
+    <value>غير مسجل</value>
+  </data>
+  <data name="NotWorkingSensors" xml:space="preserve">
+    <value>الحساسات التي لا تعمل</value>
+  </data>
+  <data name="NotWorkingText" xml:space="preserve">
+    <value>لا يعمل</value>
+  </data>
+  <data name="NotWorkingVehiclesText" xml:space="preserve">
+    <value>المركبات التي لا تعمل</value>
+  </data>
+  <data name="NumberOfMonths" xml:space="preserve">
+    <value>عدد الأشهر</value>
+  </data>
+  <data name="NumberOfPassengers" xml:space="preserve">
+    <value>عدد المقاعد</value>
+  </data>
+  <data name="NumberOfSeats" xml:space="preserve">
+    <value>عدد المقاعد</value>
+  </data>
+  <data name="Odometer" xml:space="preserve">
+    <value>عداد المسافة</value>
+  </data>
+  <data name="OdometerWhenChange" xml:space="preserve">
+    <value>عداد المسافة عند  التغيير</value>
+  </data>
+  <data name="OdometerWhenMaintenance" xml:space="preserve">
+    <value>عداد المسافة عند الصيانة</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>لا يعمل</value>
+  </data>
+  <data name="OilChangeInfo" xml:space="preserve">
+    <value>بيانات تغيير الزيت</value>
+  </data>
+  <data name="OilChangeOperationReport" xml:space="preserve">
+    <value>تقرير عمليات تغيير الزيت</value>
+  </data>
+  <data name="OlderToNewer" xml:space="preserve">
+    <value>من الأقدم للأحدث</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>يعمل</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>فتح</value>
+  </data>
+  <data name="OpenLocation" xml:space="preserve">
+    <value>موقع الفتح</value>
+  </data>
+  <data name="OperatingCardNumber" xml:space="preserve">
+    <value>رقم بطاقة التشغيل</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>الترتيب</value>
+  </data>
+  <data name="Parked" xml:space="preserve">
+    <value>توقفت</value>
+  </data>
+  <data name="PartiallyStopped" xml:space="preserve">
+    <value>متوقفة</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>المسار</value>
+  </data>
+  <data name="PayloadVoltage" xml:space="preserve">
+    <value>فولطية الحمولة</value>
+  </data>
+  <data name="PayloadWeight" xml:space="preserve">
+    <value>وزن الحمولة</value>
+  </data>
+  <data name="PeriodShowBySeconds" xml:space="preserve">
+    <value>مدة العرض بالثواني</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>الهاتف</value>
+  </data>
+  <data name="Phone1" xml:space="preserve">
+    <value>جوال 1</value>
+  </data>
+  <data name="Phone2" xml:space="preserve">
+    <value>جوال 2</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="Plate" xml:space="preserve">
+    <value>اللوحة</value>
+  </data>
+  <data name="PlateLetters" xml:space="preserve">
+    <value>أحرف اللوحة</value>
+  </data>
+  <data name="PlateNumber" xml:space="preserve">
+    <value>رقم اللوحة</value>
+  </data>
+  <data name="PlateNumberAr" xml:space="preserve">
+    <value>أحرف اللوحة - عربي</value>
+  </data>
+  <data name="PlateType" xml:space="preserve">
+    <value>نوع الرخصة</value>
+  </data>
+  <data name="POIList" xml:space="preserve">
+    <value>نقاط الاهتمام</value>
+  </data>
+  <data name="POIs" xml:space="preserve">
+    <value>نقاط الاهتمام</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="PrintExcel" xml:space="preserve">
+    <value>طباعة Excel</value>
+  </data>
+  <data name="PrintPDF" xml:space="preserve">
+    <value>طباعة PDF</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>الحقل</value>
+  </data>
+  <data name="PublicMaintenance" xml:space="preserve">
+    <value>صيانة عامة</value>
+  </data>
+  <data name="Pulled" xml:space="preserve">
+    <value>يتم سحبها</value>
+  </data>
+  <data name="ReadAllNotifications" xml:space="preserve">
+    <value>قراءة جميع الإنذارات</value>
+  </data>
+  <data name="Records" xml:space="preserve">
+    <value>السجلات</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>مسجل</value>
+  </data>
+  <data name="RegisterInRaqeb" xml:space="preserve">
+    <value>تسجيل في راقب</value>
+  </data>
+  <data name="RegisterInWasl" xml:space="preserve">
+    <value>تسجيل في واصل</value>
+  </data>
+  <data name="RegisterType" xml:space="preserve">
+    <value>نوع الإرتباط</value>
+  </data>
+  <data name="RepeatDay" xml:space="preserve">
+    <value>يوم</value>
+  </data>
+  <data name="RepeatEvery" xml:space="preserve">
+    <value>تكرار كل</value>
+  </data>
+  <data name="RepeatMonth" xml:space="preserve">
+    <value>شهر</value>
+  </data>
+  <data name="RepeatWeek" xml:space="preserve">
+    <value>اسبوع</value>
+  </data>
+  <data name="ReportFileType" xml:space="preserve">
+    <value>نوع ملف التقرير</value>
+  </data>
+  <data name="ReportHeaderInfo" xml:space="preserve">
+    <value>معلومات التقرير</value>
+  </data>
+  <data name="ReportInfo" xml:space="preserve">
+    <value>بيانات التقرير</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>اسم التقرير</value>
+  </data>
+  <data name="ReportOrder" xml:space="preserve">
+    <value>الترتيب</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>التقارير</value>
+  </data>
+  <data name="ReportSample" xml:space="preserve">
+    <value>شكل التقرير</value>
+  </data>
+  <data name="ReportScheduling" xml:space="preserve">
+    <value>جدولة التقرير</value>
+  </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>عنوان التقرير</value>
+  </data>
+  <data name="ReportType" xml:space="preserve">
+    <value>نوع التقرير</value>
+  </data>
+  <data name="RequiredCommercialRecordNumber" xml:space="preserve">
+    <value>رقم السجل التجاري مطلوب</value>
+  </data>
+  <data name="RequiredCompanyId" xml:space="preserve">
+    <value>الرقم المرجعي للشركة مطلوب</value>
+  </data>
+  <data name="RequiredIdentityNumber" xml:space="preserve">
+    <value>رقم الهوية مطلوب</value>
+  </data>
+  <data name="RequiredSequenceNumber" xml:space="preserve">
+    <value>رقم التسلسل مطلوب</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>الصلاحية</value>
+  </data>
+  <data name="Routes" xml:space="preserve">
+    <value>المسارات</value>
+  </data>
+  <data name="Sample" xml:space="preserve">
+    <value>مثال</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>السبت</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="SaveAsName" xml:space="preserve">
+    <value>حفظ باسم</value>
+  </data>
+  <data name="ScheduleReportDetails" xml:space="preserve">
+    <value>تفاصيل جدولة تقرير</value>
+  </data>
+  <data name="ScheduleReports" xml:space="preserve">
+    <value>جدولة التقارير</value>
+  </data>
+  <data name="SchedulingDetails" xml:space="preserve">
+    <value>تفاصيل الجدولة</value>
+  </data>
+  <data name="SchedulingType" xml:space="preserve">
+    <value>نوع الجدولة</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="SeatOff" xml:space="preserve">
+    <value>لا يوجد راكب</value>
+  </data>
+  <data name="SeatOn" xml:space="preserve">
+    <value>يوجد راكب</value>
+  </data>
+  <data name="SeatStatus" xml:space="preserve">
+    <value>حالة الراكب</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>ثانية</value>
+  </data>
+  <data name="SelectCoordinates" xml:space="preserve">
+    <value>اختر الإحداثيات</value>
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>إختر الملف</value>
+  </data>
+  <data name="SelectFromList" xml:space="preserve">
+    <value>اختر من القائمة</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>اختر مجموعة</value>
+  </data>
+  <data name="SelectInventory" xml:space="preserve">
+    <value>اختر المخزن</value>
+  </data>
+  <data name="SelectLocation" xml:space="preserve">
+    <value>اختر الموقع</value>
+  </data>
+  <data name="SelectReportType" xml:space="preserve">
+    <value>اختر نوع التقرير</value>
+  </data>
+  <data name="SelectSensor" xml:space="preserve">
+    <value>اختر الحساس</value>
+  </data>
+  <data name="SelectSensors" xml:space="preserve">
+    <value>إختر الحساسات</value>
+  </data>
+  <data name="SelectVehicle" xml:space="preserve">
+    <value>اختر مركبة</value>
+  </data>
+  <data name="SelectWarehouse" xml:space="preserve">
+    <value>اختر مستودع</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>إرسال</value>
+  </data>
+  <data name="SendAlert" xml:space="preserve">
+    <value>إرسال تنبيه</value>
+  </data>
+  <data name="SendEntryAlert" xml:space="preserve">
+    <value>إرسال تنبيه عند الدخول</value>
+  </data>
+  <data name="SendExitAlert" xml:space="preserve">
+    <value>إرسال تنبيه عند الخروج</value>
+  </data>
+  <data name="SendToEmails" xml:space="preserve">
+    <value>إرسال الى البريد الالكتروني</value>
+  </data>
+  <data name="SendVehicleLocation" xml:space="preserve">
+    <value>ارسل موقع المركبة</value>
+  </data>
+  <data name="Sensor" xml:space="preserve">
+    <value>الحساس</value>
+  </data>
+  <data name="SensorAlreadyRegisteredWithInventory" xml:space="preserve">
+    <value>الحساس مرتبط بمستودع أخر</value>
+  </data>
+  <data name="SensorHistoryReport" xml:space="preserve">
+    <value>تقرير سجل الحساسات</value>
+  </data>
+  <data name="SensorInformation" xml:space="preserve">
+    <value>بيانات الحساسات</value>
+  </data>
+  <data name="SensorName" xml:space="preserve">
+    <value>اسم الحساس</value>
+  </data>
+  <data name="SensorNumber" xml:space="preserve">
+    <value>رقم الحساس</value>
+  </data>
+  <data name="Sensors" xml:space="preserve">
+    <value>الحساسات</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>الرقم التسلسلي</value>
+  </data>
+  <data name="SerialNumberNotExistsInSelectedGroup" xml:space="preserve">
+    <value>الرقم التسلسلي غير موجود في المجموعة المختارة</value>
+  </data>
+  <data name="SFDACompanyActivities" xml:space="preserve">
+    <value>نوع التخزين (خاص بهيئة الغذاء والدواء)</value>
+  </data>
+  <data name="SFDAStoringCategory" xml:space="preserve">
+    <value>نوع التخزين (خاص بهيئة الغذاء والدواء)</value>
+  </data>
+  <data name="ShowGeoFences" xml:space="preserve">
+    <value>إظهار الأسيجة الجغرافية</value>
+  </data>
+  <data name="ShowInfoWindow" xml:space="preserve">
+    <value>نافذة المعلومات</value>
+  </data>
+  <data name="showPOI" xml:space="preserve">
+    <value>إظهار نقاط الاهتمام</value>
+  </data>
+  <data name="SIMCardExpirationDate" xml:space="preserve">
+    <value>تاريخ إنتهاء الشريحة</value>
+  </data>
+  <data name="SIMNumber" xml:space="preserve">
+    <value>رقم الشريحة</value>
+  </data>
+  <data name="SIMNumberExists" xml:space="preserve">
+    <value> رقم الشريحة مستخدم مسبقاً</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="SOS" xml:space="preserve">
+    <value>نداء استغاثة السائق</value>
+  </data>
+  <data name="SosOff" xml:space="preserve">
+    <value>لا يوجد</value>
+  </data>
+  <data name="SosOn" xml:space="preserve">
+    <value>هناك نداء استغاثة في الدقائق الـ 15 الماضية</value>
+  </data>
+  <data name="SOSPassenger" xml:space="preserve">
+    <value>نداء استغاثة الراكب</value>
+  </data>
+  <data name="SosPassengerOn" xml:space="preserve">
+    <value>هناك نداء استغاثة من الراكب في الدقائق الـ 15 الماضية</value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>السرعة</value>
+  </data>
+  <data name="SpeedFrom" xml:space="preserve">
+    <value>السرعة من</value>
+  </data>
+  <data name="SpeedTo" xml:space="preserve">
+    <value>السرعة إلى</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>البداية</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="StopDuration" xml:space="preserve">
+    <value>مدة التوقف</value>
+  </data>
+  <data name="Stopped" xml:space="preserve">
+    <value>متوقف</value>
+  </data>
+  <data name="Stops" xml:space="preserve">
+    <value>توقفات</value>
+  </data>
+  <data name="StopsReport" xml:space="preserve">
+    <value>تقرير توقفات المركبة</value>
+  </data>
+  <data name="StopsReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير توقفات المركبة</value>
+  </data>
+  <data name="StoringCategory" xml:space="preserve">
+    <value>فئة التخزين</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>الأحد</value>
+  </data>
+  <data name="SupervisorEmail" xml:space="preserve">
+    <value>إيميل مشرف الشركة</value>
+  </data>
+  <data name="SupervisorMobile" xml:space="preserve">
+    <value>جوال مشرف الشركة</value>
+  </data>
+  <data name="SystemError" xml:space="preserve">
+    <value>حدث خطأ داخلي في النظام</value>
+  </data>
+  <data name="TaxiBuses" xml:space="preserve">
+    <value>حافلات الأجرة</value>
+  </data>
+  <data name="TaxRegistrationNumber" xml:space="preserve">
+    <value>رقم السجل الضريبي</value>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>درجة الحرارة</value>
+  </data>
+  <data name="Temperature1" xml:space="preserve">
+    <value>حرارة 1</value>
+  </data>
+  <data name="Temperature2" xml:space="preserve">
+    <value>حرارة 2</value>
+  </data>
+  <data name="Temperature3" xml:space="preserve">
+    <value>حرارة 3</value>
+  </data>
+  <data name="Temperature4" xml:space="preserve">
+    <value>حرارة 4</value>
+  </data>
+  <data name="TemperatureAndHumidityOutOfRang" xml:space="preserve">
+    <value>درجة الحرارة والرطوبة خارج المعدل</value>
+  </data>
+  <data name="TemperatureAndHumidityReport" xml:space="preserve">
+    <value>تقرير الحرارة والرطوبة</value>
+  </data>
+  <data name="TemperatureAndHumidityReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير الحرارة والرطوبة</value>
+  </data>
+  <data name="TemperatureOutOfRang" xml:space="preserve">
+    <value>درجة الحرارة خارج المعدل</value>
+  </data>
+  <data name="TheDay" xml:space="preserve">
+    <value>يوم</value>
+  </data>
+  <data name="TheHour" xml:space="preserve">
+    <value>ساعة</value>
+  </data>
+  <data name="TheTemperature" xml:space="preserve">
+    <value>الحرارة</value>
+  </data>
+  <data name="ThisSensorAlreadyExists" xml:space="preserve">
+    <value>هذا الحساس مسجل مسبقاً</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>الخميس</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>الوقت</value>
+  </data>
+  <data name="TireChangeInfo" xml:space="preserve">
+    <value>بيانات تغيير الإطار</value>
+  </data>
+  <data name="TireChangeOperationReport" xml:space="preserve">
+    <value>تقرير عمليات تغيير الإطارات</value>
+  </data>
+  <data name="TireCode" xml:space="preserve">
+    <value>رمز الإطار</value>
+  </data>
+  <data name="TireLocation" xml:space="preserve">
+    <value>موقع الإطار</value>
+  </data>
+  <data name="TireName" xml:space="preserve">
+    <value>نوع الإطار</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="TitleEn" xml:space="preserve">
+    <value>العنوان انجليزي</value>
+  </data>
+  <data name="to" xml:space="preserve">
+    <value>إلى</value>
+  </data>
+  <data name="ToAddress" xml:space="preserve">
+    <value>إلى عنوان</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>إلى تاريخ</value>
+  </data>
+  <data name="TodayAlerts" xml:space="preserve">
+    <value>إنذارات اليوم</value>
+  </data>
+  <data name="ToEmails" xml:space="preserve">
+    <value>إرسال الى الإيميلات</value>
+  </data>
+  <data name="TonUnit" xml:space="preserve">
+    <value>طن</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>الكلي</value>
+  </data>
+  <data name="TotalDistance" xml:space="preserve">
+    <value>المسافة الكلية</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>المدة الكلية</value>
+  </data>
+  <data name="Totals" xml:space="preserve">
+    <value>المدة / المسافة المقطوعة</value>
+  </data>
+  <data name="TotalWeight" xml:space="preserve">
+    <value>الوزن الكلي</value>
+  </data>
+  <data name="Towed" xml:space="preserve">
+    <value>يتم سحبها</value>
+  </data>
+  <data name="Trip" xml:space="preserve">
+    <value>الرحلة</value>
+  </data>
+  <data name="TripPathTitle" xml:space="preserve">
+    <value>مسار الرحلة</value>
+  </data>
+  <data name="TripReport" xml:space="preserve">
+    <value>تقرير الرحلات</value>
+  </data>
+  <data name="Trips" xml:space="preserve">
+    <value>رحلات</value>
+  </data>
+  <data name="TripsReport" xml:space="preserve">
+    <value>تقرير الرحلات</value>
+  </data>
+  <data name="TripsReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير الرحلات</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>الثلاثاء</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>النوع</value>
+  </data>
+  <data name="UnlinkWithRaqeb" xml:space="preserve">
+    <value>فك الربط مع راقب</value>
+  </data>
+  <data name="UnlinkWithWasl" xml:space="preserve">
+    <value>فك الربط مع وصل</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="UpdateAlertsFailed" xml:space="preserve">
+    <value>حدث خطأ أثناء حفظ التنبيهات</value>
+  </data>
+  <data name="UpdateAlertsSuccess" xml:space="preserve">
+    <value>تم حفظ التنبيهات بنجاح</value>
+  </data>
+  <data name="UpdateDriverSuccess" xml:space="preserve">
+    <value>تم تعديل بيانات السائق</value>
+  </data>
+  <data name="UpdateEvery" xml:space="preserve">
+    <value>تحديث كل</value>
+  </data>
+  <data name="UpdateFleetSuccess" xml:space="preserve">
+    <value>تم تعديل بيانات الشركة</value>
+  </data>
+  <data name="UpdateIMEIInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;تحديث رقم IMEI في وصل :&lt;/b&gt;</value>
+  </data>
+  <data name="UpdateInventoryWaslInfoSuccess" xml:space="preserve">
+    <value>تم تحديث معلومات المخزن في وصل بنجاح</value>
+  </data>
+  <data name="UpdateOff" xml:space="preserve">
+    <value>التحديث متوقف</value>
+  </data>
+  <data name="UpdateSuccess" xml:space="preserve">
+    <value>تم التعديل بنجاح</value>
+  </data>
+  <data name="UpdateVehicleSuccess" xml:space="preserve">
+    <value>تم تعديل بيانات المركبة</value>
+  </data>
+  <data name="UpdateWarehouseWaslInfoSuccess" xml:space="preserve">
+    <value>تم تحديث معلومات المستودع في وصل بنجاح</value>
+  </data>
+  <data name="UpdateWaslContactInfo" xml:space="preserve">
+    <value>تحديث معلومات الاتصال في وصل</value>
+  </data>
+  <data name="UpdateWaslDriverInfo" xml:space="preserve">
+    <value>تحديث معلومات السائق في وصل</value>
+  </data>
+  <data name="UpdateWaslVehicleIMEI" xml:space="preserve">
+    <value>تحديث رقم IMEI في وصل</value>
+  </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>رفع الملف</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>رقم المستخدم</value>
+  </data>
+  <data name="UserInfo" xml:space="preserve">
+    <value>بيانات المستخدم</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="UsernameOrPasswordInValid" xml:space="preserve">
+    <value>خطأ في اسم المستخدم أو كلمة المرور</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمين</value>
+  </data>
+  <data name="UserType" xml:space="preserve">
+    <value>نوع المستخدم</value>
+  </data>
+  <data name="Vehicle" xml:space="preserve">
+    <value>المركبة</value>
+  </data>
+  <data name="VehicleAdditionalInfo" xml:space="preserve">
+    <value>خاص بهيئة النقل ونقابة السيارات</value>
+  </data>
+  <data name="VehicleDoorOpeningReport" xml:space="preserve">
+    <value>تقرير فتح أبواب المركبة</value>
+  </data>
+  <data name="VehicleIcon" xml:space="preserve">
+    <value>الأيقونة</value>
+  </data>
+  <data name="VehicleInfo" xml:space="preserve">
+    <value>بيانات المركبة</value>
+  </data>
+  <data name="VehicleLinkType" xml:space="preserve">
+    <value>نوع الربط</value>
+  </data>
+  <data name="VehicleMovementPath" xml:space="preserve">
+    <value>مسار حركة المركبة</value>
+  </data>
+  <data name="VehicleName" xml:space="preserve">
+    <value>اسم المركبة</value>
+  </data>
+  <data name="VehicleNotExists" xml:space="preserve">
+    <value>المركبة غير موجودة</value>
+  </data>
+  <data name="Vehicles" xml:space="preserve">
+    <value>المركبات</value>
+  </data>
+  <data name="VehicleType" xml:space="preserve">
+    <value>نوع المركبة</value>
+  </data>
+  <data name="VehicleWorkingStatusReport" xml:space="preserve">
+    <value>تقرير حالة عمل المركبات</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>مشاهدة</value>
+  </data>
+  <data name="ViewAlerts" xml:space="preserve">
+    <value>الإنذارات</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>إظهار الكل</value>
+  </data>
+  <data name="ViewAllAlerts" xml:space="preserve">
+    <value>عرض جميع الإنذارات</value>
+  </data>
+  <data name="ViewGeoFences" xml:space="preserve">
+    <value>الأسيجة الجغرافية</value>
+  </data>
+  <data name="ViewInfoWindow" xml:space="preserve">
+    <value>نافذة المعلومات</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>إظهار المزيد</value>
+  </data>
+  <data name="ViewPath" xml:space="preserve">
+    <value>المسار</value>
+  </data>
+  <data name="ViewPOI" xml:space="preserve">
+    <value>نقاط الإهتمام</value>
+  </data>
+  <data name="ViewPointerMarker" xml:space="preserve">
+    <value>مؤشر الاختيار</value>
+  </data>
+  <data name="ViewPoints" xml:space="preserve">
+    <value>نقاط المسار</value>
+  </data>
+  <data name="ViewRoutes" xml:space="preserve">
+    <value>المسارات</value>
+  </data>
+  <data name="ViewRoutesPoints" xml:space="preserve">
+    <value>نقاط المسارات</value>
+  </data>
+  <data name="ViewStopsOnly" xml:space="preserve">
+    <value>نقاط التوقف</value>
+  </data>
+  <data name="VoltageCoefficient" xml:space="preserve">
+    <value>معامل الفولتية</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>المستودع</value>
+  </data>
+  <data name="WarehouseCoordinates" xml:space="preserve">
+    <value>إحداثيات المستودع</value>
+  </data>
+  <data name="WarehouseInfo" xml:space="preserve">
+    <value>بيانات المستودع</value>
+  </data>
+  <data name="WarehouseInventoryHistoryReport" xml:space="preserve">
+    <value>تقرير سجل المستودعات والمخازن</value>
+  </data>
+  <data name="WarehouseInventoryHistoryReportTitle" xml:space="preserve">
+    <value>{0} - تقرير سجل المستودعات والمخازن</value>
+  </data>
+  <data name="WarehouseLocation" xml:space="preserve">
+    <value>موقع المستودع</value>
+  </data>
+  <data name="WarehouseNotExists" xml:space="preserve">
+    <value>المستودع غير موجود</value>
+  </data>
+  <data name="WarehouseOnlineDashboard" xml:space="preserve">
+    <value>لوحة الحرارة والرطوبة</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>المستودعات</value>
+  </data>
+  <data name="WarehousesDashboard" xml:space="preserve">
+    <value>لوحة المستودعات</value>
+  </data>
+  <data name="WarehousesHistoryReport" xml:space="preserve">
+    <value>تقرير سجل المستودعات</value>
+  </data>
+  <data name="WarehousesInventoriesPermission" xml:space="preserve">
+    <value>تصاريح المستودعات والمخازن</value>
+  </data>
+  <data name="WarehousesReport" xml:space="preserve">
+    <value>تقرير المستودعات</value>
+  </data>
+  <data name="WaslDeleteCompanyInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;حذف الشركة من وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslDeleteDriverInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;حذف السائق من وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslDeleteVehicleInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;حذف المركبة من وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslLinkStatus" xml:space="preserve">
+    <value>حالة الإرتباط</value>
+  </data>
+  <data name="WaslRegisterCompanyInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;تسجيل الشركة في وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslRegisterDriverInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;تسجيل السائق في وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslRegisterVehicleInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;تسجيل المركبة في وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslUpdateCompanyInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;تحديث بيانات الشركة في وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslUpdateDriverInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;تحديث بيانات السائق في وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslUpdateVehicleInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b dir=\"rtl\"&gt;تحديث بيانات المركبة في وصل : &lt;/b&gt;</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>الأربعاء</value>
+  </data>
+  <data name="Weekly" xml:space="preserve">
+    <value>اسبوعي</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>الوزن</value>
+  </data>
+  <data name="Weight1" xml:space="preserve">
+    <value>الوزن</value>
+  </data>
+  <data name="WeightCoefficient" xml:space="preserve">
+    <value>معامل الوزن</value>
+  </data>
+  <data name="WeightSensorType" xml:space="preserve">
+    <value>نوع حساس الوزن</value>
+  </data>
+  <data name="WeightsReport" xml:space="preserve">
+    <value>تقرير الأوزان</value>
+  </data>
+  <data name="WeightsReportTitle" xml:space="preserve">
+    <value>شركة ضمان المهندس - تقرير الأوزان</value>
+  </data>
+  <data name="WeightVolt" xml:space="preserve">
+    <value>معامل الوزن</value>
+  </data>
+  <data name="WithFilter" xml:space="preserve">
+    <value>مع فلتر</value>
+  </data>
+  <data name="WorkingSensors" xml:space="preserve">
+    <value>الحساسات التي تعمل</value>
+  </data>
+  <data name="WorkingText" xml:space="preserve">
+    <value>يعمل</value>
+  </data>
+  <data name="Yearly" xml:space="preserve">
+    <value>سنوي</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+</root>

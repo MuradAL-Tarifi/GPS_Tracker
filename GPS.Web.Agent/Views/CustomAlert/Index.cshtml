@@ -1,0 +1,348 @@
+﻿@model StaticPagedList<GPS.Domain.Views.CustomAlertView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+<div id="app" v-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>
+                                        @SharedLocalizer["Warehouses"]
+                                    </label>
+                                    <select id="WarehousesSelect" name="WarehouseId" class="form-control" asp-items="ViewBag.Warehouses" data-placeholder="-" v-on:change="getSelectInventories" v-model="searchFilter.warehouseId">
+                                        <option value="0">@SharedLocalizer["All"]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>
+                                        @SharedLocalizer["Inventories"]
+                                    </label>
+                                    <v-select :options="searchFilter.inventories" v-model="searchFilter.selectedInventory" label="inventorySelectLabel">
+                                        <div slot="no-options">-</div>
+                                    </v-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>
+                                        @SharedLocalizer["Status"]
+                                    </label>
+                                    <select class="form-control select" v-model="searchFilter.isActive">
+                                        <option value="-1">@SharedLocalizer["All"]</option>
+                                        <option value="1">@SharedLocalizer["Active"]</option>
+                                        <option value="0">@SharedLocalizer["NotActive"]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>
+                                        @SharedLocalizer["Search"]
+                                    </label>
+                                    <input type="text" class="form-control" id="searchInput" placeholder="@SharedLocalizer["Search"]" v-model="searchFilter.searchFilter" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <button id="searchbtn" class="btn btn-primary" @@click="search()"><i class="fa fa-search"></i> @SharedLocalizer["Search"]</button>
+                        @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageCustomAlerts))
+                        {
+                            <a onclick="onAdd(@Model.PageNumber)" style="cursor:pointer" class="btn btn-primary fw-xxs">
+                                <i class="fa fa-plus"></i>
+                                @SharedLocalizer["Add"]
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div id="table-div" class="card-body table-responsive">
+                    <div id="PagedDataDiv">
+                        <partial name="~/Views/CustomAlert/_customAlert.cshtml" model="@Model" />
+                    </div>
+                    <form asp-action="Delete" id="DeleteForm">
+                        <input type="hidden" name="ItemId" id="ItemId" />
+                        <input type="hidden" name="returnURL" id="returnURL" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Start Modal Create Update Custom Alert*@
+    <div class="modal modal-slide-in event-sidebar fade" id="AddUpdateCustomAlertModal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog sidebar-lg">
+            <div class="modal-content p-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" v-if="isEditing">{{headerEditCustomAlert}}</h5>
+                    <h5 class="modal-title" v-else>{{headerAddCustomAlert}}</h5>
+                </div>
+                <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+                    <form class="event-form needs-validation" data-ajax="false" novalidate="novalidate">
+                        <div class="form-group">
+                            <label for="title" class="form-label">@SharedLocalizer["Title"]</label>
+                            <input type="text" class="form-control" id="title" name="title" v-model="formObj.title">
+                            <span v-if="$v.formObj.title.$error && !$v.formObj.title.required" class="text-danger">
+                                @SharedLocalizer["FieldIsRequired"]
+                            </span>
+                        </div>
+                        <div class="form-group select2-primary">
+                            <div>
+                                <label class="typo__label">@SharedLocalizer["Warehouses"]</label>
+                                <v-select dir="ltr" :options="formObj.optionWarehouses" label="warehouseSelectLabel" v-model="formObj.selectedWarehouse" @@input="onSelectFormWarehouse($event)">
+                                </v-select>
+                                <span v-if="$v.formObj.selectedWarehouse.$error && !$v.formObj.selectedWarehouse.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group select2-primary">
+                            <div>
+                                <label class="typo__label"> @SharedLocalizer["Inventories"]</label>
+                                <v-select dir="ltr" multiple :options="formObj.optionInventories" label="inventorySelectLabel" v-model="formObj.selectedInventories" @@input="onInventorySelect($event)">
+                                </v-select>
+                                <span v-if="$v.formObj.selectedInventories.$error && !$v.formObj.selectedInventories.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label d-block">@SharedLocalizer["AlertType"]</label>
+                            <div class="position-relative">
+                                <select class="form-control" id="AlertType" name="alertTypeLookupId" v-model="formObj.alertTypeLookupId">
+                                    <option value="0">--</option>
+                                    <option value="1">@SharedLocalizer["HumidityOutOfRang"]</option>
+                                    <option value="2">@SharedLocalizer["TemperatureOutOfRang"]</option>
+                                    <option value="3">@SharedLocalizer["TemperatureAndHumidityOutOfRang"]</option>
+                                </select>
+                                <span v-if="$v.formObj.alertTypeLookupId.$error && !$v.formObj.alertTypeLookupId.validSelectedAlertType" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" v-if="formObj.alertTypeLookupId == '1' || formObj.alertTypeLookupId == '3'">
+                            <div class="col-12 divider divider-danger">
+                                <div class="divider-text">@SharedLocalizer["HumidityOutOfRang"]</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group position-relative">
+                                    <label class="form-label">@SharedLocalizer["LessThan"]</label>
+                                    <div class="input-group bootstrap-touchspin w-100">
+                                        <span class="input-group-btn input-group-prepend bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min" type="button" @@click="subtractOrAdd('minValueHumidity', 'subtract')">-</button>
+                                        </span>
+                                        <input type="number" class="form-control" v-model="formObj.minValueHumidity">
+                                        <span class="input-group-btn input-group-append bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-up" type="button" @@click="subtractOrAdd('minValueHumidity', 'add')">+</button>
+                                        </span>
+                                    </div>
+                                    <span v-if="$v.formObj.minValueHumidity.$error && !$v.formObj.minValueHumidity.required" class="text-danger">
+                                        @SharedLocalizer["FieldIsRequired"]
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group position-relative">
+                                    <label class="form-label">@SharedLocalizer["HigherThan"]</label>
+                                    <div class="input-group bootstrap-touchspin w-100">
+                                        <span class="input-group-btn input-group-prepend bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min" type="button" @@click="subtractOrAdd('maxValueHumidity', 'subtract')">-</button>
+                                        </span>
+                                        <input type="number" class="form-control" v-model="formObj.maxValueHumidity">
+                                        <span class="input-group-btn input-group-append bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-up" type="button" @@click="subtractOrAdd('maxValueHumidity', 'add')">+</button>
+                                        </span>
+                                    </div>
+                                    <span v-if="$v.formObj.maxValueHumidity.$error && !$v.formObj.maxValueHumidity.required" class="text-danger">
+                                        @SharedLocalizer["FieldIsRequired"]
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" v-if="formObj.alertTypeLookupId == '2' || formObj.alertTypeLookupId == '3'">
+                            <div class="col-12 divider divider-danger">
+                                <div class="divider-text">@SharedLocalizer["TemperatureOutOfRang"]</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group position-relative">
+                                    <label class="form-label">@SharedLocalizer["LessThan"]</label>
+                                    <div class="input-group bootstrap-touchspin w-100">
+                                        <span class="input-group-btn input-group-prepend bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min" type="button" @@click="subtractOrAdd('minValueTemperature', 'subtract')">-</button>
+                                        </span>
+                                        <input type="number" class="form-control" v-model="formObj.minValueTemperature">
+                                        <span class="input-group-btn input-group-append bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-up" type="button" @@click="subtractOrAdd('minValueTemperature', 'add')">+</button>
+                                        </span>
+                                    </div>
+                                    <span v-if="$v.formObj.minValueTemperature.$error && !$v.formObj.minValueTemperature.required" class="text-danger">
+                                        @SharedLocalizer["FieldIsRequired"]
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group position-relative">
+                                    <label class="form-label">@SharedLocalizer["HigherThan"]</label>
+                                    <div class="input-group bootstrap-touchspin w-100">
+                                        <span class="input-group-btn input-group-prepend bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min" type="button" @@click="subtractOrAdd('maxValueTemperature', 'subtract')">-</button>
+                                        </span>
+                                        <input type="number" class="form-control" v-model="formObj.maxValueTemperature">
+                                        <span class="input-group-btn input-group-append bootstrap-touchspin-injected">
+                                            <button class="btn btn-primary bootstrap-touchspin-up" type="button" @@click="subtractOrAdd('maxValueTemperature', 'add')">+</button>
+                                        </span>
+                                    </div>
+                                    <span v-if="$v.formObj.maxValueTemperature.$error && !$v.formObj.maxValueTemperature.required" class="text-danger">
+                                        @SharedLocalizer["FieldIsRequired"]
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="form-label">@SharedLocalizer["IntervalInMinutes"]</label>
+                            <input type="number" class="form-control" v-model="formObj.interval" /> (@SharedLocalizer["Minutes"])
+                            <span v-if="$v.formObj.interval.$error && !$v.formObj.interval.required" class="text-danger">
+                                @SharedLocalizer["FieldIsRequired"]
+                            </span>
+                            <span v-if="$v.formObj.interval.$error && !$v.formObj.interval.minInterval" class="text-danger">
+                                @if (isEnglish)
+                                {
+                                    <Text>interval must be grater than or equal {{minInterval}}</Text>
+                                }
+                                else
+                                {
+                                    <Text>مدة عدم التكرار يجب ان تكون أكبر او تساوي {{minInterval}}</Text>
+                                }
+                            </span>
+                        </div>
+                        <div class="form-group mt-1">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="EnableAlertByUsers" v-model="enableAlertByUsers" @@change="alertByUsers()">
+                                <label class="custom-control-label" for="EnableAlertByUsers">@SharedLocalizer["EnableAlertByUsers"]</label>
+                            </div>
+                        </div>
+                        <div class="form-group select2-primary" v-if="enableAlertByUsers">
+                            <div>
+                                <label class="typo__label"> @SharedLocalizer["Users"]</label>
+                                <v-select dir="ltr" multiple :options="formObj.optionUsers" label="userSelectLabel" v-model="formObj.selectedUsers">
+                                </v-select>
+                                <span v-if="$v.formObj.selectedUsers.$error && !$v.formObj.selectedUsers.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group" v-else>
+                            <label for="title" class="form-label">@SharedLocalizer["ToEmails"]</label>
+                            <input type="text" class="form-control" id="toEmails" name="toEmails" v-model="formObj.toEmails" placeholder="user1@example.com,user2@example.com">
+                            <span v-if="$v.formObj.toEmails.$error && !$v.formObj.toEmails.required" class="text-danger">
+                                @SharedLocalizer["FieldIsRequired"]
+                            </span>
+                            <span v-if="!$v.formObj.toEmails.validEmails" class="text-danger">
+                                @if (isEnglish)
+                                {
+                                    <Text>email format is incorrect</Text>
+                                }
+                                else
+                                {
+                                    <Text>صيغة الايميلات غير صحيحة</Text>
+                                }
+                            </span>
+                        </div>
+                        <div class="form-group mt-1">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="ActiveCustomAlert" v-model="formObj.isActive">
+                                <label class="custom-control-label" for="ActiveCustomAlert">@SharedLocalizer["Active"]</label>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex">
+                            <button type="button" class="btn btn-primary add-event-btn mr-1 waves-effect waves-float waves-light" v-if="isEditing" @@click="onSave">@SharedLocalizer["Edit"]</button>
+                            <button type="button" class="btn btn-primary add-event-btn mr-1 waves-effect waves-float waves-light" v-else @@click="onSave">@SharedLocalizer["Add"]</button>
+                            <button type="button" class="btn btn-outline-secondary btn-cancel waves-effect" data-dismiss="modal">@SharedLocalizer["Cancel"]</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* End Modal Create Update Custom Alert*@
+
+</div>
+@section css
+{
+    <!-- vue select -->
+    <link href="@Url.Content("~/lib/vue-select/vue-select.css")" rel="stylesheet" />
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- alertify -->
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- footable style -->
+    <link href="@Url.Content("~/lib/footable/css/footable.bootstrap.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+
+    @* vue validators *@
+    <script src="@Url.Content("~/lib/vue/validators.min.js")"></script>
+    @* vue vuelidate *@
+    <script src="@Url.Content("~/lib/vue/vuelidate.min.js")"></script>
+    @* axios *@
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+    @* vue select *@
+    <script src="@Url.Content("~/lib/vue-select/vue-select.js")"></script>
+    <!-- development version, includes helpful console warnings -->
+    @*<partial name="_VueScript" />*@
+
+
+    @* for pager *@
+    <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- Alertify -->
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- footable -->
+    <script src="@Url.Content("~/lib/footable/js/footable.js")"></script>
+
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+
+    <script>
+        var errorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var saveSuccessMSG = '@Localizer["SaveSuccessMSG"]';
+        var addCustomAlert = '@Localizer["AddCustomAlert"]';
+        var editCustomAlert = '@Localizer["EditCustomAlert"]';
+        var deleteSuccessMSG = '@Localizer["DeleteSuccessMSG"]';
+        var confirmDelete = '@Localizer["ConfirmDelete"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var all = '@SharedLocalizer["All"]';
+        var MinInterval = 30;
+        MinInterval = @ViewBag.MinInterval;
+    </script>
+
+    <script src="@Url.Content("~/js/customAlerts/customAlerts.js")" asp-append-version="true"></script>
+}

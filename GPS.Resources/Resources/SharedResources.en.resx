@@ -1,0 +1,1815 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountExpirationDate" xml:space="preserve">
+    <value>Account Expiration Date</value>
+  </data>
+  <data name="AccountInfo" xml:space="preserve">
+    <value>Account Info</value>
+  </data>
+  <data name="AccountNameExists" xml:space="preserve">
+    <value>Name is already in use</value>
+  </data>
+  <data name="AccountNotExists" xml:space="preserve">
+    <value>Account is not exists</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="ActionDate" xml:space="preserve">
+    <value>Action Date</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="ActivationDate" xml:space="preserve">
+    <value>Activation Date</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="ActivityType" xml:space="preserve">
+    <value>Activity Type</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddDriverSuccess" xml:space="preserve">
+    <value>Driver Added</value>
+  </data>
+  <data name="AddInventorySensors" xml:space="preserve">
+    <value>Add Inventory Sensors</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Add New </value>
+  </data>
+  <data name="AddNewAccount" xml:space="preserve">
+    <value>Add New Account</value>
+  </data>
+  <data name="AddNewAds" xml:space="preserve">
+    <value>Add New Ads</value>
+  </data>
+  <data name="AddNewDriver" xml:space="preserve">
+    <value>Add New Driver</value>
+  </data>
+  <data name="AddNewFleet" xml:space="preserve">
+    <value>Add New Company</value>
+  </data>
+  <data name="AddNewGateway" xml:space="preserve">
+    <value>Add Gateway</value>
+  </data>
+  <data name="AddNewGroup" xml:space="preserve">
+    <value>Add New Group</value>
+  </data>
+  <data name="AddNewInventory" xml:space="preserve">
+    <value>Add New Inventory</value>
+  </data>
+  <data name="AddNewMaintenanceOperation" xml:space="preserve">
+    <value>Add New Maintenance Operation</value>
+  </data>
+  <data name="AddNewOilChangeOperation" xml:space="preserve">
+    <value>Add New Oil Change Operation</value>
+  </data>
+  <data name="AddNewSensor" xml:space="preserve">
+    <value>Add New Sensor</value>
+  </data>
+  <data name="AddNewTireChangeOperation" xml:space="preserve">
+    <value>Add New Tire Change Operation</value>
+  </data>
+  <data name="AddNewUser" xml:space="preserve">
+    <value>Add New User</value>
+  </data>
+  <data name="AddNewVehicle" xml:space="preserve">
+    <value>Add New Vehicle</value>
+  </data>
+  <data name="AddNewWarehouse" xml:space="preserve">
+    <value>Add New Warehouse</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AddSuccess" xml:space="preserve">
+    <value>Added Successfully</value>
+  </data>
+  <data name="AdministratorRole" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="AdsScreen" xml:space="preserve">
+    <value>Ads Screen</value>
+  </data>
+  <data name="AdsScreenInfo" xml:space="preserve">
+    <value>Ads Screen Info</value>
+  </data>
+  <data name="AgencyMaintenance" xml:space="preserve">
+    <value>Agency Maintenance</value>
+  </data>
+  <data name="Agent" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="AgentRole" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Alert</value>
+  </data>
+  <data name="AlertReport" xml:space="preserve">
+    <value>Alert Report</value>
+  </data>
+  <data name="Alerts" xml:space="preserve">
+    <value>Alerts</value>
+  </data>
+  <data name="AlertsExists" xml:space="preserve">
+    <value>there are alerts</value>
+  </data>
+  <data name="AlertsReport" xml:space="preserve">
+    <value>Alerts Report</value>
+  </data>
+  <data name="AlertsReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Alerts Report</value>
+  </data>
+  <data name="AlertType" xml:space="preserve">
+    <value>Alert Type</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="AtLeastOneFeildMustBeChecked" xml:space="preserve">
+    <value>at least one feild must be checked</value>
+  </data>
+  <data name="AutoUpdate" xml:space="preserve">
+    <value>Automatic Update</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="AverageDailyTemperatureAndHumidityReport" xml:space="preserve">
+    <value>Average daily temperature and humidity</value>
+  </data>
+  <data name="AverageHumidity" xml:space="preserve">
+    <value>Average Humidity</value>
+  </data>
+  <data name="AverageTemperature" xml:space="preserve">
+    <value>Average Temperature</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Brands</value>
+  </data>
+  <data name="Calibrated" xml:space="preserve">
+    <value>Calibrated</value>
+  </data>
+  <data name="CalibrationDate" xml:space="preserve">
+    <value>Calibration Date</value>
+  </data>
+  <data name="CalibrationStatus" xml:space="preserve">
+    <value>Calibration Status</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CarName" xml:space="preserve">
+    <value>Car Name</value>
+  </data>
+  <data name="CarNumber" xml:space="preserve">
+    <value>Car Number</value>
+  </data>
+  <data name="ChangeAfter" xml:space="preserve">
+    <value>Change after</value>
+  </data>
+  <data name="ChangeDate" xml:space="preserve">
+    <value>Change Date</value>
+  </data>
+  <data name="ChangeLocation" xml:space="preserve">
+    <value>Change Location</value>
+  </data>
+  <data name="CheckSchedulingDataValidity" xml:space="preserve">
+    <value>Please check the validity of scheduling data</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CloseLocation" xml:space="preserve">
+    <value>Close Location</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Columns</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="CommandCode" xml:space="preserve">
+    <value>Command Code</value>
+  </data>
+  <data name="CommercialRecordIssueDateHijri" xml:space="preserve">
+    <value>Commercial Record Issue Date Hijri</value>
+  </data>
+  <data name="CommercialRecordNumber" xml:space="preserve">
+    <value>Commercial Record Number</value>
+  </data>
+  <data name="CommercialRegistrationNumber" xml:space="preserve">
+    <value>Commercial Registration Number</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="ConfirmCreateDriver" xml:space="preserve">
+    <value>Are you sure you want to add Driver ?</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Are you sure you want to deleted selected item ?</value>
+  </data>
+  <data name="ConfirmSave" xml:space="preserve">
+    <value>Are you sure ?</value>
+  </data>
+  <data name="ConfirmUpdate" xml:space="preserve">
+    <value>Are you sure you want to update Company ?</value>
+  </data>
+  <data name="ConfirmUpdateDriver" xml:space="preserve">
+    <value>Are you sure you want to update Driver ?</value>
+  </data>
+  <data name="ConfirmUpdateFleet" xml:space="preserve">
+    <value>Are you sure you want to update Company ?</value>
+  </data>
+  <data name="ConfirmUpdateVehicle" xml:space="preserve">
+    <value>Are you sure you want to update Vehicle ?</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="ContentEn" xml:space="preserve">
+    <value>English Content</value>
+  </data>
+  <data name="ContinueEdit" xml:space="preserve">
+    <value>Continue Edit</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Cost</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateAndScheduleReport" xml:space="preserve">
+    <value>Create And Schedule Report</value>
+  </data>
+  <data name="CurrentOdometer" xml:space="preserve">
+    <value>Current Odometer</value>
+  </data>
+  <data name="CustomAlerts" xml:space="preserve">
+    <value>Custom Alerts</value>
+  </data>
+  <data name="Daily" xml:space="preserve">
+    <value>Daily</value>
+  </data>
+  <data name="DailyWarehousesReport" xml:space="preserve">
+    <value>Daily Warehouses Report</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>Date of birth</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="DayAndTime" xml:space="preserve">
+    <value>Day and Time</value>
+  </data>
+  <data name="DayOfMonth" xml:space="preserve">
+    <value>Day of Month</value>
+  </data>
+  <data name="DayOfWeek" xml:space="preserve">
+    <value>Day of Week</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="DeActivate" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteSuccess" xml:space="preserve">
+    <value>Deleted Successfully</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DetailsSubTitle" xml:space="preserve">
+    <value>Information for Transport Authority</value>
+  </data>
+  <data name="DeviceIMEI" xml:space="preserve">
+    <value>IMEI</value>
+  </data>
+  <data name="DeviceIMEIExists" xml:space="preserve">
+    <value>IMEI number is already in use</value>
+  </data>
+  <data name="DeviceType" xml:space="preserve">
+    <value>Device Type</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="Disconnected" xml:space="preserve">
+    <value>Disconnected</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Distance (Km)</value>
+  </data>
+  <data name="DistanceReport" xml:space="preserve">
+    <value>Distance Report</value>
+  </data>
+  <data name="DistanceReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Distance Report</value>
+  </data>
+  <data name="DistancesReport" xml:space="preserve">
+    <value>Distance Report</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Door" xml:space="preserve">
+    <value>Door</value>
+  </data>
+  <data name="Door1" xml:space="preserve">
+    <value>Door 1</value>
+  </data>
+  <data name="Door2" xml:space="preserve">
+    <value>Door 2</value>
+  </data>
+  <data name="Door3" xml:space="preserve">
+    <value>Door</value>
+  </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="DriverInfo" xml:space="preserve">
+    <value>Driver Info</value>
+  </data>
+  <data name="DriverName" xml:space="preserve">
+    <value>Driver Name</value>
+  </data>
+  <data name="DriverNotExists" xml:space="preserve">
+    <value>Driver is not exists</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Each" xml:space="preserve">
+    <value>each</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditAccount" xml:space="preserve">
+    <value>Edit Account</value>
+  </data>
+  <data name="EditDriver" xml:space="preserve">
+    <value>Edit Driver</value>
+  </data>
+  <data name="EditFleet" xml:space="preserve">
+    <value>Edit Company</value>
+  </data>
+  <data name="EditGateway" xml:space="preserve">
+    <value>Edit Gateway</value>
+  </data>
+  <data name="EditGroup" xml:space="preserve">
+    <value>Edit Group</value>
+  </data>
+  <data name="EditInventory" xml:space="preserve">
+    <value>Edit Inventory</value>
+  </data>
+  <data name="EditMaintenanceOperation" xml:space="preserve">
+    <value>Edit Maintenance Operation</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
+  <data name="EditVehicle" xml:space="preserve">
+    <value>Edit Vehicle</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="EmptyVoltage" xml:space="preserve">
+    <value>Empty Voltage</value>
+  </data>
+  <data name="EmptyWeight" xml:space="preserve">
+    <value>Empty Weight</value>
+  </data>
+  <data name="EnableAddByUploadingExcel" xml:space="preserve">
+    <value>Enable Add By Uploading Excel</value>
+  </data>
+  <data name="EnableAlertByUsers" xml:space="preserve">
+    <value>Enable Alert By Users</value>
+  </data>
+  <data name="EnableAlerts" xml:space="preserve">
+    <value>Enable Alerts</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Engine" xml:space="preserve">
+    <value>Engine</value>
+  </data>
+  <data name="EngineOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="EngineOn" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="EngineStopped" xml:space="preserve">
+    <value>Engine Stopped ?</value>
+  </data>
+  <data name="EngineWorkingDuration" xml:space="preserve">
+    <value>Engine Working Duration</value>
+  </data>
+  <data name="Entry" xml:space="preserve">
+    <value>Entry</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>An error occurred during the operation</value>
+  </data>
+  <data name="EWECompany" xml:space="preserve">
+    <value>Engineer Warranty Co.</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Expiration Date</value>
+  </data>
+  <data name="ExportSampleExcelFormat" xml:space="preserve">
+    <value>Export Sample Excel Format</value>
+  </data>
+  <data name="ExtensionNumber" xml:space="preserve">
+    <value>Extension Number</value>
+  </data>
+  <data name="FieldIsRequired" xml:space="preserve">
+    <value>Field Is Required</value>
+  </data>
+  <data name="FilterWorkingAndNotWorkingSensors" xml:space="preserve">
+    <value>Sensor Status</value>
+  </data>
+  <data name="Fleet" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="FleetNameAr" xml:space="preserve">
+    <value>Company Name - Arabic</value>
+  </data>
+  <data name="FleetNameEn" xml:space="preserve">
+    <value>Company Name - English</value>
+  </data>
+  <data name="FleetNotExists" xml:space="preserve">
+    <value>Company is not exists</value>
+  </data>
+  <data name="FleetType" xml:space="preserve">
+    <value>Company Type</value>
+  </data>
+  <data name="FollowVehicle" xml:space="preserve">
+    <value>follow Vehicle</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="from" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="FromAddress" xml:space="preserve">
+    <value>From Address</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>From Date</value>
+  </data>
+  <data name="FullMaintenanceReport" xml:space="preserve">
+    <value>Full Maintenance Report</value>
+  </data>
+  <data name="Gateway" xml:space="preserve">
+    <value>Gateway</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="GenerateReport" xml:space="preserve">
+    <value>Generate Report</value>
+  </data>
+  <data name="Geofence" xml:space="preserve">
+    <value>GeoFence</value>
+  </data>
+  <data name="GeofenceReport" xml:space="preserve">
+    <value>Geofence Report</value>
+  </data>
+  <data name="GeofenceReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Geofence Report</value>
+  </data>
+  <data name="GeoFences" xml:space="preserve">
+    <value>GeoFences</value>
+  </data>
+  <data name="GPSDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="GroupInfo" xml:space="preserve">
+    <value>Group Info</value>
+  </data>
+  <data name="GroupNameAr" xml:space="preserve">
+    <value>Group Name - Arabic</value>
+  </data>
+  <data name="GroupNameEn" xml:space="preserve">
+    <value>Group Name - English</value>
+  </data>
+  <data name="GroupNotExists" xml:space="preserve">
+    <value>Group is not exists</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="groupUpdatesBy" xml:space="preserve">
+    <value>group Updates By</value>
+  </data>
+  <data name="HasDoorSensor" xml:space="preserve">
+    <value>Has Door Sensor</value>
+  </data>
+  <data name="HasTemperatureAndHumiditySensor" xml:space="preserve">
+    <value>Has temperature and humidity sensor</value>
+  </data>
+  <data name="HigherThan" xml:space="preserve">
+    <value>Higher Than</value>
+  </data>
+  <data name="HigherThanHumidity" xml:space="preserve">
+    <value>Higher Than Humidity</value>
+  </data>
+  <data name="HigherThanTemperature" xml:space="preserve">
+    <value>Higher Than Temperature</value>
+  </data>
+  <data name="HistoryRecord" xml:space="preserve">
+    <value>History Record</value>
+  </data>
+  <data name="HistoryReport" xml:space="preserve">
+    <value>Vehicle History Report</value>
+  </data>
+  <data name="HistoryReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Vehicle History Report</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="Humidity" xml:space="preserve">
+    <value>Humidity</value>
+  </data>
+  <data name="Humidity1" xml:space="preserve">
+    <value>Humidity 1</value>
+  </data>
+  <data name="Humidity2" xml:space="preserve">
+    <value>Humidity 2</value>
+  </data>
+  <data name="Humidity3" xml:space="preserve">
+    <value>Humidity 3</value>
+  </data>
+  <data name="Humidity4" xml:space="preserve">
+    <value>Humidity 4</value>
+  </data>
+  <data name="HumidityOutOfRang" xml:space="preserve">
+    <value>Humidity Out Of Rang</value>
+  </data>
+  <data name="IdentityNumber" xml:space="preserve">
+    <value>Identity Number</value>
+  </data>
+  <data name="Idle" xml:space="preserve">
+    <value>Idle</value>
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>IMEI</value>
+  </data>
+  <data name="Individual" xml:space="preserve">
+    <value>Individual</value>
+  </data>
+  <data name="InitialOdometer" xml:space="preserve">
+    <value>Initial Odometer</value>
+  </data>
+  <data name="IntegrationError" xml:space="preserve">
+    <value>An error occurred while connecting to the service</value>
+  </data>
+  <data name="Interval" xml:space="preserve">
+    <value>Duration of non-repetition</value>
+  </data>
+  <data name="IntervalInMinutes" xml:space="preserve">
+    <value>Alert non-repetition duration</value>
+  </data>
+  <data name="InvalidCustomAlertMinInterval" xml:space="preserve">
+    <value>interval must be grater than or equal {0}</value>
+  </data>
+  <data name="InvalidEmails" xml:space="preserve">
+    <value>Invalid Emails Format</value>
+  </data>
+  <data name="Inventories" xml:space="preserve">
+    <value>Inventories</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="InventoryHistoryReport" xml:space="preserve">
+    <value>Inventory History Report</value>
+  </data>
+  <data name="InventoryHistoryReportTitle" xml:space="preserve">
+    <value>{0} - Inventory History Report</value>
+  </data>
+  <data name="InventoryInfo" xml:space="preserve">
+    <value>Inventory Info</value>
+  </data>
+  <data name="InventoryNotExists" xml:space="preserve">
+    <value>Inventory is not exists</value>
+  </data>
+  <data name="InventoryNumber" xml:space="preserve">
+    <value>Inventory Number</value>
+  </data>
+  <data name="InventorySensorHistoryReport" xml:space="preserve">
+    <value>Inventory Sensor Report</value>
+  </data>
+  <data name="InventorySensorHistoryReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Inventory Sensor Report</value>
+  </data>
+  <data name="InventorySensorInfo" xml:space="preserve">
+    <value>Sensor Info</value>
+  </data>
+  <data name="InventorySensors" xml:space="preserve">
+    <value>Inventory Sensors</value>
+  </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Is Active</value>
+  </data>
+  <data name="IsRegistered" xml:space="preserve">
+    <value>Is Registered</value>
+  </data>
+  <data name="LandAreaInSquareMeter" xml:space="preserve">
+    <value>Land Area In Square Meter</value>
+  </data>
+  <data name="Last50Alerts" xml:space="preserve">
+    <value>Last 50 Alerts</value>
+  </data>
+  <data name="LastOdometerUpdateDate" xml:space="preserve">
+    <value>Last Odometer Update Date</value>
+  </data>
+  <data name="LastOpenLocation" xml:space="preserve">
+    <value>Last Open Location</value>
+  </data>
+  <data name="LatestUpdateDateTime" xml:space="preserve">
+    <value>Last update date and time</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="LessThan" xml:space="preserve">
+    <value>Less Than</value>
+  </data>
+  <data name="LessThanHumidity" xml:space="preserve">
+    <value>Less Than Humidity</value>
+  </data>
+  <data name="LessThanTemperature" xml:space="preserve">
+    <value>Less Than Temperature</value>
+  </data>
+  <data name="LicenseExpiryDate" xml:space="preserve">
+    <value>License Expiry Date</value>
+  </data>
+  <data name="LicenseIssueDate" xml:space="preserve">
+    <value>License Issue Date</value>
+  </data>
+  <data name="LicenseNumber" xml:space="preserve">
+    <value>License Number</value>
+  </data>
+  <data name="LinkedWithRaqeb" xml:space="preserve">
+    <value>Linked With Raqeb</value>
+  </data>
+  <data name="LinkedWithWasl" xml:space="preserve">
+    <value>Linked With Wasl</value>
+  </data>
+  <data name="LinkWithRaqeb" xml:space="preserve">
+    <value>Link With Raqeb</value>
+  </data>
+  <data name="LinkWithWasl" xml:space="preserve">
+    <value>Link With Wasl</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="MaintenanceDate" xml:space="preserve">
+    <value>Maintenance Date</value>
+  </data>
+  <data name="MaintenanceInfo" xml:space="preserve">
+    <value>Maintenance Info</value>
+  </data>
+  <data name="MaintenanceOperationReport" xml:space="preserve">
+    <value>Maintenance Operation Report</value>
+  </data>
+  <data name="MaintenanceReports" xml:space="preserve">
+    <value>Maintenance Reports</value>
+  </data>
+  <data name="MaintenanceType" xml:space="preserve">
+    <value>Maintenance Type</value>
+  </data>
+  <data name="ManageAccounts" xml:space="preserve">
+    <value>Manage Accounts</value>
+  </data>
+  <data name="ManageAdsScreen" xml:space="preserve">
+    <value>Manage Ads Screen</value>
+  </data>
+  <data name="ManageFleets" xml:space="preserve">
+    <value>Manage Companies</value>
+  </data>
+  <data name="ManageGateways" xml:space="preserve">
+    <value>Manage Gateways</value>
+  </data>
+  <data name="ManageGroups" xml:space="preserve">
+    <value>Manage Groups</value>
+  </data>
+  <data name="ManageInventories" xml:space="preserve">
+    <value>Manage Inventories</value>
+  </data>
+  <data name="ManagePOIs" xml:space="preserve">
+    <value>Manage Points of interest</value>
+  </data>
+  <data name="ManagerEmail" xml:space="preserve">
+    <value>Manager Email</value>
+  </data>
+  <data name="ManagerMobile" xml:space="preserve">
+    <value>Manager Mobile</value>
+  </data>
+  <data name="ManagerMobileNumber" xml:space="preserve">
+    <value>Manager Mobile Number</value>
+  </data>
+  <data name="ManagerName" xml:space="preserve">
+    <value>Manager Name</value>
+  </data>
+  <data name="ManagerPhoneNumber" xml:space="preserve">
+    <value>Manager Phone Number</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>Manage Users</value>
+  </data>
+  <data name="ManageVehicles" xml:space="preserve">
+    <value>Manage Vehicles</value>
+  </data>
+  <data name="ManageWarehouses" xml:space="preserve">
+    <value>Manage Warehouses</value>
+  </data>
+  <data name="MapOptions" xml:space="preserve">
+    <value>Map Options</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="MaxHumidity" xml:space="preserve">
+    <value>Max Humidity</value>
+  </data>
+  <data name="MaxSpeed" xml:space="preserve">
+    <value>Max Speed</value>
+  </data>
+  <data name="MaxTemperature" xml:space="preserve">
+    <value>Max Temperature</value>
+  </data>
+  <data name="MaxValue" xml:space="preserve">
+    <value>Max Value</value>
+  </data>
+  <data name="MaxWeight" xml:space="preserve">
+    <value>Max Weight</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="MinHumidity" xml:space="preserve">
+    <value>Min Humidity</value>
+  </data>
+  <data name="MinTemperature" xml:space="preserve">
+    <value>Min Temperature</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="MinValue" xml:space="preserve">
+    <value>Min Value</value>
+  </data>
+  <data name="MinWeight" xml:space="preserve">
+    <value>Min Weight</value>
+  </data>
+  <data name="MobileNumber" xml:space="preserve">
+    <value>Mobile Number</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="Monthly" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="MovementReport" xml:space="preserve">
+    <value>Vehicle Movement Report</value>
+  </data>
+  <data name="MovementReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Vehicle Movement Report</value>
+  </data>
+  <data name="Moving" xml:space="preserve">
+    <value>Moving</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NaqabaNumber" xml:space="preserve">
+    <value>Naqaba Number</value>
+  </data>
+  <data name="NewerToOlder" xml:space="preserve">
+    <value>Newer To older</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NextChangeDate" xml:space="preserve">
+    <value>Next Change Date</value>
+  </data>
+  <data name="NextMaintenanceAfterDistance" xml:space="preserve">
+    <value>Next Maintenance after Distance</value>
+  </data>
+  <data name="NoAgents" xml:space="preserve">
+    <value>There are no agents</value>
+  </data>
+  <data name="NoAlerts" xml:space="preserve">
+    <value>No Alerts</value>
+  </data>
+  <data name="NoAlertsToday" xml:space="preserve">
+    <value>No Alerts Today</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>no data available</value>
+  </data>
+  <data name="NoneOption" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="NoResultMessage" xml:space="preserve">
+    <value>No search result matched</value>
+  </data>
+  <data name="NotActive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="NotAssigned" xml:space="preserve">
+    <value>Not Assigned</value>
+  </data>
+  <data name="NotCalibrated" xml:space="preserve">
+    <value>Not Calibrated</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="NotLinkedWithWasl" xml:space="preserve">
+    <value>Not Linked with Wasl</value>
+  </data>
+  <data name="NotRegistered" xml:space="preserve">
+    <value>Not Registered</value>
+  </data>
+  <data name="NotWorkingSensors" xml:space="preserve">
+    <value>Not Working Sensors</value>
+  </data>
+  <data name="NotWorkingText" xml:space="preserve">
+    <value>Not Working</value>
+  </data>
+  <data name="NotWorkingVehiclesText" xml:space="preserve">
+    <value>Not Working Vehicles</value>
+  </data>
+  <data name="NumberOfMonths" xml:space="preserve">
+    <value>Number Of Months</value>
+  </data>
+  <data name="NumberOfPassengers" xml:space="preserve">
+    <value>Number of Passengers</value>
+  </data>
+  <data name="NumberOfSeats" xml:space="preserve">
+    <value>Number of Seats</value>
+  </data>
+  <data name="Odometer" xml:space="preserve">
+    <value>Odometer</value>
+  </data>
+  <data name="OdometerWhenChange" xml:space="preserve">
+    <value>Odometer when change</value>
+  </data>
+  <data name="OdometerWhenMaintenance" xml:space="preserve">
+    <value>Odometer when Maintenance</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="OilChangeInfo" xml:space="preserve">
+    <value>Oil Change Info</value>
+  </data>
+  <data name="OilChangeOperationReport" xml:space="preserve">
+    <value>Oil Change Operation Report</value>
+  </data>
+  <data name="OlderToNewer" xml:space="preserve">
+    <value>Older to newer</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenLocation" xml:space="preserve">
+    <value>Open Location</value>
+  </data>
+  <data name="OperatingCardNumber" xml:space="preserve">
+    <value>Operating Card Number</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Parked" xml:space="preserve">
+    <value>Parked</value>
+  </data>
+  <data name="PartiallyStopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="PayloadVoltage" xml:space="preserve">
+    <value>Payload Voltage</value>
+  </data>
+  <data name="PayloadWeight" xml:space="preserve">
+    <value>Payload Weight</value>
+  </data>
+  <data name="PeriodShowBySeconds" xml:space="preserve">
+    <value>Period Show By Seconds</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Phone1" xml:space="preserve">
+    <value>Phone 1</value>
+  </data>
+  <data name="Phone2" xml:space="preserve">
+    <value>Phone 2</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Plate" xml:space="preserve">
+    <value>Plate</value>
+  </data>
+  <data name="PlateLetters" xml:space="preserve">
+    <value>Plate Letters</value>
+  </data>
+  <data name="PlateNumber" xml:space="preserve">
+    <value>Plate Number</value>
+  </data>
+  <data name="PlateNumberAr" xml:space="preserve">
+    <value>Plate Letters - Arabic</value>
+  </data>
+  <data name="PlateType" xml:space="preserve">
+    <value>Plate Type</value>
+  </data>
+  <data name="POIList" xml:space="preserve">
+    <value>Points of interest</value>
+  </data>
+  <data name="POIs" xml:space="preserve">
+    <value>Points of interest</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="PrintExcel" xml:space="preserve">
+    <value>Print Excel</value>
+  </data>
+  <data name="PrintPDF" xml:space="preserve">
+    <value>Print PDF</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="PublicMaintenance" xml:space="preserve">
+    <value>Public Maintenance</value>
+  </data>
+  <data name="Pulled" xml:space="preserve">
+    <value>towed</value>
+  </data>
+  <data name="ReadAllNotifications" xml:space="preserve">
+    <value>Read All Notifications</value>
+  </data>
+  <data name="Records" xml:space="preserve">
+    <value>Records</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Registered</value>
+  </data>
+  <data name="RegisterInRaqeb" xml:space="preserve">
+    <value>Register in Raqeb</value>
+  </data>
+  <data name="RegisterInWasl" xml:space="preserve">
+    <value>Register in Wasl</value>
+  </data>
+  <data name="RegisterType" xml:space="preserve">
+    <value>Registration type</value>
+  </data>
+  <data name="RepeatDay" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="RepeatEvery" xml:space="preserve">
+    <value>Repeat Every</value>
+  </data>
+  <data name="RepeatMonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="RepeatWeek" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="ReportFileType" xml:space="preserve">
+    <value>Report File Type</value>
+  </data>
+  <data name="ReportHeaderInfo" xml:space="preserve">
+    <value>Header Info</value>
+  </data>
+  <data name="ReportInfo" xml:space="preserve">
+    <value>Report Info</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>Report Name</value>
+  </data>
+  <data name="ReportOrder" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="ReportSample" xml:space="preserve">
+    <value>Report Sample</value>
+  </data>
+  <data name="ReportScheduling" xml:space="preserve">
+    <value>Report Scheduling</value>
+  </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>Report Title</value>
+  </data>
+  <data name="ReportType" xml:space="preserve">
+    <value>Report Type</value>
+  </data>
+  <data name="RequiredCommercialRecordNumber" xml:space="preserve">
+    <value>Commercial Record Number is required</value>
+  </data>
+  <data name="RequiredCompanyId" xml:space="preserve">
+    <value>Company Id is required</value>
+  </data>
+  <data name="RequiredIdentityNumber" xml:space="preserve">
+    <value>Identity Number is required</value>
+  </data>
+  <data name="RequiredSequenceNumber" xml:space="preserve">
+    <value>Sequence Number is required</value>
+  </data>
+  <data name="Routes" xml:space="preserve">
+    <value>Routes</value>
+  </data>
+  <data name="Sample" xml:space="preserve">
+    <value>Sample</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveAsName" xml:space="preserve">
+    <value>Save As...</value>
+  </data>
+  <data name="ScheduleReportDetails" xml:space="preserve">
+    <value>Schedule Report Details</value>
+  </data>
+  <data name="ScheduleReports" xml:space="preserve">
+    <value>Schedule Reports</value>
+  </data>
+  <data name="SchedulingDetails" xml:space="preserve">
+    <value>Scheduling Details</value>
+  </data>
+  <data name="SchedulingType" xml:space="preserve">
+    <value>Scheduling Type</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SeatOff" xml:space="preserve">
+    <value>There is no passenger</value>
+  </data>
+  <data name="SeatOn" xml:space="preserve">
+    <value>There is a passenger</value>
+  </data>
+  <data name="SeatStatus" xml:space="preserve">
+    <value>Seat Status</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="SelectCoordinates" xml:space="preserve">
+    <value>Select Coordinates</value>
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Select File</value>
+  </data>
+  <data name="SelectFromList" xml:space="preserve">
+    <value>Select from list</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Select Group</value>
+  </data>
+  <data name="SelectInventory" xml:space="preserve">
+    <value>Select Inventory</value>
+  </data>
+  <data name="SelectLocation" xml:space="preserve">
+    <value>Select Location</value>
+  </data>
+  <data name="SelectReportType" xml:space="preserve">
+    <value>Select Report Type</value>
+  </data>
+  <data name="SelectSensor" xml:space="preserve">
+    <value>Select Sensor</value>
+  </data>
+  <data name="SelectSensors" xml:space="preserve">
+    <value>Select Sensors</value>
+  </data>
+  <data name="SelectVehicle" xml:space="preserve">
+    <value>Select Vehicle</value>
+  </data>
+  <data name="SelectWarehouse" xml:space="preserve">
+    <value>Select Warehouse</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="SendAlert" xml:space="preserve">
+    <value>Send Alert</value>
+  </data>
+  <data name="SendEntryAlert" xml:space="preserve">
+    <value>Send Entry Alert</value>
+  </data>
+  <data name="SendExitAlert" xml:space="preserve">
+    <value>Send Exit Alert</value>
+  </data>
+  <data name="SendToEmails" xml:space="preserve">
+    <value>Send To Emails</value>
+  </data>
+  <data name="SendVehicleLocation" xml:space="preserve">
+    <value>Send Vehicle Location</value>
+  </data>
+  <data name="Sensor" xml:space="preserve">
+    <value>Sensor</value>
+  </data>
+  <data name="SensorAlreadyRegisteredWithInventory" xml:space="preserve">
+    <value>Sensor Already Registered With Inventory</value>
+  </data>
+  <data name="SensorHistoryReport" xml:space="preserve">
+    <value>Sensor History Report</value>
+  </data>
+  <data name="SensorInformation" xml:space="preserve">
+    <value>Sensors Information</value>
+  </data>
+  <data name="SensorName" xml:space="preserve">
+    <value>Sensor Name</value>
+  </data>
+  <data name="SensorNumber" xml:space="preserve">
+    <value>Sensor Number</value>
+  </data>
+  <data name="Sensors" xml:space="preserve">
+    <value>Sensors</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Serial Number</value>
+  </data>
+  <data name="SerialNumberNotExistsInSelectedGroup" xml:space="preserve">
+    <value>Serial number not Exists in selected group</value>
+  </data>
+  <data name="SFDACompanyActivities" xml:space="preserve">
+    <value>SFDA Company Activities</value>
+  </data>
+  <data name="SFDAStoringCategory" xml:space="preserve">
+    <value>SFDA Storing Category</value>
+  </data>
+  <data name="ShowGeoFences" xml:space="preserve">
+    <value>Show GeoFences</value>
+  </data>
+  <data name="ShowInfoWindow" xml:space="preserve">
+    <value>Info Window</value>
+  </data>
+  <data name="showPOI" xml:space="preserve">
+    <value>show Points of interest</value>
+  </data>
+  <data name="SIMCardExpirationDate" xml:space="preserve">
+    <value>SIM Card Expiration Date</value>
+  </data>
+  <data name="SIMNumber" xml:space="preserve">
+    <value>SIM Number</value>
+  </data>
+  <data name="SIMNumberExists" xml:space="preserve">
+    <value>SIM number is already in use</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="SOS" xml:space="preserve">
+    <value>Driver SOS</value>
+  </data>
+  <data name="SosOff" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="SosOn" xml:space="preserve">
+    <value>there is an SOS in the last 15 minutes</value>
+  </data>
+  <data name="SOSPassenger" xml:space="preserve">
+    <value>Passenger SOS</value>
+  </data>
+  <data name="SosPassengerOn" xml:space="preserve">
+    <value>there is an SOS from Passenger in the last 15 minutes</value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="SpeedFrom" xml:space="preserve">
+    <value>Speed From</value>
+  </data>
+  <data name="SpeedTo" xml:space="preserve">
+    <value>Speed To</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="StopDuration" xml:space="preserve">
+    <value>Stop Duration</value>
+  </data>
+  <data name="Stopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="Stops" xml:space="preserve">
+    <value>Stops</value>
+  </data>
+  <data name="StopsReport" xml:space="preserve">
+    <value>Vehicle Stops Report</value>
+  </data>
+  <data name="StopsReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Vehicle Stops Report</value>
+  </data>
+  <data name="StoringCategory" xml:space="preserve">
+    <value>Storing Category</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="SupervisorEmail" xml:space="preserve">
+    <value>Supervisor Email</value>
+  </data>
+  <data name="SupervisorMobile" xml:space="preserve">
+    <value>Supervisor Mobile</value>
+  </data>
+  <data name="SystemError" xml:space="preserve">
+    <value>Internal server error</value>
+  </data>
+  <data name="TaxiBuses" xml:space="preserve">
+    <value>Taxi Buses</value>
+  </data>
+  <data name="TaxRegistrationNumber" xml:space="preserve">
+    <value>Tax Registration Number</value>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="Temperature1" xml:space="preserve">
+    <value>Temperature 1</value>
+  </data>
+  <data name="Temperature2" xml:space="preserve">
+    <value>Temperature 2</value>
+  </data>
+  <data name="Temperature3" xml:space="preserve">
+    <value>Temperature 3</value>
+  </data>
+  <data name="Temperature4" xml:space="preserve">
+    <value>Temperature 4</value>
+  </data>
+  <data name="TemperatureAndHumidityOutOfRang" xml:space="preserve">
+    <value>Temperature And Humidity Out OfRang</value>
+  </data>
+  <data name="TemperatureAndHumidityReport" xml:space="preserve">
+    <value>Temperature and humidity report</value>
+  </data>
+  <data name="TemperatureAndHumidityReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Temperature and humidity report</value>
+  </data>
+  <data name="TemperatureOutOfRang" xml:space="preserve">
+    <value>Temperature Out Of Rang</value>
+  </data>
+  <data name="TheDay" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="TheHour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="TheTemperature" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="ThisSensorAlreadyExists" xml:space="preserve">
+    <value>This Sensor Already Exists</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TireChangeInfo" xml:space="preserve">
+    <value>Tire Change Info</value>
+  </data>
+  <data name="TireChangeOperationReport" xml:space="preserve">
+    <value>Tire Change Operation Report</value>
+  </data>
+  <data name="TireCode" xml:space="preserve">
+    <value>Tire Code</value>
+  </data>
+  <data name="TireLocation" xml:space="preserve">
+    <value>Tire Location</value>
+  </data>
+  <data name="TireName" xml:space="preserve">
+    <value>Tire Name</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TitleEn" xml:space="preserve">
+    <value>English Title </value>
+  </data>
+  <data name="to" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="ToAddress" xml:space="preserve">
+    <value>To Address</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>To Date</value>
+  </data>
+  <data name="TodayAlerts" xml:space="preserve">
+    <value>Today's Alerts</value>
+  </data>
+  <data name="ToEmails" xml:space="preserve">
+    <value>To Emails</value>
+  </data>
+  <data name="TonUnit" xml:space="preserve">
+    <value>ton</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="TotalDistance" xml:space="preserve">
+    <value>Total Distance</value>
+  </data>
+  <data name="TotalDuration" xml:space="preserve">
+    <value>Total Duration</value>
+  </data>
+  <data name="Totals" xml:space="preserve">
+    <value>Total Duration / Total Distance</value>
+  </data>
+  <data name="TotalWeight" xml:space="preserve">
+    <value>Total Weight</value>
+  </data>
+  <data name="Towed" xml:space="preserve">
+    <value>Towed</value>
+  </data>
+  <data name="Trip" xml:space="preserve">
+    <value>Trip</value>
+  </data>
+  <data name="TripPathTitle" xml:space="preserve">
+    <value>Trip Path</value>
+  </data>
+  <data name="TripReport" xml:space="preserve">
+    <value>Trip Report</value>
+  </data>
+  <data name="Trips" xml:space="preserve">
+    <value>Trips</value>
+  </data>
+  <data name="TripsReport" xml:space="preserve">
+    <value>Trips Report</value>
+  </data>
+  <data name="TripsReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Trips Report</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="UnlinkWithRaqeb" xml:space="preserve">
+    <value>Unlink With Raqeb</value>
+  </data>
+  <data name="UnlinkWithWasl" xml:space="preserve">
+    <value>Unlink With Wasl</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UpdateAlertsFailed" xml:space="preserve">
+    <value>An error occurred while saving Alerts.</value>
+  </data>
+  <data name="UpdateAlertsSuccess" xml:space="preserve">
+    <value>Alerts successfully saved</value>
+  </data>
+  <data name="UpdateDriverSuccess" xml:space="preserve">
+    <value>Driver Updated</value>
+  </data>
+  <data name="UpdateEvery" xml:space="preserve">
+    <value>Update Every</value>
+  </data>
+  <data name="UpdateFleetSuccess" xml:space="preserve">
+    <value>Company Updated</value>
+  </data>
+  <data name="UpdateIMEIInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Update IMEI : &lt;/b&gt;</value>
+  </data>
+  <data name="UpdateInventoryWaslInfoSuccess" xml:space="preserve">
+    <value>Wasl Inventory Info Updated successfully</value>
+  </data>
+  <data name="UpdateOff" xml:space="preserve">
+    <value>Update is turned off</value>
+  </data>
+  <data name="UpdateSuccess" xml:space="preserve">
+    <value>Updated Successfully</value>
+  </data>
+  <data name="UpdateVehicleSuccess" xml:space="preserve">
+    <value>Vehicle Updated</value>
+  </data>
+  <data name="UpdateWarehouseWaslInfoSuccess" xml:space="preserve">
+    <value>Wasl Warehouse Info Updated successfully</value>
+  </data>
+  <data name="UpdateWaslContactInfo" xml:space="preserve">
+    <value>Update Contact Info</value>
+  </data>
+  <data name="UpdateWaslDriverInfo" xml:space="preserve">
+    <value>Update Wasl Driver Info</value>
+  </data>
+  <data name="UpdateWaslVehicleIMEI" xml:space="preserve">
+    <value>Update Wasl Vehicle IMEI</value>
+  </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>Upload File</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>User Id</value>
+  </data>
+  <data name="UserInfo" xml:space="preserve">
+    <value>User Info</value>
+  </data>
+  <data name="UsernameOrPasswordInValid" xml:space="preserve">
+    <value>Username Or Password InValid</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="UserType" xml:space="preserve">
+    <value>User Type</value>
+  </data>
+  <data name="Vehicle" xml:space="preserve">
+    <value>Vehicle</value>
+  </data>
+  <data name="VehicleAdditionalInfo" xml:space="preserve">
+    <value>For the Transport Authority and the Automobile Syndicate</value>
+  </data>
+  <data name="VehicleDoorOpeningReport" xml:space="preserve">
+    <value>Vehicle Door Opening Report</value>
+  </data>
+  <data name="VehicleIcon" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="VehicleInfo" xml:space="preserve">
+    <value>Vehicle Info</value>
+  </data>
+  <data name="VehicleLinkType" xml:space="preserve">
+    <value>Link Type</value>
+  </data>
+  <data name="VehicleMovementPath" xml:space="preserve">
+    <value>Vehicle Movement Path</value>
+  </data>
+  <data name="VehicleName" xml:space="preserve">
+    <value>Vehicle Name</value>
+  </data>
+  <data name="VehicleNotExists" xml:space="preserve">
+    <value>Vehicle is not exists</value>
+  </data>
+  <data name="Vehicles" xml:space="preserve">
+    <value>Vehicles</value>
+  </data>
+  <data name="VehicleType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="VehicleWorkingStatusReport" xml:space="preserve">
+    <value>Vehicle Working Status Report</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ViewAlerts" xml:space="preserve">
+    <value>Alerts</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>View All</value>
+  </data>
+  <data name="ViewAllAlerts" xml:space="preserve">
+    <value>View All Alerts</value>
+  </data>
+  <data name="ViewGeoFences" xml:space="preserve">
+    <value>Geofences</value>
+  </data>
+  <data name="ViewInfoWindow" xml:space="preserve">
+    <value>Info Window</value>
+  </data>
+  <data name="ViewMore" xml:space="preserve">
+    <value>View More</value>
+  </data>
+  <data name="ViewPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="ViewPOI" xml:space="preserve">
+    <value>Points of interest</value>
+  </data>
+  <data name="ViewPointerMarker" xml:space="preserve">
+    <value>Pointer Marker</value>
+  </data>
+  <data name="ViewPoints" xml:space="preserve">
+    <value>Path Points</value>
+  </data>
+  <data name="ViewRoutes" xml:space="preserve">
+    <value>Routes</value>
+  </data>
+  <data name="ViewRoutesPoints" xml:space="preserve">
+    <value>Routes Points</value>
+  </data>
+  <data name="ViewStopsOnly" xml:space="preserve">
+    <value>Stops Only</value>
+  </data>
+  <data name="VoltageCoefficient" xml:space="preserve">
+    <value>Voltage Coefficient</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Warehouse</value>
+  </data>
+  <data name="WarehouseCoordinates" xml:space="preserve">
+    <value>Warehouse Coordinates</value>
+  </data>
+  <data name="WarehouseInfo" xml:space="preserve">
+    <value>Warehouse Info</value>
+  </data>
+  <data name="WarehouseInventoryHistoryReport" xml:space="preserve">
+    <value>Warehouse And Inventory History Report</value>
+  </data>
+  <data name="WarehouseInventoryHistoryReportTitle" xml:space="preserve">
+    <value>{0} - Warehouse And Inventory History Report</value>
+  </data>
+  <data name="WarehouseLocation" xml:space="preserve">
+    <value>Warehouse Location</value>
+  </data>
+  <data name="WarehouseNotExists" xml:space="preserve">
+    <value>Warehouse Not Exists</value>
+  </data>
+  <data name="WarehouseOnlineDashboard" xml:space="preserve">
+    <value>Temperature and Humidity Dashboard</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Warehouses</value>
+  </data>
+  <data name="WarehousesDashboard" xml:space="preserve">
+    <value>Warehouses Dashboard</value>
+  </data>
+  <data name="WarehousesHistoryReport" xml:space="preserve">
+    <value>Warehouse records report</value>
+  </data>
+  <data name="WarehousesInventoriesPermission" xml:space="preserve">
+    <value>Warehouses And Inventories Permission</value>
+  </data>
+  <data name="WarehousesReport" xml:space="preserve">
+    <value>Warehouses Report</value>
+  </data>
+  <data name="WaslDeleteCompanyInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Delete Company from WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslDeleteDriverInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Delete Driver from WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslDeleteVehicleInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Delete Vehicle from WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslLinkStatus" xml:space="preserve">
+    <value>Wasl Link Status</value>
+  </data>
+  <data name="WaslRegisterCompanyInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Company Registeration in WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslRegisterDriverInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Driver Registeration in WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslRegisterVehicleInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Vehicle Registeration in WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslUpdateCompanyInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Update Company data in WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslUpdateDriverInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Update Driver data in WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="WaslUpdateVehicleInfo" xml:space="preserve">
+    <value>&lt;br/&gt;&lt;b&gt;Update Vehicle data in WASL : &lt;/b&gt;</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="Weekly" xml:space="preserve">
+    <value>Weekly</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="WeightCoefficient" xml:space="preserve">
+    <value>Weight Coefficient</value>
+  </data>
+  <data name="WeightSensorType" xml:space="preserve">
+    <value>Weight Sensor Type</value>
+  </data>
+  <data name="WeightsReport" xml:space="preserve">
+    <value>Weights Report</value>
+  </data>
+  <data name="WeightsReportTitle" xml:space="preserve">
+    <value>Engineer Warranty Company - Weights Report</value>
+  </data>
+  <data name="WeightVolt" xml:space="preserve">
+    <value>Weight Volt</value>
+  </data>
+  <data name="WithFilter" xml:space="preserve">
+    <value>with filter</value>
+  </data>
+  <data name="WorkingSensors" xml:space="preserve">
+    <value>Working Sensors</value>
+  </data>
+  <data name="WorkingText" xml:space="preserve">
+    <value>Working</value>
+  </data>
+  <data name="Yearly" xml:space="preserve">
+    <value>Yearly</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+</root>

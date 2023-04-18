@@ -1,0 +1,369 @@
+﻿@model GPS.Domain.Views.WarehouseView
+
+@using System.Web;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageWarehouses"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageWarehouses"];
+    ViewBag.PageBarDescription = SharedLocalizer["AddNewWarehouse"];
+
+    var lang = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US") ? "en" : "ar";
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var googleApiKey = ViewBag.GoogleApiKey != null ? ViewBag.GoogleApiKey : null;
+}
+
+<!-- Horizontal Wizard -->
+<section class="horizontal-wizard" id="app" v-cloak>
+    <div class="bs-stepper horizontal-wizard-example">
+        <div class="bs-stepper-header">
+            <div class="step" data-target="#account-details">
+                <button type="button" class="step-trigger">
+                    <span class="bs-stepper-box">1</span>
+                    <span class="bs-stepper-label">
+                        <span class="bs-stepper-title">@SharedLocalizer["WarehouseInfo"]</span>
+                    </span>
+                </button>
+            </div>
+            <div class="line">
+                <i data-feather="chevron-right" class="font-medium-2"></i>
+            </div>
+            <div class="step" data-target="#personal-info">
+                <button type="button" class="step-trigger">
+                    <span class="bs-stepper-box">2</span>
+                    <span class="bs-stepper-label">
+                        <span class="bs-stepper-title">@SharedLocalizer["WarehouseLocation"]</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="bs-stepper-content">
+            <div id="account-details" class="content">
+                <form>
+                    @Html.AntiForgeryToken()
+                    <div class="card-body table-responsive">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Agent"]<star /></label>
+                                <select class="form-control select" data-placeholder="-" v-model="agentId" @@change="GetFleets" v-bind:disabled="warehouse && warehouse.isLinkedWithWasl">
+                                    <option v-for="item in agents" v-bind:value="item.Value">{{item.Text}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Fleet"]<star /></label>
+                                <select class="form-control" data-placeholder="-" v-model="warehouse.fleetId" v-bind:disabled="warehouse && warehouse.isLinkedWithWasl">
+                                    <option value="0">@SharedLocalizer["SelectFromList"]</option>
+                                    <option v-for="item in fleets" v-bind:value="item.Value">{{item.Text}}</option>
+                                </select>
+                                <span v-if="$v.warehouse.fleetId.$error && !$v.warehouse.fleetId.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Name"]<star /></label>
+                                <input class="form-control" v-model="warehouse.name" maxlength="100" placeholder="@SharedLocalizer["Name"]" />
+                                <span v-if="$v.warehouse.name.$error && !$v.warehouse.name.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Phone"] - @SharedLocalizer["Wasl"]</label>
+                                <div class="input-group ltr">
+                                    <input class="form-control" dir="ltr" v-model="warehouse.phone" placeholder="+966xxxxxxxxx" maxlength="13" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                    </div>
+                                </div>
+                                @*<span v-if="$v.warehouse.phone.$error && !$v.warehouse.phone.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Address"] - @SharedLocalizer["Wasl"]</label>
+                                <textarea class="form-control" v-model="warehouse.address" maxlength="500" rows="3"></textarea>
+                                @*<span v-if="$v.warehouse.address.$error && !$v.warehouse.address.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["City"] - @SharedLocalizer["Wasl"]</label>
+                                <input class="form-control" v-model="warehouse.city" maxlength="13" />
+                                @*<span v-if="$v.warehouse.city.$error && !$v.warehouse.city.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["LandAreaInSquareMeter"] - @SharedLocalizer["Wasl"]</label>
+                                <input class="form-control" v-model="warehouse.landAreaInSquareMeter" maxlength="10" />
+                                @*<span v-if="$v.warehouse.landAreaInSquareMeter.$error && !$v.warehouse.landAreaInSquareMeter.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["LicenseNumber"] - @SharedLocalizer["Wasl"]</label>
+                                <input class="form-control" v-model="warehouse.licenseNumber" maxlength="10" />
+                                @*<span v-if="$v.warehouse.licenseNumber.$error && !$v.warehouse.licenseNumber.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["LicenseIssueDate"] - @SharedLocalizer["Wasl"]</label>
+                                <div class="input-group ltr">
+                                    <input type="text" class="form-control flatPickr-date" v-model="warehouse.licenseIssueDate" />
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                                @*<span v-if="$v.warehouse.licenseIssueDate.$error && !$v.warehouse.licenseIssueDate.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["LicenseExpiryDate"] - @SharedLocalizer["Wasl"]</label>
+                                <div class="input-group ltr">
+                                    <input type="text" class="form-control flatPickr-date" v-model="warehouse.licenseExpiryDate" />
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                                @*<span v-if="$v.warehouse.licenseExpiryDate.$error && !$v.warehouse.licenseExpiryDate.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["ManagerMobileNumber"] - @SharedLocalizer["Wasl"]</label>
+                                <div class="input-group ltr">
+                                    <input class="form-control" dir="ltr" v-model="warehouse.managerMobile" placeholder="+966xxxxxxxxx" maxlength="13" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                    </div>
+                                </div>
+                                @*<span v-if="$v.warehouse.managerMobile.$error && !$v.warehouse.managerMobile.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["EmailAddress"] - @SharedLocalizer["Wasl"]</label>
+                                <div class="input-group ltr">
+                                    <input class="form-control" v-model="warehouse.email" type="email" maxlength="50" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                </div>
+                                @*<span v-if="$v.warehouse.email.$error && !$v.warehouse.email.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Active"]<star /></label>
+                                <input type="checkbox" checked="checked" v-model="warehouse.isActive">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-between">
+                    @if (Model.IsLinkedWithWasl)
+                    {
+                        <span class="btn btn-outline-success">
+                            <i class="fa fa-link"></i>
+                            @SharedLocalizer["LinkedWithWasl"]
+                        </span>
+                    }
+                    <button type="button" class="btn btn-primary" @@click="onNext" v-bind:disabled="savePending">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Next"]
+                    </button>
+                    <a href="@ViewBag.ReturnURL" class="btn btn-default">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </div>
+            <div id="personal-info" class="content">
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <div class="map-container">
+                            <div id="map" class="gmaps"></div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12 d-flex justify-content-cente">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" @@click="saveMap()" data-dismiss="modal">@SharedLocalizer["Accept"]</button>
+                                    <button type="button" class="btn btn-primary" @@click="onSelectLocation()" v-bind:disabled="locationMarker">@SharedLocalizer["SelectLocation"]</button>
+                                    <button type="button" class="btn btn-primary" @@click="onSelectCoordinates()" v-bind:disabled="landCoordinatesPolygon">@SharedLocalizer["SelectCoordinates"]</button>
+                                    <button type="button" class="btn btn-danger" @@click="clearMap()" v-bind:disabled="!landCoordinatesPolygon || !locationMarker">@SharedLocalizer["Clear"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Latitude"] - @SharedLocalizer["Wasl"]</label>
+                                <input class="form-control" v-model="warehouse.latitude" maxlength="10" />
+                                @*<span v-if="$v.warehouse.latitude.$error && !$v.warehouse.latitude.required" class="text-danger">
+                            @SharedLocalizer["FieldIsRequired"]
+                        </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">@SharedLocalizer["Longitude"] - @SharedLocalizer["Wasl"]</label>
+                                <input class="form-control" v-model="warehouse.longitude" maxlength="10" />
+                                @*<span v-if="$v.warehouse.longitude.$error && !$v.warehouse.longitude.required" class="text-danger">
+                            @SharedLocalizer["FieldIsRequired"]
+                        </span>*@
+                                <template v-if="warehouse && warehouse.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button type="button" class="btn btn-primary btn-block" @@click="updateLocation()">@SharedLocalizer["SelectLocation"]</button>
+                            </div>
+                        </div>
+                        <label class="form-label">@SharedLocalizer["WarehouseCoordinates"] - @SharedLocalizer["Wasl"]</label>
+                        <br />
+                        <pre dir="ltr" v-html="warehouse.landCoordinates" v-if="warehouse.landCoordinates" class="form-control text-left h-auto" style="max-width:500px"></pre>
+                        <br />
+                        @*<span v-if="warehouse.latitude && warehouse.longitude">@SharedLocalizer["Latitude"]: {{warehouse.latitude}}, @SharedLocalizer["Longitude"]: {{warehouse.longitude}}</span>*@
+                    </div>
+                </div>
+                @*v-bind:disabled="!landCoordinatesPolygon || !locationMarker || savePending"*@
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary" @@click="onSaveWarehouse">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+                    <button class="btn btn-primary btn-prev">
+                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                        <span class="align-middle d-sm-inline-block d-none">@SharedLocalizer["Previous"]</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Horizontal Wizard -->
+
+@section css
+{
+    <style>
+        @@media (min-width: 576px) {
+            .modal-dialog {
+                max-width: fit-content;
+            }
+        }
+    </style>
+
+
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/pickers/flatpickr/flatpickr.min.css")" rel="stylesheet">
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- form-wizard -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/forms/wizard/bs-stepper.min.css")" rel="stylesheet" />
+    @if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css/plugins/forms/form-wizard.css")" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/form-wizard.css")" rel="stylesheet" />
+    }
+
+
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!--vue-select -->
+    <link rel="stylesheet" href="@Url.Content("~/lib/vue-select/vue-select.css")" />
+
+    <link href="@Url.Content("~/css/map-style.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script src="https://maps.googleapis.com/maps/api/js?key=@(googleApiKey)&libraries=drawing&geometry&language=@(lang)&region=SA"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfGDxrnvux1lES68lpSo0bE-abjjvXSx4&libraries=drawing&geometry&language=@(lang)&region=SA"></script>*@
+
+    <script src="@Url.Content("~/lib/vue/validators.min.js")"></script>
+    <script src="@Url.Content("~/lib/vue/vuelidate.min.js")"></script>
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <partial name="_VueScript" />
+
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- form-wizard -->
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/forms/form-wizard.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/forms/wizard/bs-stepper.min.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <!-- vue-select -->
+    <script src="@Url.Content("~/lib/vue-select/vue-select.js")"></script>
+
+    <script>
+        Vue.config.ignoredElements = ['star'];
+
+        var addSuccess = '@Localizer["AddSuccess"]';
+        var updateSuccess = '@Localizer["UpdateSuccess"]';
+        var continueEdit = '@Localizer["ContinueEdit"]';
+        var addNewWarehouse = '@SharedLocalizer["AddNewWarehouse"]';
+        var confirmSave = '@SharedLocalizer["ConfirmSave"]';
+        var done = '@SharedLocalizer["Done"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var errorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var warehouseModel = JSON.parse("@(Html.Raw(HttpUtility.JavaScriptStringEncode(Json.Serialize(Model).ToString())))");
+        var ReturnURL = '@Html.Raw(System.Web.HttpUtility.UrlDecode(ViewBag.ReturnURL))';
+    </script>
+
+    <script src="@Url.Content("~/js/warehouse/create.js")" asp-append-version="true"></script>
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

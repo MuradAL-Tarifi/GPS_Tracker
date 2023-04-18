@@ -1,0 +1,159 @@
+﻿@using GPS.Domain.ViewModels;
+@using GPS.Web.Agent;
+@using System.Threading;
+@using System.Globalization;
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+<div id="app" v-cloak>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <div class="row col-12">
+                <div class="col-sm-3 col-md-4 col-xs-12">
+                    <div class="form-group">
+                        <label> @SharedLocalizer["Warehouse"]</label>
+                        <select class="form-control" v-model="warehouseId" v-on:change="getInventories()">
+                            <option value="">@SharedLocalizer["SelectWarehouse"]</option>
+                            <option v-for="item in warehouses" v-bind:value="item.value">{{ item.text }}</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-4 col-xs-12">
+                    <div class="form-group">
+                        <label>@SharedLocalizer["Inventory"]</label>
+                        <select class="form-control" v-model="inventoryId" v-bind:disabled="!warehouseId">
+                            <option value="">@SharedLocalizer["SelectInventory"]</option>
+                            <option v-for="item in inventories" v-bind:value="item.value">{{ item.text }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-4 col-xs-12">
+                    <div class="form-group dtp-control">
+                        <label>@SharedLocalizer["Date"]</label>
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                            </div>
+                            <input type="text" id="fromDateDtp" class="form-control flatPickr-date" placeholder="YYYY-MM-DD" readonly="readonly" v-model="fromDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 pt-1 pb-1">
+                    <button class="btn btn-primary" @@click="search()" v-bind:disabled="!canSearch()">
+                        @SharedLocalizer["Search"]
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="card-body">
+            <template v-if="lsGroupedChartData && lsGroupedChartData.length > 0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card collapse-icon">
+                            <div class="card-header">
+                                <h3 class="card-title pull-dir">
+                                    <i class="far fa-chart-bar"></i>
+                                    <span class="text-danger">@SharedLocalizer["AverageTemperature"]</span> - <span style="color:#3c8dbc">@SharedLocalizer["AverageHumidity"]</span>
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="collapse-margin">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card" v-for="item in lsGroupedChartData">
+                                                <div class="card-header" v-bind:id="'heading'+item.sensorName" data-toggle="collapse" role="button" v-bind:data-target="'#collapse'+item.sensorName" aria-expanded="true" v:bind:aria-controls="'collapse'+item.sensorName">
+                                                    <span class="text-center">(@SharedLocalizer["SensorName"]: {{item.sensorName}} )</span>
+                                                </div>
+
+                                                <div v-bind:id="'collapse'+item.sensorName" class="" v-bind:aria-labelledby="'heading'+item.sensorName" style="">
+                                                    <div class="card-body">
+                                                        <div v-bind:id="'temperature-humidity-chart-'+item.sensorName" style="height: 300px;"></div>
+                                                        <div class="text-center">
+                                                            {{currentDate}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template v-else-if="lsGroupedChartData && lsGroupedChartData.length==0">
+                <h4 class="text-center">
+                    @SharedLocalizer["NoData"]
+                </h4>
+            </template>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+
+@section css
+{
+
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-pickadate.min.css")" rel="stylesheet">
+    @if (isEnglish)
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css/plugins/forms/pickers/form-flat-pickr.css")" rel="stylesheet">
+    }
+    else
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.css")" rel="stylesheet">
+    }
+
+}
+
+@section Scripts
+{
+
+    @*<partial name="_VueScript" />*@
+
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+
+    <!-- FLOT CHARTS -->
+    <script src="@Url.Content("~/lib/flot/jquery.flot.min.js")"></script>
+    <script src="@Url.Content("~/lib/flot/jquery.flot.time.js")"></script>
+    <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+    <script src="@Url.Content("~/lib/flot/jquery.flot.resize.min.js")"></script>
+    <!-- moment -->
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+
+    <script>
+        var ErrorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var all = '@SharedLocalizer["All"]';
+        var SelectWarehouseText = '@SharedLocalizer["SelectWarehouse"]';
+        var SelectInventoryText = '@SharedLocalizer["SelectInventory"]';
+    </script>
+    <script src="@Url.Content("~/js/reports/warehouse/average-daily-temperature-and-humidity.js")" asp-append-version="true"></script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

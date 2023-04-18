@@ -1,0 +1,87 @@
+﻿@model StaticPagedList<GPS.Domain.Views.FleetView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbFleets" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @SharedLocalizer["Agent"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["FleetNameAr"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["FleetNameEn"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["WaslLinkStatus"]
+            </th>
+            
+            <th data-breakpoints="xs sm"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td>
+                    @(isEnglish ? @Html.DisplayFor(modelItem => item.Agent.NameEn) : @Html.DisplayFor(modelItem => item.Agent.Name))
+                </td>
+                <td class="ar-font">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameEn)
+                </td>
+                 <td>
+                    @if (item.FleetDetails != null && item.FleetDetails.IsLinkedWithWasl)
+                    {
+                        <span class="btn btn-outline-success btn-xs">
+                            <i class="fa fa-link"></i>
+                            @SharedLocalizer["LinkedWithWasl"]
+                        </span>
+                    }
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateFleets))
+                    {
+                         <a asp-action="EditWasl" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm waves-effect">
+                            <i class="fa fa-edit"></i>
+                            @Localizer["EditWasl"]
+                        </a>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-icon btn-sm rounded-circle btn-outline-info waves-effect mx-1">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateGateways))
+                    {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-icon btn-sm rounded-circle btn-outline-warning waves-effect mx-1">
+                        <i class="far fa-edit"></i>
+                    </a>
+                    }
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.DeleteGateways))
+                    {
+                    <button type="button" onclick="ConfirmDelete(@item.Id)" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1">
+                        <i class="fa fa-trash-alt"></i>
+                    </button>
+                    }
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

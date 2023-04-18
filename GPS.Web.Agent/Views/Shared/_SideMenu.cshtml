@@ -1,0 +1,148 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+<div data-scroll-to-active="true" class="main-menu menu-fixed menu-light menu-accordion menu-shadow
+      @(HttpContextAccessor.HttpContext.Request.Cookies["dark-mode-menue"])
+      @(HttpContextAccessor.HttpContext.Request.Cookies["light-mode-menue"])">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item mr-auto">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <span class="brand-logo">
+                        <img class="companyLogo w-100 h-100" />
+                    </span>
+                    @*<h2 class="brand-text"></h2>*@
+                </a>
+            </li>
+            @*<li class="nav-item nav-toggle">
+                    <a class="nav-link modern-nav-toggle pr-0 pt-1" data-toggle="collapse">
+                        <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
+                        <i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i>
+                    </a>
+            </li>*@
+        </ul>
+    </div>
+    <div class="shadow-bottom"></div>
+    <div class="main-menu-content mt-2">
+        <ul class="navigation navigation-main" id="reports" data-menu="menu-navigation">
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ShowWarehouseMenuItem))
+            {
+                <li class="nav-item" id="WarehouseLi">
+                    <a asp-action="Warehouse" asp-controller="Reports" class="d-flex align-items-center">
+                        <i class="fas fa-columns">
+                        </i><span class="menu-title text-truncate">@Localizer["WarehousesDashboard"]</span>
+                    </a>
+                </li>
+            }
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageCustomAlerts))
+            {
+                <li class="nav-item" id="CustomAlertLi">
+                    <a asp-action="Index" asp-controller="CustomAlert" class="d-flex align-items-center">
+                        <i class="fa fa-exclamation-triangle"></i><span class="menu-title text-truncate">@Localizer["CustomAlert"]</span>
+                    </a>
+                </li>
+            }
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i class="nav-icon fa fa-file-excel"></i>
+                    <span class="menu-title text-truncate">@Localizer["Reports"]</span>
+                </a>
+                <ul class="menu-content">
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewInventoryHistoryReport))
+                    {
+                        <li id="InventoryLi">
+                            <a asp-action="Inventory" asp-controller="Reports" class="d-flex align-items-center">
+                                <i class="nav-icon fa fa-file"></i> <span class="menu-item text-truncate">@Localizer["InventoryHistoryReport"]</span>
+                            </a>
+                        </li>
+                        <li id="InventorySensorLi">
+                            <a asp-action="InventorySensor" asp-controller="Reports" class="d-flex align-items-center">
+                                <i class="nav-icon fa fa-file"></i> <span class="menu-item text-truncate">@Localizer["SensorHistoryReport"]</span>
+                            </a>
+                        </li>
+                        <li id="WarehouseInventorySensorLi">
+                            <a asp-action="WarehouseInventorySensor" asp-controller="Reports" class="d-flex align-items-center">
+                                <i class="nav-icon fa fa-file"></i> <span class="menu-item text-truncate text-wrap">@Localizer["WarehouseInventoryHistoryReport"]</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageReportSchedule))
+                    {
+                        <li id="ScheduleReportsLi" class="nav-item d-none">
+                            <a asp-controller="Scheduling" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fa fa-file"></i>
+                                <span class="menu-item text-truncate">@SharedLocalizer["ScheduleReports"] </span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewAverageDailyTemperatureAndHumidityReport))
+                    {
+                        <li id="AverageDailyTemperatureAndHumidityReportLi" class="nav-item">
+                            <a asp-action="AverageDailyTemperatureAndHumidity" asp-controller="Reports" class="nav-link">
+                                <i class="nav-icon fas fa-warehouse"></i>
+                                <span class="menu-item text-truncate text-wrap">@SharedLocalizer["AverageDailyTemperatureAndHumidityReport"] </span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewAlertsReport))
+                    {
+                        <li id="AlertsReportLi" class="nav-item">
+                            <a asp-action="Alert" asp-controller="Reports" class="nav-link">
+                                <i class="nav-icon fas fa-warehouse"></i>
+                                <span class="menu-item text-truncate text-wrap">@SharedLocalizer["AlertReport"] </span>
+                            </a>
+                        </li>
+                    }
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewWorkingAndNotWorkingSensorReport))
+                    {
+                        <li id="SensorReportLi" class="nav-item">
+                            <a asp-action="Sensor" asp-controller="Reports" class="nav-link">
+                                <i class="nav-icon fa fa-boxes"></i>
+                                <span class="menu-item text-truncate text-wrap">@SharedLocalizer["Sensors"]</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewUsers))
+            {
+                <li id="SystemManagementLi" class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i class="nav-icon fa fa-cogs"></i>
+                        <span class="menu-title text-truncate">@Localizer["SystemManagement"]</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li id="UsersLi">
+                            <a asp-action="Index" asp-controller="Users" class="d-flex align-items-center">
+                                <i class="nav-icon fa fa-users"></i> <span class="menu-item text-truncate">@Localizer["Users"]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.UpdateCompanySettings))
+            {
+                <li id="SettingsLi" class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i class="nav-icon fa fa-tools"></i>
+                        <span class="menu-title text-truncate">@Localizer["Settings"]</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li id="CompanySettingsLi">
+                            <a asp-action="Index" asp-controller="CompanySetting" class="d-flex align-items-center">
+                                <i class="far fa-circle nav-icon"></i> <span class="menu-item text-truncate">@Localizer["CompanySettings"]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

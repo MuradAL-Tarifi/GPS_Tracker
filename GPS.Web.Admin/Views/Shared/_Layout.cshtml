@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html class="loading 
+      @(HttpContextAccessor.HttpContext.Request.Cookies["dark-mode-layout-admin"]) 
+      @(HttpContextAccessor.HttpContext.Request.Cookies["light-mode-layout-admin"])" lang="en" data-textdirection="rtl">
+<!-- BEGIN: Head-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <title id="pageTitle"></title>
+    <link rel="apple-touch-icon" href="@Url.Content("~/app-assets/app-theme/images/ico/apple-icon-120.png")">
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/assets/app-theme/images/ico/favicon.ico")">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="@Url.Content("~/lib/fontawesome/css/all.min.css")">
+
+    <!-- BEGIN: Vendor CSS-->
+    @if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+    {
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/vendors/css/vendors.min.css")">
+    }
+    else
+    {
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/vendors/css/vendors-rtl.min.css")">
+    }
+
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/vendors/css/maps/leaflet.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/toastr.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/vendors/css/pickers/flatpickr/flatpickr.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/vendors/css/forms/select/select2.min.css")">
+
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    @if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+    {
+        <!-- BEGIN: Theme CSS-->
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/css/bootstrap.css")">
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/css/bootstrap-extended.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css/colors.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css/components.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css/themes/dark-layout.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css/themes/bordered-layout.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css/themes/semi-dark-layout.css")">
+
+        <!-- BEGIN: Page CSS-->
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css/core/menu/menu-types/vertical-menu.css")">
+        <!-- END: Page CSS-->
+
+        <!-- BEGIN: Custom CSS-->
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/assets/css/style.css")">
+        <!-- END: Custom CSS-->
+
+        <!-- BEGIN: accu-tracking custom ltr css-->
+        <link rel="stylesheet" href="@Url.Content("~/css/layout-style.css")" asp-append-version="true">
+        <!-- END: accu-tracking custom ltr css-->
+    }
+    else
+    {
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/css-rtl/bootstrap.css")">
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/css-rtl/bootstrap-extended.css")">
+
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/colors.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/components.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/themes/dark-layout.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/themes/bordered-layout.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/themes/semi-dark-layout.css")">
+
+        <!-- BEGIN: Page CSS-->
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/core/menu/menu-types/vertical-menu.css")">
+        <!-- END: Page CSS-->
+
+        <!-- BEGIN: Custom CSS-->
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/custom-rtl.css")">
+        <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/assets/css/style-rtl.css")">
+        <!-- END: Custom CSS-->
+
+        <!-- BEGIN: accu-tracking custom rlt css-->
+        <link rel="stylesheet" href="@Url.Content("~/css/layout-style-ar.css")" asp-append-version="true">
+        <!-- END: accu-tracking custom rlt css-->
+    }
+
+
+
+
+    @RenderSection("css", required: false)
+</head>
+<!-- END: Head-->
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+    <!-- BEGIN: Header-->
+    <partial name="~/Views/Shared/_Header.cshtml" />
+    <!-- END: Header-->
+    <!-- BEGIN: Main Menu-->
+    <partial name="~/Views/Shared/_SideMenu.cshtml" />
+    <!-- END: Main Menu-->
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <partial name="~/Views/Shared/_Footer.cshtml" />
+    <!-- END: Footer-->
+    <!-- BEGIN: Vendor JS-->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/vendors.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/ui/jquery.sticky.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/forms/select/select2.full.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/forms/form-select2.js")"></script>
+    <!-- BEGIN Vendor JS-->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/toastr.min.js")"></script>
+
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Theme JS-->
+    <script src="@Url.Content("~/app-assets/app-theme/js/core/app-menu.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/core/app.js")" asp-append-version="true"></script>
+
+    <!-- END: Theme JS-->
+    <!-- BEGIN: Page JS-->
+    @*<script src="@Url.Content("~/web-assets/app-theme/js/scripts/pages/dashboard-ecommerce.js")"></script>*@
+    <!-- END: Page JS-->
+    <script src="@Url.Content("~/js/main.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
+
+
+    @*<script>
+            $(window).on('load', function () {
+                if (feather) {
+                    feather.replace({
+                        width: 14,
+                        height: 14
+                    });
+                }
+            })
+        </script>*@
+
+    <script>
+        var hostName = '@Url.Content("~")';
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+<!-- END: Body-->
+
+</html>

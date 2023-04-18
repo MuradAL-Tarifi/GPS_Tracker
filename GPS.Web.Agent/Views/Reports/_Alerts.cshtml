@@ -1,0 +1,90 @@
+﻿@model StaticPagedList<GPS.Domain.ViewModels.AlertViewModel>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbAlerts" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th>
+                @SharedLocalizer["Warehouse"]
+            </th>
+            <th>
+                @SharedLocalizer["Inventory"]
+            </th>
+            <th>
+                @SharedLocalizer["SensorName"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["SerialNumber"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["AlertType"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["Temperature"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["Humidity"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["Date"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["Alert"]
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.Alert.Id">
+                <td>@Html.DisplayFor(modelItem => item.Warehouse.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Inventory.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Sensor.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Sensor.Serial)</td>
+                <td>
+                    @switch (item.Alert.AlertTypeLookupId)
+                    {
+                        case 1:
+                            <span class="badge badge-warning text-wrap">@SharedLocalizer["HumidityOutOfRang"]</span>
+                            break;
+                        case 2:
+                            <span class="badge badge-warning text-wrap">@SharedLocalizer["TemperatureOutOfRang"]</span>
+                            break;
+                        case 3:
+                            <span class="badge badge-warning text-wrap">@SharedLocalizer["TemperatureAndHumidityOutOfRang"]</span>
+                            break;
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Alert.Temperature)</td>
+                <td>@Html.DisplayFor(modelItem => item.Alert.Humidity)</td>
+                <td>
+                    @item.Alert.AlertDateTime.ToString("hh:mm:ss yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat)
+                </td>
+                <td>
+                    @if (isEnglish)
+                    {
+                        @Html.DisplayFor(modelItem => item.Alert.AlertTextEn)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Alert.AlertTextAr)
+                    }
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

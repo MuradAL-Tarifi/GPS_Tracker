@@ -1,0 +1,53 @@
+﻿
+@font-face {
+    font-family: "arabic kufi";
+    src: url('../fonts/DroidArabicKufi.ttf');
+}
+
+body {
+    margin: 0;
+    font-family: 'arabic kufi',"Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #ffffff;
+    direction: rtl;
+    text-align: right;
+    margin-bottom: 60px;
+    overflow: hidden;
+}
+
+.auth-wrapper .auth-bg {
+    /* background-color: #4b436a !important;*/
+    background-color: rgb(220 220 220 / 50%) !important;
+    /* #1d192d  #17161b */
+}
+
+.auth-wrapper .login-background {
+    /* background: url('../imgs/login-background.jpg') no-repeat center center fixed;*/
+    background: url('../imgs/login-background.jpg');
+    background-size: cover;
+}
+
+/*.auth-wrapper .login-logo {
+    background-image: url('../imgs/login-logo.png');
+}*/
+
+/* start style color for theme*/
+.btn-primary {
+    border-color: #173987 !important;
+    background-color: #173987 !important;
+    color: #FFFFFF !important;
+}
+
+    .btn-primary:hover:not(.disabled):not(:disabled) {
+        box-shadow: 0 8px 25px -8px #173987 !important;
+    }
+
+    .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+        color: #FFFFFF;
+        background-color: #173987 !important;
+    }
+
+/* end style color for theme*/

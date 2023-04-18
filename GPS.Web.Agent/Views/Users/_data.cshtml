@@ -1,0 +1,97 @@
+﻿@model StaticPagedList<GPS.Domain.Views.UserView>
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@using GPS.Web.Agent;
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewHelper viewHelper
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbUsers" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th>
+                @SharedLocalizer["Username"]
+            </th>
+            <th>
+                @SharedLocalizer["NameAr"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["NameEn"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["ExpirationDate"]
+            </th>
+            <th data-breakpoints="xs sm"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr id="row_@(index)">
+            <td>
+                <label class="badge badge-light-success p-1">
+                    @item.UserName
+                </label>
+                @if (_loggedUser.IsSubAdminAgent && _loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.AddUpdateUsers))
+                {
+                    <label class="badge badge-light-info p-1">
+                        @item.Password
+                    </label>
+                }
+            </td>
+            <td class="ar-font">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameEn)
+            </td>
+            <td>
+                <label id="expLabel_@(index)" class="badge text-white">
+                    @(item.ExpirationDate.HasValue ? item.ExpirationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "")
+                </label>
+                <input type="hidden" id="exp_@(index)" value="@item.ExpirationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat)" />
+            </td>
+            <td>
+                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.AddUpdateUsers) && (_loggedUser.IsSubAdminAgent || _loggedUser.UserId == item.Id))
+                {
+                    <a onclick="viewUser('@item.Id', @Model.PageNumber)" style="cursor:pointer" class="btn btn-icon btn-sm rounded-circle btn-outline-info waves-effect mx-1">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                }
+                    
+                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.AddUpdateUsers) && (_loggedUser.IsSubAdminAgent || _loggedUser.UserId == item.Id))
+                {
+                    <a onclick="editUser('@item.Id', @Model.PageNumber)" style="cursor:pointer" class="btn btn-icon btn-sm rounded-circle btn-outline-warning waves-effect mx-1">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                }
+                    @*@if (item.IsAdmin || _loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.AddUpdateUsers))
+                    {
+                <button type="button" onclick="Login('@item.UserName',@item.Password)" class="btn btn-icon btn-sm rounded-circle btn-outline-pinterest waves-effect mx-1">
+                    <i class="fas fa-user"></i>
+                </button>
+                    }*@
+                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.DeleteUsers) && !item.IsSubAdminAgent && _loggedUser.IsSubAdminAgent)
+                {
+                    <button type="button" onclick="ConfirmDelete('@item.Id',@Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1">
+                        <i class="fa fa-trash-alt"></i>
+                    </button>
+                }
+                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.EnableUserPrivileges) && _loggedUser.IsSubAdminAgent)
+                {
+                    <button type="button" onclick="manageUserPrivileges('@item.Id',@Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-success waves-effect mx-1">
+                        <i class="fas fa-lock"></i>
+                    </button>
+                }
+            </td>
+        </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

@@ -1,0 +1,165 @@
+﻿@model StaticPagedList<TemperatureAndHumiditySensorReportMonthHistory>
+
+@using GPS.Domain.ViewModels;
+@using GPS.Web.Agent;
+@using System.Threading;
+@using System.Globalization;
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+
+
+@{ var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+    var dir = isEnglish ? "ltr" : "rtl";
+
+    var colSpan = 2;
+    @if (!string.IsNullOrEmpty(ViewBag.groupUpdatesByType))
+    {
+        colSpan = 1;
+    } var headerInfo = (TemperatureAndHumiditySensorReportHeaderInfo)ViewBag.HeaderInfo; }
+
+@if (Model != null && Model.Count > 0)
+{
+    <div dir="@dir">
+        <i class="fa fa-arrow-up text-danger"></i> @SharedLocalizer["Max"]  -
+        <i class="fa fa-random"></i> @SharedLocalizer["Average"]  -
+        <i class="fa fa-arrow-down text-info"></i> @SharedLocalizer["Min"]
+    </div>}
+
+<table id="tbReports" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <tbody>
+        @if (Model != null && Model.Count > 0 && headerInfo != null)
+        {
+            <tr style='background-color: #625ac9 !important; color: #fff !important;'>
+                <th colspan='@colSpan'></th>
+                <th>
+                    @SharedLocalizer["Temperature"]
+                </th>
+                <th>
+                    @SharedLocalizer["Humidity"]
+                </th>
+            </tr>
+            <tr style="background-color: #625ac9 !important; color: #fff !important;">
+                <th colspan="@colSpan" class="align-middle">@SharedLocalizer["Total"]</th>
+                <th class="p-0">
+                    @if (headerInfo.MaxTemperature.HasValue && headerInfo.MinTemperature.HasValue && headerInfo.AverageTemperature.HasValue)
+                    {
+                        <table class="table m-0">
+                            <tr>
+                                <td><i class="fa fa-arrow-up text-danger"></i> @headerInfo.MaxTemperature</td>
+                                <td><i class="fa fa-random"></i> @headerInfo.AverageTemperature</td>
+                                <td><i class="fa fa-arrow-down text-info"></i> @headerInfo.MinTemperature</td>
+                            </tr>
+                        </table>
+                    }
+                </th>
+                <th class="p-0">
+                    @if (headerInfo.MaxHumidity.HasValue && headerInfo.MinHumidity.HasValue && headerInfo.AverageHumidity.HasValue)
+                    {
+                        <table class="table m-0">
+                            <tr>
+                                <td><i class="fa fa-arrow-up text-danger"></i> @headerInfo.MaxHumidity</td>
+                                <td><i class="fa fa-random"></i> @headerInfo.AverageHumidity</td>
+                                <td><i class="fa fa-arrow-down text-info"></i> @headerInfo.MinHumidity</td>
+                            </tr>
+                        </table>
+                    }
+                </th>
+            </tr>
+}
+        @foreach (var monthItem in Model)
+        {
+            <tr style="background-color: #625ac9 !important; color: #fff !important; ">
+                <th colspan="@colSpan" class="align-middle">
+                    @Html.Raw(monthItem.HeaderInfo.DateText)
+                </th>
+                <th class="p-0">
+                    @if (monthItem.HeaderInfo.MaxTemperature.HasValue && monthItem.HeaderInfo.MinTemperature.HasValue && monthItem.HeaderInfo.AverageTemperature.HasValue)
+                    {
+                        <table class="table m-0">
+                            <tr>
+                                <td><i class="fa fa-arrow-up text-danger"></i> @monthItem.HeaderInfo.MaxTemperature</td>
+                                <td><i class="fa fa-random"></i> @monthItem.HeaderInfo.AverageTemperature</td>
+                                <td><i class="fa fa-arrow-down text-info"></i> @monthItem.HeaderInfo.MinTemperature</td>
+                            </tr>
+                        </table>}
+                </th>
+                <th class="p-0">
+                    @if (monthItem.HeaderInfo.MaxHumidity.HasValue && monthItem.HeaderInfo.MinHumidity.HasValue && monthItem.HeaderInfo.AverageHumidity.HasValue)
+                    {
+                        <table class="table m-0">
+                            <tr>
+                                <td><i class="fa fa-arrow-up text-danger"></i> @monthItem.HeaderInfo.MaxHumidity</td>
+                                <td><i class="fa fa-random"></i> @monthItem.HeaderInfo.AverageHumidity</td>
+                                <td><i class="fa fa-arrow-down text-info"></i> @monthItem.HeaderInfo.MinHumidity</td>
+                            </tr>
+                        </table>
+                    }
+                </th>
+            </tr>
+       foreach (var dayItem in monthItem.DayList)
+            {
+                <tr style="background-color: #625ac9 !important; color: #fff !important;">
+                    <th colspan="@colSpan" class="align-middle day-sep">
+                        @Html.Raw(dayItem.HeaderInfo.DateText)
+                    </th>
+                    <th class="p-0 day-sep">
+                        @if (dayItem.HeaderInfo.MaxTemperature.HasValue && dayItem.HeaderInfo.MinTemperature.HasValue && dayItem.HeaderInfo.AverageTemperature.HasValue)
+                        {
+                            <table class="table m-0">
+                                <tr>
+                                    <td><i class="fa fa-arrow-up text-danger"></i> @dayItem.HeaderInfo.MaxTemperature</td>
+                                    <td><i class="fa fa-random"></i> @dayItem.HeaderInfo.AverageTemperature</td>
+                                    <td><i class="fa fa-arrow-down text-info"></i> @dayItem.HeaderInfo.MinTemperature</td>
+                                </tr>
+                            </table>
+                        }
+                    </th>
+                    <th class="p-0 day-sep">
+                        @if (dayItem.HeaderInfo.MaxHumidity.HasValue && dayItem.HeaderInfo.MinHumidity.HasValue && dayItem.HeaderInfo.AverageHumidity.HasValue)
+                        {
+                            <table class="table m-0">
+                                <tr>
+                                    <td><i class="fa fa-arrow-up text-danger"></i> @dayItem.HeaderInfo.MaxHumidity</td>
+                                    <td><i class="fa fa-random"></i> @dayItem.HeaderInfo.AverageHumidity</td>
+                                    <td><i class="fa fa-arrow-down text-info"></i> @dayItem.HeaderInfo.MinHumidity</td>
+                                </tr>
+                            </table>
+                        }
+                    </th>
+                </tr>
+               foreach (var item in dayItem.HistoryList)
+                {
+                    <tr>
+                        @if (string.IsNullOrEmpty(ViewBag.groupUpdatesByType))
+                        {
+                            <td>
+                                @index
+                            </td>
+                        }
+                            <td dir="ltr">
+                                @Html.Raw(item.GPSDate)
+                            </td>
+                            <td class="p-0">
+                                @Html.Raw(item.Temperature)
+                            </td>
+                            <td class="p-0">
+                                @Html.Raw(item.Humidity)
+                            </td>
+                    </tr>
+                        @if (string.IsNullOrEmpty(ViewBag.groupUpdatesByType))
+                        {
+                            index++;
+                        }
+                   }
+            }
+        }
+    </tbody>
+</table>
+@if (string.IsNullOrEmpty(ViewBag.groupUpdatesByType))
+{
+    <partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />
+}

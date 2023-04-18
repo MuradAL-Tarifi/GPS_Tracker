@@ -1,0 +1,10 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Threading.Tasks;
+@using System.Threading;
+@using GPS.Web.Admin.AppCode.Helpers;
+@using GPS.Web.Admin.Models
+@using GPS.Domain.DTO
+@using GPS.Resources
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@addTagHelper *, DNTCaptcha.Core
+@inject LoggedInUserProfile _loggedUser;

@@ -1,0 +1,89 @@
+﻿@model GPS.Domain.Views.GatewayView
+
+@using System.Globalization;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageGateway"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageGateway"];
+    ViewBag.PageBarDescription = Localizer["PageDescription"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+<section class="bs-validation">
+    <div class="row">
+        <!-- Bootstrap Validation -->
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@Localizer["SubTitle"]</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" id="CreateForm">
+                        <section id="multiple-column-form">
+                            <div class="rowp">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label">@SharedLocalizer["NameAr"]</label>
+                                    <input readonly id="Name" asp-for="Name" class="form-control" placeholder="@SharedLocalizer["NameAr"]" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="IMEI" class="form-label">@SharedLocalizer["IMEI"]</label>
+                                    <input readonly id="IMEI" asp-for="IMEI" class="new-todo-item-title form-control" placeholder="@SharedLocalizer["IMEI"]" />
+                                </div>
+                                <div class="form-group ltr">
+                                    <label asp-for="SIMNumber" class="form-label">@SharedLocalizer["SIMNumber"]</label>
+                                    <input readonly id="SIMNumber" asp-for="SIMNumber" class="new-todo-item-title form-control" placeholder="@SharedLocalizer["SIMNumber"]" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ActivationDate" class="form-label">@SharedLocalizer["ActivationDate"]</label>
+                                    <input readonly type="text" class="form-control new-todo-item-title" id="ActivationDateText" asp-for="ActivationDateText" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ExpirationDate" class="form-label">@SharedLocalizer["ExpirationDate"]</label>
+                                    <input readonly type="text" class="form-control new-todo-item-title" id="ExpirationDateText" value="@Model.ExpirationDate.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat)" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SIMCardExpirationDate" class="form-label">@SharedLocalizer["SIMCardExpirationDate"]</label>
+                                    <input readonly type="text" class="form-control new-todo-item-title" id="SIMCardExpirationDateText" asp-for="SIMCardExpirationDateText" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="NumberOfMonths" class="form-label">@SharedLocalizer["NumberOfMonths"]</label>
+                                    <input readonly type="text" class="form-control new-todo-item-title" id="NumberOfMonths" asp-for="NumberOfMonths" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="BrandId" class="form-label">@SharedLocalizer["Brand"]</label>
+                                    <input readonly type="text" class="form-control new-todo-item-title" id="BrandId" value="@(isEnglish ? Model.Brand.NameEn : Model.Brand.Name)" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="IsActive" class="form-label">@SharedLocalizer["Status"]</label>
+                                    @if (Model.IsActive)
+                                    {
+                                        <span class="badge badge-success">@SharedLocalizer["Active"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">@SharedLocalizer["NotActive"]</span>
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Notes" class="form-label">@SharedLocalizer["Notes"]</label>
+                                    <textarea readonly asp-for="Notes" class="form-control" aria-label="With textarea"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <a asp-action="Index" class="btn btn-outline-secondary">
+                                            <i class="fa fa-rotate-left"></i>
+                                            @SharedLocalizer["Back"]
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

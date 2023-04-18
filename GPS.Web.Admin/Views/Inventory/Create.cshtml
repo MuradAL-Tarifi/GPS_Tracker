@@ -1,0 +1,308 @@
+﻿@model GPS.Domain.Views.InventoryView
+
+@using System.Web;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageInventories"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageInventories"];
+    if (Model == null || Model.Id == 0)
+    {
+        ViewBag.PageBarDescription = SharedLocalizer["AddNewInventory"];
+    }
+    else
+    {
+        ViewBag.PageBarDescription = SharedLocalizer["EditInventory"];
+    }
+}
+
+
+<div class="row" id="app" v-cloak>
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">@SharedLocalizer["InventoryInfo"]</h3>
+            </div>
+            <!-- form start -->
+            <form>
+                @Html.AntiForgeryToken()
+                <section id="multiple-column-form">
+                    <div class="row p-1">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Agent">@SharedLocalizer["Agent"]<star /></label>
+                                <select class="form-control select" data-placeholder="-" v-model="agentId" @@change="GetFleets" v-bind:disabled="inventory && inventory.isLinkedWithWasl">
+                                    <option v-for="item in agents" v-bind:value="item.Value">{{item.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Fleet">@SharedLocalizer["Fleet"]<star /></label>
+                                <v-select dir="ltr" :options="fleets" label="fleetSelectLabel" v-model="selectedFleet"
+                                          @@input="GetWarehouses"
+                                          v-bind:disabled="inventory && inventory.isLinkedWithWasl">
+                                    <div slot="no-options">@SharedLocalizer["NoData"]</div>
+                                </v-select>
+                                <span v-if="$v.fleetId.$error && !$v.fleetId.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Warehouse">@SharedLocalizer["Warehouse"]<star /></label>
+                                <select class="form-control select" data-placeholder="-" v-model="inventory.warehouseId" v-bind:disabled="inventory && inventory.isLinkedWithWasl">
+                                    <option value="0">@SharedLocalizer["SelectFromList"]</option>
+                                    <option v-for="item in warehouses" v-bind:value="item.Value">{{item.Text}}</option>
+                                </select>
+                                <span v-if="$v.inventory.warehouseId.$error && !$v.inventory.warehouseId.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Gateway">@SharedLocalizer["Gateway"]</label>
+                                <select class="form-control select" data-placeholder="-" v-model="inventory.gatewayId" @@change="GetSensorsByGateway">
+                                    <option value="0">@SharedLocalizer["SelectFromList"]</option>
+                                    <option v-for="item in gateways" v-bind:value="item.Value">{{item.Text}}</option>
+                                </select>
+                                <span v-if="$v.inventory.gatewayId.$error && !$v.inventory.gatewayId.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Name">@SharedLocalizer["Name"]</label>
+                                <input class="form-control" v-model="inventory.name" maxlength="100" />
+                                <span v-if="$v.inventory.name.$error && !$v.inventory.name.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>
+                                <template v-if="inventory && inventory.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="InventoryNumber">@SharedLocalizer["InventoryNumber"]</label>
+                                <input class="form-control" v-model="inventory.inventoryNumber" maxlength="10" v-on:change="isInventoryNumberExists()" v-bind:disabled="inventory && inventory.isLinkedWithWasl" />
+                                @*<span v-if="$v.inventory.inventoryNumber.$error && !$v.inventory.inventoryNumber.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <span v-if="inventoryNumberExists" class="text-danger">
+                                    رقم المخزن موجود مسبقاً
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label>@SharedLocalizer["StoringCategory"]</label>
+                                <select asp-for="SFDAStoringCategory" class="form-control select" v-model="inventory.sfdaStoringCategory">
+                                    <option value="">@SharedLocalizer["NoneOption"]</option>
+                                    <option value="SCD1">SCD1 / Frozen / -20°C to -10°C</option>
+                                    <option value="SCD2">SCD2 / Chilled / 2°C to 8°C</option>
+                                    <option value="SCD3">SCD3 / Room Temperature / Less than 25°C</option>
+                                    <option value="SCC1">SCC1 / Room Temperature / Less than 25°C</option>
+                                    <option value="SCM1">SCM1 / Frozen / -20°C to -10°C</option>
+                                    <option value="SCM2">SCM2 / Chilled / 2°C to 8°C</option>
+                                    <option value="SCM3">SCM3 / Cold Storage / 8°C to 15°C</option>
+                                    <option value="SCM4">SCM4 / Room Temperature / 15°C to 30°C</option>
+                                    <option value="SCM5">SCM5 / No Heat Exposure / Should not exceed 40°C</option>
+                                    <option value="SCF1">SCF1 / Dry / Should not exceed 25°C</option>
+                                    <option value="SCF2">SCF2 / Chilled / -1.5°C to 10°C </option>
+                                    <option value="SCF3">SCF3 / Chilled Vegetables and Fruits / -1.5°C to 21°C</option>
+                                    <option value="SCF3">SCF3 / Frozen / Should not exceed (-18)°C</option>
+                                    <option value="SCA1">SCA1 / Fodder / Should not exceed 30°C</option>
+                                    <option value="SCP1">SCP1 / Pesticides / Should not exceed 35°C</option>
+                                </select>
+                                @*<span v-if="$v.inventory.sfdaStoringCategory.$error && !$v.inventory.sfdaStoringCategory.required" class="text-danger">
+                                    @SharedLocalizer["FieldIsRequired"]
+                                </span>*@
+                                <template v-if="inventory && inventory.isLinkedWithWasl">
+                                    <span class="text-warning small">سيتم التحديث في وصل تلقائياً عند التعديل والحفظ</span>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label">@SharedLocalizer["Active"]<star /></label>
+                            <input type="checkbox" checked="checked" v-model="inventory.isActive">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="card-header">
+                    <h3 class="card-title">@SharedLocalizer["InventorySensorInfo"]</h3>
+                </div>
+
+                <section id="multiple-column-form">
+                    <div class="row p-1">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label>@SharedLocalizer["SerialNumber"]</label>
+                                <v-select dir="ltr" :options="sensors" label="sensorSelectLabel" v-model="selectedSensor">
+                                    <div slot="no-options">@SharedLocalizer["NoData"]</div>
+                                </v-select>
+                                <span v-if="sensorAlreadyRegisteredWithAnotherInventory" class="text-danger d-block">
+                                    @SharedLocalizer["SensorAlreadyRegisteredWithInventory"]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 d-flex align-items-center">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary mr-1 mt-2" @@click="onSaveSensor" v-bind:disabled="savePending">
+                                    @SharedLocalizer["Create"]
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2" v-if="inventory.inventorySensors && inventory.inventorySensors.length>0">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@SharedLocalizer["SerialNumber"]</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item,index) in inventory.inventorySensors">
+                                        <td>
+                                            {{item.sensorView.serial}}
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-xs" @@click="onDeleteSensor(index)">
+                                                <i class="fa fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="card-footer">
+                    @if (Model.IsLinkedWithWasl)
+                    {
+                    <span class="btn btn-outline-success">
+                        <i class="fa fa-link"></i>
+                        @SharedLocalizer["LinkedWithWasl"]
+                    </span>
+                    }
+                    <button type="button" class="btn btn-primary mr-1" @@click="onSaveInventory" v-bind:disabled="savePending">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+                    <a href="@ViewBag.ReturnURL" style="cursor:pointer" class="btn btn-outline-secondary">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section css
+{
+    <style>
+        @@media (min-width: 576px) {
+            .modal-dialog {
+                max-width: fit-content;
+            }
+        }
+    </style>
+
+    <link href="@Url.Content("~/lib/vue-select/vue-select.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/pickers/flatpickr/flatpickr.min.css")" rel="stylesheet">
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/lib/sweet-alert/sweetalert2.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- form-wizard -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/forms/wizard/bs-stepper.min.css")" rel="stylesheet" />
+    @if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css/plugins/forms/form-wizard.css")" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/form-wizard.css")" rel="stylesheet" />
+    }
+
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!--vue-select -->
+    <link rel="stylesheet" href="@Url.Content("~/lib/vue-select/vue-select.css")" />
+
+    <link href="@Url.Content("~/css/map-style.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/lib/vue-select/vue-select.js")"></script>
+    <script src="@Url.Content("~/lib/vue/validators.min.js")"></script>
+    <script src="@Url.Content("~/lib/vue/vuelidate.min.js")"></script>
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <partial name="_VueScript" />
+
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/lib/sweet-alert/sweetalert2.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+    <!-- Date-picker dependencies -->
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+    <!-- Date-picker itself -->
+    <script src="@Url.Content("~/lib/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js")"></script>
+    <!-- Lastly add this package -->
+    <script src="@Url.Content("~/lib/vue/vue-bootstrap-datetimepicker@5.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- form-wizard -->
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/forms/form-wizard.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/forms/wizard/bs-stepper.min.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <!-- vue-select -->
+    <script src="@Url.Content("~/lib/vue-select/vue-select.js")"></script>
+    <script>
+        Vue.config.ignoredElements = ['star'];
+
+        // Initialize as global component
+        Vue.component('bootstrap-date-picker', VueBootstrapDatetimePicker);
+
+        var addSuccess = '@Localizer["AddSuccess"]';
+        var updateSuccess = '@Localizer["UpdateSuccess"]';
+        var continueEdit = '@Localizer["ContinueEdit"]';
+        var addNewInventory = '@SharedLocalizer["AddNewInventory"]';
+        var confirmSave = '@SharedLocalizer["ConfirmSave"]';
+        var done = '@SharedLocalizer["Done"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var errorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var inventoryModel = JSON.parse("@(Html.Raw(HttpUtility.JavaScriptStringEncode(Json.Serialize(Model).ToString())))");
+        var ReturnURL = '@Html.Raw(System.Web.HttpUtility.UrlDecode(ViewBag.ReturnURL))';
+    </script>
+
+    <script src="@Url.Content("~/js/inventory/create.js")" asp-append-version="true"></script>
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+
+}

@@ -1,0 +1,101 @@
+﻿@{
+    Layout = null;
+}
+@model GPS.Domain.ViewModels.LoginView
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Accu</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="@Url.Content("~/assets/plugins/fontawesome/css/all.min.css")">
+
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="@Url.Content("~/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css")">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="@Url.Content("~/assets/rtl/css/adminlte.css")">
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <img src="@Url.Content("~/assets/img/logo_EWE.png")" style="width:100%" />
+        </div>
+        <!-- /.login-logo -->
+        <div class="card card-navy card-outline">
+            <div class="card-header">
+                <div class="pull-dir mt-2">
+                    <h3 class="card-title text-bold">تسجيل الدخول لإدارة العمليات</h3>
+                </div>
+            </div>
+            <div class="card-body login-card-body" id="app" v-cloak>
+                <form id="loginForm" asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-group mb-3">
+                        <input asp-for="UserName" type="text" class="form-control" placeholder="اسم المستخدم">
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input asp-for="Password" type="password" class="form-control" placeholder="كلمة المرور">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="form-group d-flex">
+                            <input type="hidden" v-model="CaptchaCreatedValue" asp-for="CaptchaCreatedValue" />
+                            <div class="col-sm-6 p-0">
+                                <vue-captcha v-on:validateresult="validateResult" v-on:createcaptcha="createCaptcha"></vue-captcha>
+                            </div>
+                            <div class="col-sm-6 p-0">
+                                <input type="text" asp-for="CaptchaValue" required="required" class="form-control" onpaste="return false" autocomplete="off"
+                                       placeholder="رمز التحقق" maxlength="6" style="border: 1px solid #ced4da;margin-top:3px" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn bg-navy btn-block btn-flat" onclick="return validate()">دخول</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="@Url.Content("~/assets/plugins/jquery/jquery.min.js")"></script>
+    <!-- Bootstrap 4 -->
+    <script src="@Url.Content("~/assets/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/vue/vue.js")" asp-append-version="true"></script>
+
+    <!-- validation -->
+    <script src="@Url.Content("~/assets/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/vue/Vue-captcha.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/assets/js/login.js")" asp-append-version="true"></script>
+</body>
+</html>

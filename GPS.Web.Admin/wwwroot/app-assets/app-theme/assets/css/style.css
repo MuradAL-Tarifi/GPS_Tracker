@@ -1,0 +1,58 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+
+
+/*v-select dark*/
+.dark-layout .v-select .vs__search::placeholder,
+.dark-layout .v-select .vs__dropdown-toggle,
+.dark-layout .v-select .vs__dropdown-menu {
+	text-transform: lowercase;
+	font-variant: small-caps;
+	background-color: #283046;
+	color: #B4B7BD;
+	border-color: #3B4253;
+}
+
+.dark-layout .v-select .vs__dropdown-menu {
+	color: #B4B7BD;
+}
+
+.dark-layout .vs__search, .vs__search:focus {
+	color: #B4B7BD;
+}
+
+.dark-layout .v-select .vs__selected {
+	display: flex;
+	align-items: center;
+	border: 1px solid rgba(60,60,60,.26);
+	border-radius: 4px;
+	color: #B4B7BD;
+	line-height: 1.4;
+	margin: 4px 2px 0;
+	padding: 0 0.25em;
+	z-index: 0;
+}
+
+.dark-layout .v-select .vs__dropdown-option--highlight {
+	background: #1c74ff;
+	color: #B4B7BD;
+}
+
+.dark-layout .v-select .vs__dropdown-option {
+	color: #B4B7BD;
+}
+
+.dark-layout .v-select .vs__clear,
+.dark-layout .v-select .vs__open-indicator {
+	fill: #B4B7BD;
+}

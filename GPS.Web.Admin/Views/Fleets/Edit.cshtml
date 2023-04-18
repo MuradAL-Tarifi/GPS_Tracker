@@ -1,0 +1,157 @@
+﻿@model GPS.Domain.Views.FleetView
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageFleets"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageFleets"];
+    ViewBag.PageBarDescription = SharedLocalizer["AddNewFleet"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">@SharedLocalizer["AddNewFleet"]</h3>
+            </div>
+            <!-- form start -->
+            <form asp-controller="Fleets" asp-action="Edit" class="form-horizontal" id="UpdateForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <section id="multiple-column-form">
+                    <div class="row p-1">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="AgentIdSelect">@SharedLocalizer["Agent"]<star /></label>
+                                <select id="AgentIdSelect" asp-for="AgentId" class="form-control" asp-items="ViewBag.Agents"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="FleetName">@SharedLocalizer["FleetNameAr"]<star /></label>
+                                <input id="FleetName" asp-for="Name" class="form-control" maxlength="100" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <span id="uniqueNameValidation" class="text-danger d-none">@Localizer["FleetNameExists"]</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="FleetNameEn">@SharedLocalizer["FleetNameEn"]<star /></label>
+                                <input id="FleetNameEn" asp-for="NameEn" class="form-control" maxlength="100" />
+                                <span asp-validation-for="NameEn" class="text-danger"></span>
+                                <span id="uniqueNameEnValidation" class="text-danger d-none">@Localizer["FleetNameExists"]</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="TaxRegistrationNumber">@SharedLocalizer["TaxRegistrationNumber"]</label>
+                                <input id="TaxRegistrationNumber" asp-for="TaxRegistrationNumber" class="form-control" maxlength="50" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="CommercialRegistrationNumber">@SharedLocalizer["CommercialRegistrationNumber"]</label>
+                                <input id="CommercialRegistrationNumber" asp-for="CommercialRegistrationNumber" class="form-control" maxlength="50" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="ManagerEmail">@Localizer["ManagerEmail"]</label>
+                                <div class="input-group ltr">
+                                    <input id="ManagerEmail" asp-for="ManagerEmail" class="form-control" type="email" maxlength="50" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <span asp-validation-for="ManagerEmail" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="ManagerMobile">@Localizer["ManagerMobile"]</label>
+                                <div class="input-group ltr">
+                                    <input id="ManagerMobile" asp-for="ManagerMobile" class="form-control" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                    </div>
+                                    <span asp-validation-for="ManagerMobile" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="SupervisorEmail">@Localizer["SupervisorEmail"]</label>
+                                <div class="input-group ltr">
+                                    <input id="SupervisorEmail" asp-for="SupervisorEmail" class="form-control" type="email" maxlength="50" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <span asp-validation-for="SupervisorEmail" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="SupervisorMobile">@Localizer["SupervisorMobile"]</label>
+                                <div class="input-group ltr">
+                                    <input asp-for="SupervisorMobile" class="form-control" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                    </div>
+                                    <span asp-validation-for="SupervisorMobile" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <input type="hidden" asp-for="Id" />
+                <div class="card-footer">
+                    <button type="button" id="updatebtn" class="btn btn-primary mr-1">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script src="@Url.Content("~/js/fleets/edit.js")" asp-append-version="true"></script>
+    <script>
+        var text = '@Localizer["ConfirmCreate"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+    </script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

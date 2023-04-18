@@ -1,0 +1,92 @@
+﻿@model StaticPagedList<GPS.Domain.Views.GatewayView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+    ViewBag.PageBarTitle = Localizer["PageTitle"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateGateways))
+                    {
+                        <div class="col-lg-8 col-md-5 col-sm-5 col-xs-12 pt-3 pb-3">
+                            <a asp-action="Create" class="btn btn-primary fw-xxs">
+                                <i class="fa fa-plus"></i>
+                                @SharedLocalizer["AddNewGateway"]
+                            </a>
+                        </div>
+                    }
+                <div class="col-lg-4 col-md-7 col-sm-7 col-xs-12 pt-3 pb-3 pull-dir">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" id="searchInput" />
+                        <div class="input-group-append">
+                            <button id="searchbtn" class="btn btn-primary">
+                                <i class="fa fa-search"></i>
+                                @SharedLocalizer["Search"]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="table-div" class="card-body">
+                <div id="PagedDataDiv">
+                    <partial name="~/Views/Gateway/_data.cshtml" model="@Model" />
+                </div>
+                <form asp-action="Delete" id="DeleteForm">
+                    <input type="hidden" name="ItemId" id="ItemId" />
+                </form>
+            </div>
+            <div class="card-footer clearfix center">
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+@section css
+{
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- footable style -->
+    <link href="@Url.Content("~/lib/footable/css/footable.bootstrap.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    @* for pager *@
+    <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- footable -->
+    <script src="@Url.Content("~/lib/footable/js/footable.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script src="@Url.Content("~/js/coloration.js")" asp-append-version="true"></script>
+
+    <script src="@Url.Content("~/js/gateway/index.js")" asp-append-version="true"></script>
+    <script>
+        var text = '@Localizer["ConfirmDelete"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var gatewayLinkedWithInventory = '@Localizer["GatewayLinkedWithInventory"]';
+    </script>
+
+    <partial name="~/Views/Shared/SlideModal_.cshtml" />
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

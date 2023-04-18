@@ -1,0 +1,211 @@
+﻿
+
+
+/*start custom pagination*/
+
+.pagination {
+    display: inline-block;
+    padding-right: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+    .pagination > li {
+        display: inline;
+    }
+
+    .pagination > li > a {
+        background: #fafafa;
+        color: #666;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        border-radius: 50%;
+        margin: 3px
+    }
+
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 3;
+        color: #fff;
+        background-color: #00CFE8;
+        border-color: #337ab7;
+        cursor: default;
+    }
+
+
+    .pagination > li > a, .pagination > li > span {
+        position: relative;
+        float: right;
+        padding: 6px 12px;
+        line-height: 1.42857143;
+        text-decoration: none;
+        color: #337ab7;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-top-color: rgb(221, 221, 221);
+        border-right-color: rgb(221, 221, 221);
+        border-bottom-color: rgb(221, 221, 221);
+        border-left-color: rgb(221, 221, 221);
+        margin-right: -1px;
+    }
+
+
+/*end custom pagination*/
+
+
+/*start fix footable table*/
+@media only screen and (min-device-width: 768px) {
+    .table th, .table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+    }
+}
+/*end fix footable table*/
+
+
+/* start custom star require*/
+
+star::before {
+    content: "*";
+}
+
+star {
+    color: red;
+}
+/* end custom star require*/
+
+.ltr {
+    direction: ltr !important;
+}
+
+
+.app-content .content-overlay > #loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 20%;
+}
+
+/*hide vue moustache on load*/
+[v-cloak] {
+    display: none;
+}
+
+
+.dark-layout .text-muted {
+    color: #adb2c1 !important;
+}
+
+.text-muted {
+    color: #313133 !important;
+}
+
+/*start vue multiselect fix dark mode*/
+/*.dark-layout .multiselect__tags {
+    border: 1px solid #404656 !important;
+    background: #283046 !important;
+}
+.dark-layout .multiselect__input, .dark-layout .multiselect__single {
+    background: #283046 !important;
+    color: #fff !important;
+}
+.dark-layout .multiselect__content-wrapper {
+    background: #283046 !important;
+    color: #fff !important;
+}*/
+/*end vue multiselect fix dark mode*/
+
+
+/* start vue select fix padding*/
+.vs__selected-options {
+    padding: 3.5px 2px !important;
+}
+.dark-layout .vs__dropdown-toggle {
+    border-color: #3B4253 !important;
+}
+.dark-layout .vs__dropdown-menu {
+    background: #283046 !important;
+}
+.dark-layout .vs__selected {
+    color: #dcdcdc !important;
+    background-color: #4846b3 !important;
+}
+.dark-layout .vs__search,
+.dark-layout .vs__dropdown-option {
+    color: #fff !important;
+}
+.dark-layout .vs__clear,
+.dark-layout .vs__open-indicator {
+    fill: rgb(255 255 255 / 50%);
+}
+/* end vue select fix padding*/
+
+.main-menu .navbar-header .navbar-brand .brand-text {
+    font-size: 1.30rem !important;
+}
+
+/*start fix menue*/
+.main-menu .navbar-header .navbar-brand .brand-text {
+    font-size: 1.30rem !important;
+}
+
+.main-menu .navbar-header .navbar-brand .brand-logo img {
+    max-width: 153px !important;
+}
+/*end fix menue*/
+.main-menu .navbar-header .navbar-brand .brand-logo img {
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+    height: 53px !important;
+    width: auto !important;
+}
+/* start style color for theme*/
+.main-menu.menu-dark .navigation > li.active > a,
+.main-menu.menu-dark .navigation > li ul .active,
+.main-menu.menu-light .navigation > li ul .active,
+.main-menu.menu-light .navigation > li.active > a {
+    background: -webkit-linear-gradient(208deg, #173987, rgb(23 57 135)) !important;
+    background: linear-gradient(-118deg, #173987, rgb(23 57 135)) !important;
+    box-shadow: none !important;
+    color: #FFFFFF;
+    font-weight: 400;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    border-color: #173987 !important;
+    background-color: #173987 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: 0 8px 25px -8px #173987 !important;
+}
+
+.btn-primary:focus, .btn-primary:active, .btn-primary.active {
+    color: #FFFFFF;
+    background-color: #173987 !important;
+}
+
+.navigation > li.sidebar-group-active > a {
+    color: #fff !important;
+}
+/* end style color for theme*/
+
+.navigation > li.sidebar-group-active > a {
+    color: #625F6E !important;
+}
+
+.dark-layout .vs--disabled .vs__clear,
+.dark-layout .vs--disabled .vs__dropdown-toggle,
+.dark-layout .vs--disabled .vs__open-indicator,
+.dark-layout .vs--disabled .vs__search,
+.dark-layout .vs--disabled .vs__selected {
+    background-color: #283046;
+}

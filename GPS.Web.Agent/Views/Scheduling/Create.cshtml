@@ -1,0 +1,191 @@
+﻿@using System.Threading;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title = ViewBag.ReportScheduleId > 0 ? Localizer["EditTitle"].Value : SharedLocalizer["CreateAndScheduleReport"].Value;
+    ViewData["Title"] = title;
+    ViewBag.PageBarTitle = title;
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+
+<section class="bs-validation" id="app" v-cloak>
+    <div class="row">
+        <!-- Bootstrap Validation -->
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@SharedLocalizer["ReportInfo"]</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" id="CreateForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <select class="form-control" v-model="reportOptions.reportTypeId">
+                                <option v-if="reportTypes.length>1" value="0">@SharedLocalizer["SelectReportType"]</option>
+                                <option v-for="type in reportTypes" :value="type.value">{{type.text}}</option>
+                            </select>
+                            <span v-if="$v.reportOptions.reportTypeId.$error && !$v.reportOptions.reportTypeId.required" class="text-danger text-sm">
+                                @SharedLocalizer["FieldIsRequired"]
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" v-model="reportOptions.warehouseId" v-on:change="getInventories()">
+                                <option value="" disabled>@SharedLocalizer["SelectWarehouse"]</option>
+                                <option v-for="item in warehouses" v-bind:value="item.value">{{ item.text }}</option>
+                            </select>
+                            <span v-if="$v.reportOptions.warehouseId.$error && !$v.reportOptions.warehouseId.required" class="text-danger text-sm">
+                                @SharedLocalizer["FieldIsRequired"]
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <v-select dir="ltr" :options="optionWarehouses" v-model="reportOptions.warehouseId" @@input="getInventories()">
+                                <div slot="no-options">@SharedLocalizer["SelectWarehouse"]</div>
+                            </v-select>
+                            <span v-if="$v.reportOptions.warehouseId.$error && !$v.reportOptions.warehouseId.required" class="text-danger text-sm">
+                                @SharedLocalizer["FieldIsRequired"]
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <v-select dir="ltr" :options="optionInventories" v-model="reportOptions.inventoryId" :disable="!reportOptions.warehouseId">
+                                <div slot="no-options">@SharedLocalizer["SelectInventory"]</div>
+                            </v-select>
+                            <span v-if="$v.reportOptions.inventoryId.$error && !$v.reportOptions.inventoryId.required" class="text-danger text-sm">
+                                @SharedLocalizer["FieldIsRequired"]
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button v-bind:disabled="!viewOptions" type="button" class="btn btn-primary mr-1" v-on:click="SaveReport">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section css
+{
+    <style>
+        .report th {
+            background-color: rgb(79, 129, 189);
+            font-weight: bold;
+            height: 50px;
+            font-size: 16px;
+            color: white;
+        }
+        .title {
+            background-color: rgb(220, 230, 241);
+            font-weight: bold;
+        }
+        .time-view {
+            background: transparent;
+            border: 0;
+            margin-right: -27px;
+        }
+    </style>
+
+    <link href="@Url.Content("~/lib/vue-select/vue-select.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+
+    <!-- footable style -->
+    <link href="@Url.Content("~/lib/footable/css/footable.bootstrap.css")" rel="stylesheet" />
+
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/pickers/flatpickr/flatpickr.min.css")" rel="stylesheet">
+    @if (isEnglish)
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css/plugins/forms/pickers/form-flat-pickr.css")" rel="stylesheet">
+
+    }
+    else
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.css")" rel="stylesheet">
+    }
+
+}
+
+@section Scripts
+{
+
+    <script src="@Url.Content("~/lib/vue-select/vue-select.js")"></script>
+    <script src="@Url.Content("~/lib/vue/validators.min.js")"></script>
+    <script src="@Url.Content("~/lib/vue/vuelidate.min.js")"></script>
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+
+    @*<partial name="_VueScript" />*@
+
+
+    <script src="@Url.Content("~/lib/loadash/lodash.min.js")"></script>
+
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    @* for pager *@
+    <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+
+    <!-- footable -->
+    <script src="@Url.Content("~/lib/footable/js/footable.js")"></script>
+
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/picker.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/picker.date.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/picker.time.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/pickadate/legacy.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+
+    <script>
+        var reportScheduleId = null;
+        @if (ViewBag.ReportScheduleId!= null) {
+         <text>reportScheduleId = '@Html.Raw(@ViewBag.ReportScheduleId)';</text>
+        }
+
+        var fleetName = '@Html.Raw(@ViewBag.FleetName)';
+        var ErrorMessage = '@SharedLocalizer["ErrorMessage"]';
+
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var all = '@SharedLocalizer["All"]';
+        var confirmSave = '@SharedLocalizer["ConfirmSave"]';
+        var confirmUpdate = '@SharedLocalizer["ConfirmUpdate"]';
+
+    </script>
+
+    <script src="@Url.Content("~/js/reports/scheduling/create.js")" asp-append-version="true"></script>
+
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

@@ -1,0 +1,279 @@
+﻿@model GPS.Domain.ViewModels.FleetWaslModel
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{ ViewData["Title"] = @SharedLocalizer["ManageFleets"];
+    ViewBag.PageBarTitle = @SharedLocalizer["ManageFleets"];
+    ViewBag.PageBarDescription = @SharedLocalizer["EditFleet"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"); }
+
+<section class="vertical-wizard">
+    <div class="bs-stepper vertical">
+        <div class="bs-stepper-header">
+            <div class="step company active">
+                <button type="button" class="step-trigger" onclick="SelectFleetType('company')">
+                    <span class="bs-stepper-box"><i class="fa fa-building fa-2x"></i></span>
+                    <span class="bs-stepper-label">
+                        <span class="bs-stepper-title">@SharedLocalizer["Company"]</span>
+                    </span>
+                </button>
+            </div>
+            <div class="step individual">
+                <button type="button" class="step-trigger" onclick="SelectFleetType('individual')">
+                    <span class="bs-stepper-box"><i class="fa fa-user fa-2x"></i></span>
+                    <span class="bs-stepper-label">
+                        <span class="bs-stepper-title">@SharedLocalizer["Individual"]</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="bs-stepper-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success">
+                        <section id="multiple-column-form">
+                            <div class="row p-1">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="FleetName">@SharedLocalizer["FleetNameAr"]</label>
+                                        <input readonly id="FleetName" asp-for="FleetName" class="form-control" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="FleetNameEn">@SharedLocalizer["FleetNameEn"]</label>
+                                        <input readonly id="FleetNameEn" asp-for="FleetNameEn" class="form-control" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">@Localizer["SubTitle"]</h3>
+                        </div>
+                        <!-- form start -->
+                        <form asp-controller="Fleets" asp-action="EditWasl" id="EditWaslForm">
+                            <input type="hidden" asp-for="FleetId" />
+                            <input id="fleetType" type="hidden" asp-for="FleetType" value="company" />
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <section id="multiple-column-form">
+                                <div class="row p-1">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["IdentityNumber"]<star /></label>
+                                            <input asp-for="IdentityNumber" class="form-control opp-direction @(Model!=null && Model.IsLinkedWithWasl ? "disabled" : "")" data-inputmask="'mask': '9999999999', 'placeholder': ''" />
+                                            <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 individualRow" style="display:none">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["DateOfBirth"]<star /></label>
+                                            <div class="input-group ltr">
+                                                <input readonly type="text" id="DateOfBirthHijri" asp-for="DateOfBirthHijri" class="form-control flatPickr-date" placeholder="yyyy/mm/dd" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                                </div>
+                                                <span asp-validation-for="DateOfBirthHijri" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 companyRow">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["CommercialRecordNumber"]<star /></label>
+                                            <input asp-for="CommercialRecordNumber" class="form-control opp-direction @(Model!=null && Model.IsLinkedWithWasl ? "disabled" : "")" data-inputmask="'mask': '9999999999', 'placeholder': ''" data-mask />
+                                            <span asp-validation-for="CommercialRecordNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 companyRow">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["CommercialRecordIssueDateHijri"]<star /></label>
+                                            <div class="input-group ltr">
+                                                <input asp-for="CommercialRecordIssueDateHijri" class="form-control @(Model!=null &&Model.IsLinkedWithWasl ? "disabled" : "")" type="text" data-inputmask="'mask': '9999-99-99', 'placeholder': 'yyyy-mm-dd'" data-mask />
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">yyyy-mm-dd</span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="CommercialRecordIssueDateHijri" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["PhoneNumber"]<star /></label>
+                                            <div class="input-group ltr">
+                                                <input asp-for="PhoneNumber" class="form-control @(Model!=null &&Model.IsLinkedWithWasl ? "disabled" : "")" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask />
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["ExtensionNumber"]<star /></label>
+                                            <div class="input-group ltr">
+                                                <input asp-for="ExtensionNumber" class="form-control @(Model!=null &&Model.IsLinkedWithWasl ? "disabled" : "")" data-inputmask="'mask': '99999', 'placeholder': ''" data-mask />
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="ExtensionNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["EmailAddress"]<star /></label>
+                                            <div class="input-group ltr">
+                                                <input asp-for="EmailAddress" class="form-control @(Model!=null &&Model.IsLinkedWithWasl ? "disabled" : "")" type="email" maxlength="50" />
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 companyRow">
+                                        <div class="form-group">
+                                            <label>@SharedLocalizer["ManagerName"]<star /></label>
+                                            <input asp-for="ManagerName" class="form-control @(Model!=null && Model.IsLinkedWithWasl && Model.FleetType=="individual" ? "disabled" : "")" maxlength="50" />
+                                            <span asp-validation-for="ManagerName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 companyRow">
+                                        <label>@SharedLocalizer["ManagerPhoneNumber"]<star /></label>
+                                        <div class="input-group ltr">
+                                            <input asp-for="ManagerPhoneNumber" class="form-control @(Model!=null && Model.IsLinkedWithWasl && Model.FleetType=="individual" ? "disabled" : "")" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask/>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="ManagerPhoneNumber" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 col-12 companyRow">
+                                        <label>@SharedLocalizer["ManagerMobileNumber"]<star /></label>
+                                        <div class="input-group ltr">
+                                            <input asp-for="ManagerMobileNumber" class="form-control @(Model!=null && Model.IsLinkedWithWasl && Model.FleetType=="individual" ? "disabled" : "")" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask />
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="ManagerMobileNumber" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label>@SharedLocalizer["ActivityType"]<star /></label>
+                                        <select id="ActivityTypeSelect" asp-for="ActivityType" class="form-control select @(Model!=null && Model.IsLinkedWithWasl ? "disabled" : "")">
+                                            <option value="SFDA">SFDA (هيئة الغذاء والدواء)</option>
+                                        </select>
+                                        <span asp-validation-for="ActivityType" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 col-12 companyRow">
+                                        <label>@SharedLocalizer["SFDACompanyActivities"]<star /></label>
+                                        <select asp-for="SFDACompanyActivities" class="form-control select @(Model!=null && Model.IsLinkedWithWasl ? "disabled" : "")">
+                                            <option value="">@SharedLocalizer["NoneOption"]</option>
+                                            <option value="STORE">STORE</option>
+                                            <option value="TRANSPORT">TRANSPORT</option>
+                                            <option value="STORE_TRANSPORT">STORE_TRANSPORT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="card-footer">
+                                @if (Model != null && Model.FleetDetailsId.HasValue)
+                                {
+                                    @if (Model.IsLinkedWithWasl == true)
+                                    {
+                                        <button type="button" onclick="ConfirmUnlinkWithWasl(@Model.FleetId)" class="btn btn-outline-danger">
+                                            <i class="fa fa-link"></i>
+                                            @SharedLocalizer["UnlinkWithWasl"]
+                                        </button>
+
+                                        @if (Model.FleetType == "company")
+                                        {
+                                            <button type="button" onclick="ConfirmUpdateContactInfo()" class="btn btn-success">
+                                                <i class="fa fa-sync-alt"></i> <i class="fa fa-phone-alt"></i>
+                                                @SharedLocalizer["UpdateWaslContactInfo"]
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <button type="button" id="saveBtn" class="btn btn-success">
+                                            <i class="fa fa-save"></i>
+                                            @SharedLocalizer["Save"]
+                                        </button>
+
+                                        <button type="button" onclick="ConfirmLinkWithWasl(@Model.FleetId)" class="btn btn-outline-success">
+                                            <i class="fa fa-link"></i>
+                                            @SharedLocalizer["LinkWithWasl"]
+                                        </button>
+                                    } 
+                                }
+                                else
+                                {
+                                    <button type="button" id="saveBtn" class="btn btn-success">
+                                        <i class="fa fa-save"></i>
+                                        @SharedLocalizer["Save"]
+                                    </button>}
+                                    <a asp-action="Index" class="btn btn-outline-secondary">
+                                        <i class="fa fa-rotate-left"></i>
+                                        @SharedLocalizer["Back"]
+                                    </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section css
+{
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- wizard -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/forms/wizard/bs-stepper.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/form-wizard.css")" rel="stylesheet" />
+
+}
+
+@section Scripts
+{
+
+
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <script src="@Url.Content("~/js/fleets/edit-wasl.js")" asp-append-version="true"></script>
+    <script>
+        var text = '@Localizer["ConfirmUpdate"]';
+        var confirmDelete = '@Localizer["ConfirmDelete"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+    </script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

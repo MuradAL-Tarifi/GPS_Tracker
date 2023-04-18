@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Refit.HttpClientFactory" Version="6.0.38" />
+	</ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\GPS.Models\GPS.Models.csproj" />
+    <ProjectReference Include="..\GPS.Redis\GPS.Redis.csproj" />
+  </ItemGroup>
+
+</Project>

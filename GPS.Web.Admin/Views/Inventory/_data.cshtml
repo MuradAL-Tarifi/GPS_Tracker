@@ -1,0 +1,112 @@
+﻿@model StaticPagedList<GPS.Domain.Views.InventoryView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewHelper viewHelper
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbInventories" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @SharedLocalizer["Fleet"]
+            </th>
+            <th>
+                @SharedLocalizer["Warehouse"]
+            </th>
+            <th>
+                @SharedLocalizer["Gateway"]
+            </th>
+            <th>
+                @SharedLocalizer["Name"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["InventoryNumber"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @SharedLocalizer["IsActive"]
+            </th>
+            <th data-breakpoints="xs sm"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@(index)">
+                <td>@index</td>
+                <td>
+                    @(isEnglish ? @Html.DisplayFor(modelItem => item.Warehouse.Fleet.NameEn) : @Html.DisplayFor(modelItem => item.Warehouse.Fleet.Name))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Warehouse.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gateway.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InventoryNumber)
+                </td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge badge-success">@SharedLocalizer["Active"]</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@SharedLocalizer["NotActive"]</span>
+                    }
+                </td>
+                <td>
+                    <a onclick="viewInventory(@item.Id, @Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-info waves-effect mx-1">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateInventories))
+                    {
+                        <a onclick="editInventory(@item.Id, @Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-warning waves-effect mx-1">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        @if (item.IsLinkedWithWasl)
+                        {
+                            <button type="button" onclick="ConfirmUnlinkWithWasl(@item.Id, @Model.PageNumber)" class="btn btn-outline-danger btn-xs">
+                                <i class="fa fa-link"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.DeleteInventories))
+                            {
+                                <button type="button" onclick="ConfirmDelete(@item.Id,@Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1">
+                                    <i class="fa fa-trash-alt"></i>
+                                </button>
+                            }
+
+                            <button type="button" onclick="ConfirmLinkWithWasl(@item.Id, @Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-success waves-effect mx-1">
+                                <i class="fa fa-link"></i>
+                            </button>
+                            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateSensors))
+                            {
+                                <button type="button" class="btn btn-outline-vimeo btn-sm btn-block waves-effect waves-float waves-light mt-1" onclick="addSensorsToInventory(@item.Id, @Model.PageNumber)">
+                                    <i class="fa fa-plus"></i> @SharedLocalizer["AddInventorySensors"]
+                                </button>
+                            }
+
+                        }
+                    }
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

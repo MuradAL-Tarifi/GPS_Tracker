@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[FleetDetails] (
+    [Id]                             BIGINT         IDENTITY (1, 1) NOT NULL,
+    [FleetId]                        BIGINT         NOT NULL,
+    [IdentityNumber]                 NVARCHAR (MAX) NULL,
+    [DateOfBirthHijri]               NVARCHAR (MAX) NULL,
+    [CommercialRecordNumber]         NVARCHAR (MAX) NULL,
+    [CommercialRecordIssueDateHijri] NVARCHAR (MAX) NULL,
+    [PhoneNumber]                    NVARCHAR (MAX) NULL,
+    [ExtensionNumber]                NVARCHAR (MAX) NULL,
+    [EmailAddress]                   NVARCHAR (MAX) NULL,
+    [ManagerName]                    NVARCHAR (MAX) NULL,
+    [ManagerPhoneNumber]             NVARCHAR (MAX) NULL,
+    [ManagerMobileNumber]            NVARCHAR (MAX) NULL,
+    [IsDeleted]                      BIT            NOT NULL,
+    [CreatedDate]                    DATETIME2 (7)  NULL,
+    [CreatedBy]                      NVARCHAR (MAX) NULL,
+    [UpdatedDate]                    DATETIME2 (7)  NULL,
+    [UpdatedBy]                      NVARCHAR (MAX) NULL,
+    [ReferanceNumber]                NVARCHAR (MAX) NULL,
+    [IsLinkedWithWasl]               BIT            NOT NULL,
+    [ActivityType]                   NVARCHAR (MAX) NULL,
+    [SFDACompanyActivities]          NVARCHAR (MAX) NULL,
+    [FleetType]                      NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_FleetDetails] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+

@@ -1,0 +1,322 @@
+﻿@model GPS.Domain.ViewModels.AdminDashboardView
+@using System.Web;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+<section class="home">
+    <div class="row">
+
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Fleets" asp-route-waslLinkStatus="1">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.WASLOperatingCompaniesCount</h2>
+                            <p class="card-text">@Localizer["WASLOperatingCompaniesCount"]</p>
+                        </div>
+                        <div class="avatar bg-light-success p-2 m-0">
+                            <div class="fa fa-link fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Warehouse" asp-route-waslLinkStatus="1">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.WaslLinkedWarehousesCount</h2>
+                            <p class="card-text">@Localizer["WaslLinkedWarehousesCount"]</p>
+                        </div>
+                        <div class="avatar bg-light-success p-2 m-0">
+                            <div class="fa fa-link fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Inventory" asp-route-waslLinkStatus="1">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.WaslLinkedInventoriesCount</h2>
+                            <p class="card-text">@Localizer["WaslLinkedInventoriesCount"]</p>
+                        </div>
+                        <div class="avatar bg-light-success p-2 m-0">
+                            <div class="fa fa-link fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Fleets" asp-route-waslLinkStatus="0">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.WASLNotLinkedOperatingCompaniesCount</h2>
+                            <p class="card-text">@Localizer["WASLNotLinkedOperatingCompaniesCount"]</p>
+                        </div>
+                        <div class="avatar bg-light-warning p-2 m-0">
+                            <div class="fa fa-unlink fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Warehouse" asp-route-waslLinkStatus="0">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.WaslNotLinkedWarehousesCount</h2>
+                            <p class="card-text">@Localizer["WaslNotLinkedWarehousesCount"]</p>
+                        </div>
+                        <div class="avatar bg-light-warning p-2 m-0">
+                            <div class="fa fa-unlink fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Inventory" asp-route-waslLinkStatus="0">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.WaslNotLinkedInventoriesCount</h2>
+                            <p class="card-text">@Localizer["WaslNotLinkedInventoriesCount"]</p>
+                        </div>
+                        <div class="avatar bg-light-warning p-2 m-0">
+                            <div class="fa fa-unlink fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Fleets">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.FleetsCount</h2>
+                            <p class="card-text">@Localizer["Fleets"]</p>
+                        </div>
+                        <div class="avatar bg-light-primary p-2 m-0">
+                            <div class="fa fa-building fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Gateway">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.GatewaysCount</h2>
+                            <p class="card-text">@Localizer["Gateway"]</p>
+                        </div>
+                        <div class="avatar bg-light-danger p-2 m-0">
+                            <div class="fa fa-project-diagram fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Sensors">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.SensorsCount</h2>
+                            <p class="card-text">@Localizer["Sensors"]</p>
+                        </div>
+                        <div class="avatar bg-light-primary p-2 m-0">
+                            <div class="fa fa-microchip fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Warehouse">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.InventoriesCount</h2>
+                            <p class="card-text">@Localizer["Warehouse"]</p>
+                        </div>
+                        <div class="avatar bg-light-secondary p-2 m-0">
+                            <div class="fa fa-warehouse fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Users">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.UsersCount</h2>
+                            <p class="card-text">@Localizer["Users"]</p>
+                        </div>
+                        <div class="avatar bg-light-success p-2 m-0">
+                            <div class="fa fa-users fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+            <div class="card">
+                <a asp-action="Index" asp-controller="Inventory">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="font-weight-bolder mb-0">@Model.UsersCount</h2>
+                            <p class="card-text">@Localizer["Inventories"]</p>
+                        </div>
+                        <div class="avatar bg-light-danger p-2 m-0">
+                            <div class="fa fa-boxes fa-2x">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    @*<h4 class="card-title">@Localizer["TotalSensors"]</h4>*@
+                </div>
+                <div class="card-body p-0" style="position: relative;">
+                    <div class="row">
+                        <div class="col-6 border-right">
+                            <div id="sensors-working-view-chart" class="my-2" style="min-height: 205.633px;"></div>
+                            <div class="row border-top text-center mx-0">
+                                <div class="col-12">
+                                    <p class="card-text text-muted mb-0">@Localizer["TotalWorkingSensors"]</p>
+                                    <h3 class="font-weight-bolder mb-0">@Model.WorkingSensorsCount</h3>
+                                </div>
+                                <div class="col-12 mb-1">
+                                    <a asp-action="Index" asp-controller="Sensors" asp-route-sensorStatus="1" class="btn btn-outline-info waves-effect">
+                                    @SharedLocalizer["View"]
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div id="sensors-notWorking-view-chart" class="my-2" style="min-height: 205.633px;"></div>
+                            <div class="row border-top text-center mx-0">
+                                <div class="col-12">
+                                    <p class="card-text text-muted mb-0">@Localizer["TotalNotWorkingSensors"]</p>
+                                    <h3 class="font-weight-bolder mb-0">@Model.NotWorkingSensorsCount</h3>
+                                </div>
+                                <div class="col-12 mb-1">
+                                    <a asp-action="Index" asp-controller="Sensors" asp-route-sensorStatus="0" class="btn btn-outline-info waves-effect">
+                                       @SharedLocalizer["View"]
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-6 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="avatar-content">
+                        <i class="fa fa-microchip fa-2x"></i>
+                    </div>
+                    <span class="m-auto p-1"><b>@Localizer["GroupedDevicesPerBrand"]</b></span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>@Localizer["DeviceType"]</th>
+                                    <th>@Localizer["BrandName"]</th>
+                                    <th>@Localizer["QTY"]</th>
+                                    <th>@Localizer["Percentage"] <small>%100</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.LsGroupedSensors)
+                                {
+                                    <tr>
+                                        <td>@Localizer["Sensor-HT"]</td>
+                                        <td>@item.SensorBrandName</td>
+                                        <td>@item.CountPerBrand</td>
+                                        <td class="col-4">
+                                            <div class="progress progress-bar-info mt-2" style="height: 6px">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width: @(item.PercentageAmongBrands.ToString(new CultureInfo("en-US"))+"%")"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                @foreach (var item in Model.LsGroupedGateways)
+                                {
+                                    <tr>
+                                        <td>@Localizer["GatewayDevice"]</td>
+                                        <td>@item.GatewayBrandName</td>
+                                        <td>@item.CountPerBrand</td>
+                                        <td class="col-4">
+                                            <div class="progress progress-bar-danger mt-2" style="height: 6px">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width: @(item.PercentageAmongBrands.ToString(new CultureInfo("en-US"))+"%")"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section css
+{
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- Apex Charts -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/charts/apexcharts.min.js")"></script>
+    <script>
+        var adminDashboardViewModel = "@(Html.Raw(HttpUtility.JavaScriptStringEncode(Json.Serialize(Model).ToString())))";
+    </script>
+
+
+    <script src="@Url.Content("~/js/home/home.js")" asp-append-version="true"></script>
+}

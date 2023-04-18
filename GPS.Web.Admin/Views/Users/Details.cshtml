@@ -1,0 +1,150 @@
+﻿@model GPS.Domain.Views.UserView
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization;
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewHelper viewHelper
+
+@{ ViewData["Title"] = SharedLocalizer["ManageUsers"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageUsers"];
+    ViewBag.PageBarDescription = Localizer["PageDescription"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"); }
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header with-border">
+                <h3 class="card-title">@SharedLocalizer["UserInfo"]</h3>
+            </div>
+            <div class="card-body table-responsive">
+                <section id="multiple-column-form">
+                    <input type="hidden" value="@ViewBag.ReturnURL" name="ReturnURL" />
+                    <div class="row p-1">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="roles-select">@SharedLocalizer["Role"]<star /></label>
+                                <input readonly value="@(isEnglish ? Model.Role.DisplayNameEn : Model.Role.DisplayName)" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="UserName">@SharedLocalizer["Username"]<star /></label>
+                                <input readonly asp-for="UserName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Password">@SharedLocalizer["Password"]<star /></label>
+                                <input readonly asp-for="Password" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 agent-content">
+                            <div class="form-group">
+                                <label for="roles-select">@SharedLocalizer["Agent"]<star /></label>
+                                <input readonly value="@(Model.Agent != null ? (isEnglish ? Model.Agent.NameEn : Model.Agent.Name) : "-")" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 agent-content">
+                            <div class="form-group">
+                                <label for="roles-select">@SharedLocalizer["Fleet"]<star /></label>
+                                <input readonly value="@(Model.Fleet != null ? (isEnglish ? Model.Fleet.NameEn : Model.Fleet.Name) : "-")" class="form-control" />
+                            </div>
+                        </div>
+                        @*<div class="col-12 agent-content">
+                                <div class="form-group">
+                                    <label for="roles-select">@SharedLocalizer["Warehouse"]<star /></label>
+                                    <label class="form-control" style="height:auto">
+                                        @(Model.WarehouseNames!=null? string.Join(", " ,Model.WarehouseNames):"-")
+                                    </label>
+                                </div>
+                            </div>*@
+
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Name">@SharedLocalizer["NameAr"]<star /></label>
+                                <input readonly id="Name" asp-for="Name" class="form-control" maxlength="50" value="مستخدم" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="NameEn">@SharedLocalizer["NameEn"]<star /></label>
+                                <input readonly id="NameEn" asp-for="NameEn" class="form-control" maxlength="50" value="مستخدم" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="ManagerEmail">@SharedLocalizer["Email"]</label>
+                                <div class="input-group ltr">
+                                    <input readonly id="Email" asp-for="Email" class="form-control" type="email" maxlength="50" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="custom-control custom-switch custom-switch-success">
+                                <p class="mb-50">@SharedLocalizer["Status"]</p>
+                                <input readonly type="checkbox" class="custom-control-input" id="IsActive" checked="checked">
+                                <label class="custom-control-label" for="IsActive">
+                                    <span class="switch-icon-left"><i class="fa fa-check"></i></span>
+                                    <span class="switch-icon-right"><i class="fa fa-multiply"></i></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="ManagerEmail">@SharedLocalizer["ExpirationDate"]<star /></label>
+                                <div class="input-group ltr">
+                                    <input readonly class="form-control" type="text" value="@(Model.ExpirationDate.HasValue ? Model.ExpirationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "-")" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 agent-content">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">@SharedLocalizer["WarehousesInventoriesPermission"]<star /></h4>
+                                </div>
+                                <div class="card-body overflow-auto" style="max-height:300px">
+                                    <div id="jstree-warehouses-inventories" class="jstree jstree-5 jstree-rtl jstree-default jstree-checkbox-selection" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="j5_1" aria-busy="false">
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" asp-for="InventoriesIds" id="inventoriesIds" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="card-footer">
+                <a href="@ViewBag.ReturnURL" class="btn btn-default">
+                    <i class="fa fa-rotate-left"></i>
+                    @SharedLocalizer["Back"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <!-- BEGIN: jstree CSS-->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/jstree.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-tree.css")" rel="stylesheet">
+    <!-- END: jstree CSS-->
+}
+
+@section Scripts
+{
+    <!-- jstree -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/jstree.min.js")"></script>
+    <script src="@Url.Content("~/js/coloration.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/users/details.js")" asp-append-version="true"></script>
+    <script>
+        var IsSubAdminAgent = '@Model.IsSubAdminAgent';
+        var WarehousesInventories = '@Html.Raw(ViewBag.WarehousesInventories)';
+    </script>
+}

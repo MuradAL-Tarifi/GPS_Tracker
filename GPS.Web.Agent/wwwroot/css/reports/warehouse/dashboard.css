@@ -1,0 +1,438 @@
+﻿.options-toggle {
+    padding: 6px;
+    cursor: pointer;
+}
+
+    .options-toggle i {
+        font-size: 14px;
+        color: #656565;
+    }
+
+.custom-control {
+    padding-left: 0;
+}
+
+.custom-control-label::before {
+    border: 0;
+}
+
+.custom-control-label {
+    font-size: 12px;
+    font-weight: normal !important;
+    cursor: pointer;
+}
+
+    .custom-control-label::before {
+        top: 1px;
+        border: 0;
+    }
+
+.custom-switch .custom-control-label::after {
+    top: 3px;
+}
+
+.bounce-1 {
+    animation-name: bounce-1;
+    animation-timing-function: linear;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    transform-origin: bottom;
+}
+
+@keyframes bounce-1 {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.v-error {
+    border: 1px solid red !important;
+    border-radius: 2px !important;
+    box-shadow: 0 0 1px #750606 !important;
+}
+
+div[title] {
+    direction: ltr;
+}
+
+.theme-bootstrap .vdatetime-popup__header,
+.theme-bootstrap .vdatetime-calendar__month__day--selected > span > span,
+.theme-bootstrap .vdatetime-calendar__month__day--selected:hover > span > span {
+    background: #204d74;
+}
+
+.theme-bootstrap .vdatetime-year-picker__item--selected,
+.theme-bootstrap .vdatetime-time-picker__item--selected,
+.theme-bootstrap .vdatetime-popup__actions__button {
+    color: #204d74;
+}
+
+.theme-bootstrap .vdatetime-input {
+    height: 100%;
+}
+
+.layout-navbar-fixed .wrapper .second-header {
+    background-color: #ffffffd1;
+    border-radius: 0;
+}
+
+.layout-navbar-fixed.layout-fixed .wrapper .sidebar {
+    margin-top: 0;
+}
+
+.nav-fixed {
+    margin-top: calc(3.9rem + 1px);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.nav-sidebar .nav-header:not(:first-of-type) {
+    padding: 0.3rem 0rem 0.5rem;
+}
+
+.nav-sidebar > .nav-item {
+    margin: 0 0 !important;
+    backdrop-filter: none;
+}
+
+.sidebar {
+    height: calc(100% - 7.0rem);
+}
+
+.gmaps {
+    height: 100%;
+    width: 100%;
+}
+
+.map-container {
+    position: fixed;
+    width: 100%;
+    padding-top: 2.5rem;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+}
+
+
+body.sidebar-collapse div.map-controls {
+    left: 39.3% !important;
+}
+
+.glass {
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2) !important;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
+}
+
+.glass-ibg {
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2) !important;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, .15) !important;
+    backdrop-filter: blur(5px);
+}
+
+.card-title {
+    cursor: pointer;
+    float: none;
+}
+
+.card .group {
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.text-logo {
+    color: #286090;
+}
+
+.vehicles {
+    padding: 0;
+}
+
+.v-status {
+    display: block;
+    font-size: 10px;
+}
+
+.car-selected {
+    background-color: #173987 !important;
+    color: #FFF;
+}
+.dark-layout .car-selected {
+    background-color: #07243d !important;
+}
+
+#VehicleInfoDiv {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.vehicle-info {
+    margin: 0 !important;
+    font-size: 14px;
+}
+
+    .vehicle-info i {
+        color: #286090;
+    }
+
+    .vehicle-info .form-control {
+        font-size: 12px;
+        height: auto;
+    }
+
+    .vehicle-info select {
+        padding: 0 0.75rem;
+    }
+
+
+.vehicle-alerts {
+    margin: 0 !important;
+}
+
+    .vehicle-alerts td {
+        width: 25%;
+        padding: 5px;
+    }
+
+        .vehicle-alerts td i {
+            color: #286090;
+        }
+
+.car-state-icon {
+    width: 30px;
+    height: auto;
+    transform: rotate(45deg);
+}
+
+.pop-notification {
+    position: fixed;
+    bottom: 1%;
+    z-index: 1;
+    background: #fffffffa;
+    width: 300px;
+    left: 275px;
+    float: right;
+    border: 1px solid #e8e8e8;
+}
+
+.btn-app {
+    margin: 0;
+    padding: 5px 5px;
+    height: auto;
+    cursor: pointer;
+}
+
+    .btn-app > i {
+        color: #286090;
+    }
+
+    .btn-app:hover {
+        background-color: #286090;
+        color: white !important;
+    }
+
+        .btn-app:hover .fas {
+            color: white !important;
+        }
+
+.filter-ic {
+    width: 30px;
+    text-align: center;
+    vertical-align: middle;
+    color: #6990b1;
+    border-right: 4px solid;
+    padding: 10px 0;
+    border-radius: 0px 5px 5px 0px;
+    margin-top: -1px;
+    margin-bottom: -1px;
+    margin-right: 10px;
+}
+
+.movement-table > tbody > tr {
+    cursor: pointer;
+}
+
+    .movement-table > tbody > tr:hover {
+        background-color: #e9ff00 !important
+    }
+
+.m-selected {
+    background-color: #e9ff00 !important;
+}
+
+.nav-header .btn-group > .btn:nth-child(2), .nav-header .btn-group > .btn:nth-child(3), .nav-header .btn-group > .btn:nth-child(4) {
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+#vehicleAlertsDiv {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    overflow: overlay;
+    margin-top: 137px;
+    margin-bottom: 0 !important;
+    background-color: #ffffffd1;
+}
+
+    #vehicleAlertsDiv .card-header {
+        padding: 5px 10px;
+    }
+
+    #vehicleAlertsDiv .card-body {
+        padding: 0;
+    }
+
+
+.callout a:hover {
+    color: inherit;
+}
+
+.callout .dropdown-menu i {
+    color: #286090;
+}
+
+
+@media (max-width: 575.98px) {
+    .map-controls {
+        left: 21.4% !important;
+    }
+
+    .btn-app > .fa, .btn-app > .fas, .btn-app > .far, .btn-app > .fab, .btn-app > .glyphicon, .btn-app > .ion {
+        display: none;
+    }
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 700px;
+    }
+
+    .trips {
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 766px) {
+    .map-controls {
+        left: 31% !important;
+    }
+}
+
+@media (max-width: 750px) {
+    .map-controls {
+        left: 26.4% !important;
+    }
+}
+
+@media (max-width: 978px) and (min-width:766px) {
+    .v-info-toggle {
+        margin-top: 17.3rem;
+    }
+}
+
+@media (max-width: 766px) and (min-width:526px) {
+    .v-info-toggle {
+        margin-top: 17rem;
+    }
+}
+
+/*Device Types*/
+/*scucess*/
+.t1-bg {
+    background-color: #00a65a !important;
+}
+
+/*info*/
+.omatix_G08-bg {
+    background-color: #00c0ef !important;
+}
+
+/*primary*/
+.t355-bg {
+    background-color: #3c8dbc !important;
+}
+
+/*danger*/
+.eco_4-bg {
+    background-color: #dd4b39 !important;
+}
+
+/*purple*/
+.t366-bg {
+    background-color: #605ca8 !important;
+}
+
+/*orange*/
+.mVT800-bg {
+    background-color: #FF851B !important;
+}
+
+/*maroon*/
+.teltonika_FM1120-bg {
+    background-color: #D81B60 !important;
+}
+
+/*navy*/
+.teltonika_FMA120-bg {
+    background-color: #001F3F !important;
+}
+
+/*secondary*/
+.teltonika_FMM130-bg {
+    background-color: #6c757d !important;
+}
+
+.teltonika_FMM640-bg {
+    background-color: #0c757d !important;
+}
+
+.ripple {
+    right: 36px;
+    margin: auto;
+    background-color: red;
+    width: .5px;
+    height: .5px;
+    border-radius: 50%;
+    position: relative;
+    animation: ripple 3s linear infinite;
+}
+
+    .ripple::before,
+    .ripple::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        animation: ripple 3s linear infinite 1s;
+    }
+
+    .ripple::after {
+        animation: ripple 3s linear infinite 2s;
+    }
+
+@keyframes ripple {
+    0% {
+        box-shadow: 0 0 0 .15rem rgba(255,0,0, 0.9);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2.5rem rgba(255,0,0, 0);
+    }
+}

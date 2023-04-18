@@ -1,0 +1,143 @@
+﻿@{ Layout = null; }
+@model GPS.Domain.ViewModels.LoginView
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html class="loading" lang="en"  data-textdirection="rtl">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <title>Quality Compliance Login</title>
+
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/vendors/css/vendors-rtl.min.css")">
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/bootstrap.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/bootstrap-extended.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/colors.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/components.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/themes/dark-layout.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/themes/bordered-layout.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/themes/semi-dark-layout.css")">
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/core/menu/menu-types/vertical-menu.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/form-validation.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/pages/page-auth.css")">
+    <!-- END: Page CSS-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="@Url.Content("~/lib/fontawesome/css/all.min.css")">
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/css-rtl/custom-rtl.css")">
+    <link rel="stylesheet" href="@Url.Content("~/app-assets/app-theme/assets/css/style-rtl.css")">
+    <!-- END: Custom CSS-->
+    <link rel="stylesheet" href="@Url.Content("~/css/login.css")" asp-append-version="true">
+</head>
+<!-- END: Head-->
+<!-- BEGIN: Body-->
+<body class="pace-done vertical-layout vertical-menu-modern blank-page navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
+    <div class="pace pace-inactive">
+        <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <div class="auth-wrapper auth-v2 p-0">
+                    <div class="auth-inner row m-0">
+                        <!-- Brand logo-->
+                        <!-- /Brand logo-->
+                        <!-- Left Text-->
+                        <div class="d-none d-lg-flex col-lg-9 p-0">
+                            @*<div class="w-100"><img class="img-fluid" src="~/imgs/login-background.jpeg"></div>*@
+                            <div class="w-100 login-background"></div>
+                        </div>
+                        <!-- /Left Text-->
+                        <!-- Login-->
+                        <div class="d-flex col-lg-3 align-items-center auth-bg p-0">
+                            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+                                @*<h4 class="card-title mb-1"> </h4>*@
+                                <div class="col-12">
+                                    <img class="img-fluid">
+                                </div>
+                                <form class="auth-login-form" id="loginForm" asp-action="Login" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label for="login-email" class="form-label">@Localizer["Username"]</label>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input type="text" class="form-control text-dark" id="user-login" tabindex="1" autofocus asp-for="UserName" />
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-user"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between">
+                                            <label for="login-password" class="form-label">@Localizer["Password"]</label>
+                                        </div>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input type="password" class="form-control form-control-merge text-dark" id="password-login" autofocus asp-for="Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-lock"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" id="remember-me" tabindex="3" asp-for="RememberMe" />
+                                            <label class="custom-control-label" for="remember-me">@Localizer["RememberMe"] </label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-block" tabindex="4" type="submit">@Localizer["SignIn"]</button>
+                                </form>
+
+                                <div class="divider my-2">
+                                    <div class="divider-text"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Login-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+    <!-- BEGIN: Vendor JS-->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/vendors.min.js")"></script>
+    <!-- BEGIN Vendor JS-->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/forms/validation/jquery.validate.min.js")"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Theme JS-->
+    <script src="@Url.Content("~/app-assets/app-theme/js/core/app-menu.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/core/app.js")"></script>
+    <!-- END: Theme JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/pages/page-auth-login.js")"></script>
+    <script>
+        var hostName = '@Url.Content("~")';
+    </script>
+    <!-- END: Page JS-->
+    <script src="@Url.Content("~/js/login/login.js")" asp-append-version="true"></script>
+</body>
+
+</html>

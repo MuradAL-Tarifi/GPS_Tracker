@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="15271e33-10ec-487f-a7f1-e187a268f9f9" ChangeDateTime="12/25/2021 06:50:40">
+    <Property Name="ElementName" Value="[dbo].[Brands].[BrandTypeId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Brands]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NameEn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="950170bf-3f25-4b2c-b2d8-bb6d8ded959f" ChangeDateTime="12/25/2021 07:57:26">
+    <Property Name="ElementName" Value="[dbo].[FK_Sensor_ToBrand]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Sensor]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_Sensor_Brand]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="95d19d06-6808-46f3-87c9-214d7b2391f3" ChangeDateTime="01/02/2022 15:36:59">
+    <Property Name="ElementName" Value="[dbo].[InventorySensor].[Serial]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InventorySensor]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SensorId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dd54b826-98ff-4c04-a325-16c144a54298" ChangeDateTime="02/11/2022 09:08:19">
+    <Property Name="ElementName" Value="[dbo].[CustomAlert].[MinValue]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CustomAlert]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MinValueTemperature" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dac7512b-1ddf-4f87-adc8-5308ef0cd1b1" ChangeDateTime="02/11/2022 09:08:29">
+    <Property Name="ElementName" Value="[dbo].[CustomAlert].[MaxValue]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CustomAlert]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaxValueTemperature" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d4d50522-ce18-410c-bcb9-67f66a949046" ChangeDateTime="02/12/2022 11:17:09">
+    <Property Name="ElementName" Value="[dbo].[InventoryCustomAlert].[InventorytId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InventoryCustomAlert]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InventoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="71fc134d-3d1d-4a8b-be0c-e63864431abc" ChangeDateTime="03/21/2022 05:47:30">
+    <Property Name="ElementName" Value="[dbo].[Alert].[InventorySensorId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Alert]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InventoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ed07ca60-b212-4693-bbdc-34eb4c42ed44" ChangeDateTime="04/07/2022 18:11:56">
+    <Property Name="ElementName" Value="[dbo].[SystemSetting].[LogoPhotoFile]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SystemSetting]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LogoPhotoByte" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c95fe3a4-413e-4390-811b-830d99dba866" ChangeDateTime="05/11/2022 10:26:54">
+    <Property Name="ElementName" Value="[dbo].[Alert].[IsRead]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Alert]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CustomAlertId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="854b9db8-fb01-4742-8d6c-fa999667f2c9" ChangeDateTime="05/11/2022 11:13:13">
+    <Property Name="ElementName" Value="[dbo].[CustomAlert].[c]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CustomAlert]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UserIds" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="21b6e02c-d287-4024-bbb1-f44a0ecab072" ChangeDateTime="05/11/2022 14:56:50">
+    <Property Name="ElementName" Value="[dbo].[AlertByUserWatcher].[WarehouseId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AlertByUserWatcher]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AlertId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1dfe0d1f-1a71-4f00-9503-3f5ed97fc3ef" ChangeDateTime="05/26/2022 07:07:46">
+    <Property Name="ElementName" Value="[dbo].[UserInventory].[WarehouseId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserInventory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InventoryId" />
+  </Operation>
+</Operations>

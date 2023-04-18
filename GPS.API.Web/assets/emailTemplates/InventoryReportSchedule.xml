@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+
+
+		body {
+		text-align: center;
+		padding: 0;
+		margin: 0;
+		}
+
+		.header-title {
+		border-bottom: 4px solid #d9251b;
+		}
+
+		.title {
+		background-color: rgb(217, 37, 27);
+		color: white;
+		font-size: 26px;
+		font-weight: bold;
+		}
+
+		.f-md {
+		font-size: 22px !important;
+		}
+
+
+		.info {
+		background-color: rgb(242, 242, 242);
+		}
+
+		.info td {
+		font-size: 16px;
+		border-bottom: 3px solid white;
+		}
+
+		.table {
+		width: 100%;
+		border-collapse: collapse;
+		border: 4px solid #d9251b;
+		}
+
+		td, th {
+		font-family: "Segoe UI";
+		text-align: center;
+		height: 40px;
+		font-size: 15px;
+		}
+
+		.t-header th {
+		border-top: 3px solid white;
+		}
+
+
+		table th {
+		background-color: rgb(79, 129, 189);
+		font-weight: bold;
+		height: 50px;
+		font-size: 16px;
+		color: white;
+		}
+		.logo {
+		height: 120px !important;
+		padding: 10px;
+		}
+
+		.logo img {
+		width: 100%;
+		height: auto;
+		}
+
+		.row-sep {
+		height: 16px;
+		background-color: #d9251b;
+		border-left: 3px solid white;
+		border-right: 3px solid white;
+		}
+
+		.col-sep {
+		background-color: #d9251b;
+		}
+
+		.control td {
+		height: 0;
+		padding: 0 !important;
+		}
+
+		.green {
+		color: #28a745 !important;
+		}
+
+		.red {
+		color: #dc3545 !important;
+		}
+
+		.blue {
+		color: #007bff !important;
+		}
+
+		.ltr {
+		direction: ltr;
+		}
+
+		.rtl {
+		direction: rtl;
+		}
+
+		.info-title{
+		color: #000;
+		font-weight: bold;
+		}
+
+		.info-content{
+		border-right: 3px solid white;
+		}
+
+		.text-bold{
+		font-weight: 700;
+		}
+
+	</style>
+  </head>
+  <body style="direction:ltr">
+
+    <table class='table' dir="rtl">
+      <tr class='control'>
+        <td style='width: 20%;'></td>
+        <td style='width: 35%;'></td>
+        <td style='width: 25%;'></td>
+        <td style='width: 20%;'></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="header-title">
+          {ReportTitle} - {ScheduleDesciption}
+        </td>
+      </tr>
+      <tr>
+        <td colspan='2' class='logo'>
+          <img src='{Src}' />
+        </td>
+        <td colspan='2' class='title f-md'>{ReportName}</td>
+      </tr>
+      <tr>
+        <td colspan='4' class='row-sep'></td>
+      </tr>
+      <tr class='col-sep'>
+        <td rowspan="6">
+        </td>
+      </tr>
+      <tr class='info'>
+        <td class='info-title'>{FleetLabel}</td>
+        <td class='info-content' colspan='2'>
+          {Fleet}
+        </td>
+      </tr>
+      <tr class='info'>
+        <td class='info-title'>{WarehouseLabel}</td>
+        <td class='info-content' colspan='2'>
+          {Warehouse}
+        </td>
+      </tr>
+      <tr class='info'>
+        <td class='info-title'>{InventoryLabel}</td>
+        <td class='info-content' colspan='2'>
+          {Inventory}
+        </td>
+      </tr>
+      <tr class='info'>
+        <td class='info-title'>{DateLabel}</td>
+        <td class='info-content' colspan='2' dir='ltr'>
+          {Dates}
+        </td>
+      </tr>
+    </table>
+
+  </body>
+</html>

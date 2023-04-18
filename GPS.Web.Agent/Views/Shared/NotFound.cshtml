@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer["Title"];
+}
+
+<div class="error-page">
+    <h2 class="headline text-yellow"> 404</h2>
+    <div class="error-content">
+        <h3><i class="fa fa-warning text-yellow"></i> @Localizer["Warning"]</h3>
+        <p>
+            @if (ViewBag.Errors == null)
+            {
+                @Localizer["Message"]
+            }
+            else
+            {
+                foreach (var item in ViewBag.Errors)
+                {
+                    <span>@item</span><br />
+                }
+            }
+        </p>
+        @Localizer["Link"]
+    </div>
+    <!-- /.error-content -->
+</div>
+<!-- /.error-page -->

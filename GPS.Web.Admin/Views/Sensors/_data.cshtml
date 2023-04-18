@@ -1,0 +1,76 @@
+﻿@model StaticPagedList<GPS.Domain.Views.SensorView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@using System.Globalization
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbSensors" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @SharedLocalizer["Brand"]
+            </th>
+            <th>
+                @SharedLocalizer["Name"]
+            </th>
+            <th>
+                @SharedLocalizer["Inventory"]
+            </th>
+            <th>
+                @SharedLocalizer["CalibrationDate"]
+            </th>
+            <th>
+                @SharedLocalizer["SerialNumber"]
+            </th>
+
+            <th data-breakpoints="xs sm"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td class="ar-font">
+                    @Html.DisplayFor(modelItem => item.Brand.Name)
+                </td>
+                <td class="ar-font">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="ar-font">
+                    @Html.DisplayFor(modelItem => item.InventoryName)
+                </td>
+                <td class="ar-font">
+                    @(item.CalibrationDate.HasValue ? item.CalibrationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Serial)
+                </td>
+                <td>
+                   @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateSensors))
+                     {
+                    <a onclick="editSensor(@item.Id, @Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-warning waves-effect mx-1">
+                        <i class="far fa-edit"></i>
+                    </a>
+                    }
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.DeleteSensors))
+                        {
+                    <button type="button" onclick="ConfirmDelete(@item.Id,@Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1">
+                        <i class="fa fa-trash-alt"></i>
+                    </button>
+                        }
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

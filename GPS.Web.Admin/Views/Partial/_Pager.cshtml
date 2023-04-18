@@ -1,0 +1,92 @@
+﻿@model IPagedList
+
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Common;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewHelper viewHelper
+
+@{
+    string currentQuery = "";
+    var query = (Dictionary<string, string>)ViewBag.CurrentQuery;
+    if (query.ContainsKey("agentId"))
+    {
+        currentQuery += "&agentId=" + query["agentId"];
+    }
+    if (query.ContainsKey("fleetId"))
+    {
+        currentQuery += "&fleetId=" + query["fleetId"];
+    }
+    if (query.ContainsKey("isActive"))
+    {
+        currentQuery += "&isActive=" + query["isActive"];
+    }
+    if (query.ContainsKey("SensorStatus"))
+    {
+        currentQuery += "&SensorStatus=" + query["SensorStatus"];
+    }
+    if (query.ContainsKey("waslLinkStatus"))
+    {
+        currentQuery += "&waslLinkStatus=" + query["waslLinkStatus"];
+    }
+    if (query.ContainsKey("deviceTypeId"))
+    {
+        currentQuery += "&deviceTypeId=" + query["deviceTypeId"];
+    }
+    if (query.ContainsKey("search"))
+    {
+        currentQuery += ("&search=" + query["search"]);
+    }
+    if (query.ContainsKey("type"))
+    {
+        currentQuery += ("&type=" + query["type"]);
+    }
+    if (query.ContainsKey("fromDate"))
+    {
+        currentQuery += ("&fromDate=" + query["fromDate"]);
+    }
+    if (query.ContainsKey("toDate"))
+    {
+        currentQuery += ("&toDate=" + query["toDate"]);
+    }
+    if (query.ContainsKey("show"))
+    {
+        currentQuery += ("&show=" + query["show"]);
+    }
+
+    var action = "Index";
+    if (ViewBag.Action != null)
+    {
+        action = ViewBag.Action;
+    }
+}
+
+@if (Model != null && Model.TotalItemCount > 0)
+{
+    <div class="row">
+        <div class="col-md-3 text-center" style="min-height: 50px;padding: 15px 0;">
+            <span>@Localizer["Showing"] <span id="fromSpan">@Model.FirstItemOnPage</span> @Localizer["to"] <span id="toSpan">@Model.LastItemOnPage</span> @Localizer["of"] <span id="ofSpan">@Model.TotalItemCount</span> @Localizer["entries"]</span>
+        </div>
+        <div id="pagingDiv" class="col-md-6 text-center" style="min-height: 50px;padding: 8px 0 2px;">
+            @Html.PagedListPager((IPagedList)Model, page => Url.Action(action, new { page = page }) + currentQuery,
+            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions()
+            {
+                MaximumPageNumbersToDisplay = 5
+            }, new AjaxOptions()
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "PagedDataDiv",
+                    OnSuccess = "PagedListSuccess",
+                    OnFailure = "PagedListFailure"
+                }))
+        </div>
+        <div class="col-md-3 text-center" style="min-height: 40px;padding: 10px 0;">
+            <span>@Localizer["Show"]</span>
+            <select asp-for="@Model.PageSize" asp-items="@viewHelper.GetPageSizes()" id="pageSizeSelect" name="show" class="input-sm no-padding" onchange="ChangeSize(this.value)"></select>
+            <span>@Localizer["entries"]</span>
+        </div>
+    </div>
+}

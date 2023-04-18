@@ -1,0 +1,185 @@
+﻿@model GPS.Domain.ViewModels.UserPrivilegesViewModel
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{ var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"); }
+
+<div class="row">
+    <div class="col-lg-4 col-sm-6 col-12">
+        <div class="card user-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 mt-2 mt-xl-0">
+                        <div class="d-flex justify-content-center">
+                            <div class="avatar bg-light-primary p-50 mb-2">
+                                <i class="fa fa-user-circle fa-4x"></i>
+                            </div>
+                        </div>
+                        <div class="table-responsive border rounded">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="badge badge-light-primary">
+                                                <i class="far fa-user"></i>
+                                                <span class="card-text user-info-title font-weight-bold mb-0">@SharedLocalizer["Username"]</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="card-text mb-0">@Model.User.UserName</p>
+                                        </td>
+                                    </tr>
+                                    @if (User.IsInRole("administrator") || _loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateUsers))
+                                        {
+                                    <tr>
+                                        <td>
+                                            <div class="badge badge-light-primary">
+                                                <i class="fas fa-lock"></i>
+                                                <span class="card-text user-info-title font-weight-bold mb-0">@SharedLocalizer["Password"]</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="card-text mb-0">@Model.User.Password</p>
+                                        </td>
+                                    </tr>
+                                    }
+                                    <tr>
+                                        <td>
+                                            <div class="badge badge-light-primary">
+                                                <i class="fa fa-check"></i>
+                                                <span class="card-text user-info-title font-weight-bold mb-0">@SharedLocalizer["Status"]</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="card-text mb-0">@(Model.User.IsActive ? SharedLocalizer["Active"]: SharedLocalizer["NotActive"])</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="badge badge-light-primary">
+                                                <i class="fa fa-star"></i>
+                                                <span class="card-text user-info-title font-weight-bold mb-0">@SharedLocalizer["Role"]</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="card-text mb-0">@(User.IsInRole("administrator") ? SharedLocalizer["AdministratorRole"] : SharedLocalizer["AgentRole"])</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 col-sm-6 col-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-lock"></i> @Localizer["EnablePrivileges"]</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" value="@ViewBag.ReturnURL" name="returnURL" />
+                <input type="hidden" asp-for="User.Id" id="userId" />
+                <div class="col-12">
+                    <div class="custom-control custom-checkbox">
+                        <input id="check_all_privileges" type="checkbox" class="custom-control-input" onchange="checkAll(this.checked)" >
+                        <label class="custom-control-label" for="check_all_privileges">@Localizer["EnableAll"]</label>
+                    </div>
+                    <div class="table-responsive border rounded mt-1">
+                        <table class="table table-striped table-borderless">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>@SharedLocalizer["Active"]</th>
+                                    <th>@Localizer["Privilege"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Privileges.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@(isEnglish ? Model.Privileges[i].PrivilegeType.NameEn : Model.Privileges[i].PrivilegeType.Name)</td>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" asp-for="@Model.Privileges[i].IsActive" id="privilegeType_@Model.Privileges[i].PrivilegeTypeId">
+                                                <label class="custom-control-label" for="privilegeType_@Model.Privileges[i].PrivilegeTypeId"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                 }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                @if (_loggedUser.UserId != Model.User.Id || _loggedUser.IsSuperAdmin)
+                {
+                    <button type="button" id="savebtn" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+                }
+                
+                <a href="@ViewBag.ReturnURL" class="btn btn-default">
+                    <i class="fa fa-rotate-left"></i>
+                    @SharedLocalizer["Back"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section css
+{
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-pickadate.min.css")" rel="stylesheet">
+}
+
+@section Scripts
+{
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+
+    <script src="@Url.Content("~/js/users/managePrivileges.js")" asp-append-version="true"></script>
+    <script>
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var all = '@SharedLocalizer["All"]';
+        var confirmSavePrivileges = '@Localizer["ConfirmSavePrivileges"]';
+        var updatePrivilegesFailed = '@Localizer["UpdatePrivilegesFailed"]';
+        var updatePrivilegesSuccess = '@Localizer["UpdatePrivilegesSuccess"]';
+        var isEnglish = '@isEnglish';
+    </script>
+
+}

@@ -1,0 +1,152 @@
+﻿@using GPS.Web.Agent;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Threading;
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewLocalizer Localizer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = SharedLocalizer["ScheduleReports"];
+    ViewBag.PageBarTitle = SharedLocalizer["ScheduleReports"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+<div class="row" id="app" v-cloak>
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <div class="col-lg-8 col-md-5 col-sm-5 col-xs-12 pull-opp-dir">
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageReportSchedule))
+                    {
+                        <a class="btn btn-primary pull-opp-dir fw-xxs" asp-action="Create">
+                            <i class="fa fa-plus"></i>
+                            @SharedLocalizer["GenerateReport"]
+                        </a>
+
+                    }
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        @SharedLocalizer["Type"]
+                        <select class="form-control" v-model="searchFilter.reportTypeId">
+                            <option v-if="reportTypes.length>1" value="0">@SharedLocalizer["All"]</option>
+                            <option v-for="type in reportTypes" :value="type.value">{{type.text}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-7 col-sm-7 col-xs-12 pt-3 pb-3 pull-dir">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="@SharedLocalizer["Search"]"
+                               v-model="searchFilter.searchString" />
+
+                        <div class="input-group-append">
+                            <button id="searchbtn" class="btn btn-primary">
+                                <i class="fa fa-search"></i>
+                                @SharedLocalizer["Search"]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="table-div" class="card-body">
+                <div id="PagedDataDiv">
+                    <partial name="~/Views/Scheduling/_Reports.cshtml" model="@Model" />
+                </div>
+                <form asp-action="Delete" id="DeleteForm">
+                    <input type="hidden" name="ItemId" id="ItemId" />
+                </form>
+            </div>
+            <div class="card-footer clearfix center">
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+</div>
+
+@section css
+{
+    <style>
+        .report th {
+            background-color: rgb(79, 129, 189);
+            font-weight: bold;
+            height: 50px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .title {
+            background-color: rgb(220, 230, 241);
+            font-weight: bold;
+        }
+
+        .time-view {
+            background: transparent;
+            border: 0;
+            margin-right: -27px;
+        }
+    </style>
+
+    <!-- alertify -->
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+
+    <!-- footable style -->
+    <link href="@Url.Content("~/lib/footable/css/footable.bootstrap.css")" rel="stylesheet" />
+
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+
+    @*<partial name="_VueScript" />*@
+
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+    <script src="@Url.Content("~/lib/loadash/lodash.min.js")"></script>
+
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <!-- footable -->
+    <script src="@Url.Content("~/lib/footable/js/footable.js")"></script>
+
+    @* for pager *@
+    <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+
+    <!-- moment -->
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+
+    <!-- bootstrap-datetimepicker -->
+
+    <script src="@Url.Content("~/js/reports/scheduling/index.js")" asp-append-version="true"></script>
+    <script>
+        var ErrorMessage = '@SharedLocalizer["ErrorMessage"]';
+
+        var text = '@SharedLocalizer["ConfirmDelete"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var all = '@SharedLocalizer["All"]';
+
+        var rTitle = '@SharedLocalizer["HistoryReport"]';
+
+        var AddSuccessMSG =  '@Localizer["AddSuccessMSG"]';
+    </script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+} 

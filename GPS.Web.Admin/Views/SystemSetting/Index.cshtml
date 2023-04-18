@@ -1,0 +1,379 @@
+﻿@model GPS.Domain.Views.SystemSettingView
+@using System.Web;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+<section class="modern-horizontal-wizard">
+    <div class="bs-stepper wizard-modern modern-wizard-example">
+        <!-- form start -->
+        <form id="AddUpdateForm" asp-action="AddUpdate" asp-controller="SystemSetting" method="post" enctype="multipart/form-data">
+            <div class="bs-stepper-header">
+                <div class="step crossed" data-target="#SetUpDefaultSystemLogo">
+                    <button type="button" class="step-trigger" aria-selected="false">
+                        <span class="bs-stepper-box">
+                            <i class="fa fa-file"></i>
+                        </span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">@Localizer["UploadLogo"]</span>
+                            <span class="bs-stepper-subtitle">@Localizer["SetUpDefaultSystemLogo"]</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="line">
+                    <i class="fa @(isEnglish? "fa-chevron-right": "fa-chevron-left")"></i>
+                </div>
+                <div class="step crossed" data-target="#GoogleApiKeyInfo">
+                    <button type="button" class="step-trigger" aria-selected="false">
+                        <span class="bs-stepper-box">
+                            <i class="fa fa-key"></i>
+                        </span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">@Localizer["SetApiKey"]</span>
+                            <span class="bs-stepper-subtitle">@Localizer["SetUpDefaultGoogleMapApiKey"]</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="line">
+                    <i class="fa @(isEnglish? "fa-chevron-right": "fa-chevron-left")"></i>
+                </div>
+                <div class="step crossed" data-target="#SmtpServerInfo">
+                    <button type="button" class="step-trigger" aria-selected="false">
+                        <span class="bs-stepper-box">
+                            <i class="fa fa-envelope-open"></i>
+                        </span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">@Localizer["SetSMTP"]</span>
+                            <span class="bs-stepper-subtitle">@Localizer["SetDefaultSMTPConfig"]</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="line">
+                    <i class="fa @(isEnglish? "fa-chevron-right": "fa-chevron-left")"></i>
+                </div>
+                <div class="step active" data-target="#SetSMSGateway">
+                    <button type="button" class="step-trigger" aria-selected="true">
+                        <span class="bs-stepper-box">
+                            <i class="fa fa-sms"></i>
+                        </span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">@Localizer["SetSMSGateway"]</span>
+                            <span class="bs-stepper-subtitle">@Localizer["SetDefaultSMSGatewayConfig"]</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="bs-stepper-content">
+                <div id="SetUpDefaultSystemLogo" class="content">
+                    <div class="content-header">
+                        <h5 class="mb-0">@Localizer["UploadLogo"]</h5>
+                        <small class="text-muted">@Localizer["SetUpDefaultSystemLogo"]</small>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <code>@Localizer["FileImageSizeLimitNote"]</code>
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="custom-file">
+                                                <input accept="image/*" type="file" class="custom-file-input" id="logoInput" asp-for="LogoPhoto">
+                                                <label class="custom-file-label" for="logoInput"></label>
+                                            </div>
+                                            <div class="card icon-card cursor-pointer text-center mb-2 mx-50">
+                                                <div class="card-body">
+                                                    <div class="icon-wrapper"><i class="fa fa-file fa-7x"></i></div>
+                                                    <span class="icon-name text-truncate mb-0 mt-1" id="logoInputSize"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            @if (!string.IsNullOrEmpty(Model.LogoFileBase64))
+                                            {
+                                                <img id="outPutLogo" class="w-100 h-100" src="@($"data:image/png;base64,{Model.LogoFileBase64}")" />
+                                            }
+                                            else
+                                            {
+                                                <img id="outPutLogo" class="w-100 h-100 d-none" />
+                                            }
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-merge">
+                                                    <input type="text" id="CompanyName" class="form-control" asp-for="CompanyName" placeholder="@Localizer["CompanyName"]">
+                                                </div>
+                                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                        <a class="btn btn-primary btn-next waves-effect waves-float waves-light">
+                            <span class="align-middle d-sm-inline-block d-none mx-1">@SharedLocalizer["Next"]</span>
+                            <i class="fa @(isEnglish? "fa-chevron-left": "fa-chevron-right")"></i>
+                        </a>
+                    </div>
+                </div>
+                <div id="GoogleApiKeyInfo" class="content">
+                    <div class="content-header">
+                        <h5 class="mb-0">@Localizer["GoogleApiKeyInfo"]</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="GoogleApiKey">@Localizer["GoogleApiKey"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    </div>
+                                    <input type="text" id="GoogleApiKey" class="form-control" asp-for="GoogleApiKey">
+                                </div>
+                                <span asp-validation-for="GoogleApiKey" class="text-danger"></span>
+                            </div>
+                        </div>
+                        @*<div class="col-12">
+                            <div class="form-group">
+                                <label for="WaslApiKey">@Localizer["WaslApiKey"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    </div>
+                                    <input type="text" id="WaslApiKey" class="form-control" asp-for="WaslApiKey">
+                                </div>
+                                <span asp-validation-for="WaslApiKey" class="text-danger"></span>
+                            </div>
+                        </div>*@
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-primary btn-prev waves-effect waves-float waves-light">
+                            <i class="fa @(isEnglish? "fa-chevron-right": "fa-chevron-left")"></i>
+                            <span class="align-middle d-sm-inline-block d-none mx-1">@SharedLocalizer["Previous"]</span>
+                        </a>
+                        <a class="btn btn-primary btn-next waves-effect waves-float waves-light">
+                            <span class="align-middle d-sm-inline-block d-none mx-1">@SharedLocalizer["Next"]</span>
+                            <i class="fa @(isEnglish? "fa-chevron-left": "fa-chevron-right")"></i>
+                        </a>
+                    </div>
+                </div>
+                <div id="SmtpServerInfo" class="content">
+                    <div class="content-header">
+                        <h5 class="mb-0">@Localizer["SmtpServerInfo"]</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="SmtpHost">@Localizer["SmtpHost"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" id="SmtpHost" class="form-control" asp-for="SMTP_HOST">
+                                </div>
+                                <span asp-validation-for="SMTP_HOST" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="SmtpAddress">@Localizer["SmtpAddress"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" id="SmtpAddress" class="form-control" asp-for="SMTP_Address">
+                                </div>
+                                <span asp-validation-for="SMTP_Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="SmtpPORT">@Localizer["SmtpPORT"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-plug"></i></span>
+                                    </div>
+                                    <input type="text" id="SmtpPORT" class="form-control" asp-for="SMTP_PORT">
+                                </div>
+                                <span asp-validation-for="SMTP_PORT" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="SmtpDisplayName">@Localizer["SmtpDisplayName"]</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" id="SmtpDisplayName" class="form-control" asp-for="SMTP_DisplayName">
+                                </div>
+                                <span asp-validation-for="SMTP_DisplayName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="SmtpPassword">@Localizer["SmtpPassword"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                    </div>
+                                    <input type="text" id="SmtpPassword" class="form-control" asp-for="SMTP_Password">
+                                </div>
+                                <span asp-validation-for="SMTP_Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6"></div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="IsSslEnabled" asp-for="SMTP_IsSslEnabled">
+                                    <label class="custom-control-label" for="IsSslEnabled">@Localizer["IsSslEnabled"]</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="EnableSMTP" asp-for="EnableSMTP">
+                                    <label class="custom-control-label" for="EnableSMTP">@Localizer["EnableSMTP"]</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-primary btn-prev waves-effect waves-float waves-light">
+                            <i class="fa @(isEnglish? "fa-chevron-right": "fa-chevron-left")"></i>
+                            <span class="align-middle d-sm-inline-block d-none mx-1">@SharedLocalizer["Previous"]</span>
+                        </a>
+                        <a class="btn btn-primary btn-next waves-effect waves-float waves-light">
+                            <span class="align-middle d-sm-inline-block d-none mx-1">@SharedLocalizer["Next"]</span>
+                            <i class="fa @(isEnglish? "fa-chevron-left": "fa-chevron-right")"></i>
+                        </a>
+                    </div>
+                </div>
+                <div id="SetSMSGateway" class="content active dstepper-block">
+                    <div class="content-header">
+                        <h5 class="mb-0">@Localizer["SetSMSGateway"]</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="SMSGatewayURL">@Localizer["SMSGatewayURL"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-link"></i></span>
+                                    </div>
+                                    <input type="text" id="SMSGatewayURL" class="form-control" asp-for="SMS_GatewayURL">
+                                </div>
+                                <span asp-validation-for="SMS_GatewayURL" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="SMSUsername">@Localizer["SMSUsername"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <input type="text" id="SMSUsername" class="form-control" asp-for="SMS_Username">
+                                </div>
+                                <span asp-validation-for="SMS_Username" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="SMSPassword">@Localizer["SMSPassword"]</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                    </div>
+                                    <input type="text" id="SMSPassword" class="form-control" asp-for="SMS_Password">
+                                </div>
+                                <span asp-validation-for="SMS_Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="EnableSMS">
+                                    <label class="custom-control-label" for="EnableSMS" asp-for="EnableSMS">@Localizer["EnableSMS"]</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-primary btn-prev waves-effect waves-float waves-light">
+                            <i class="fa @(isEnglish? "fa-chevron-right": "fa-chevron-left")"></i>
+                            <span class="align-middle d-sm-inline-block d-none mx-1">@SharedLocalizer["Previous"]</span>
+                        </a>
+                        <button type="submit" id="BtnAddUpdate" class="btn btn-success waves-effect waves-float waves-light">@SharedLocalizer["Save"]</button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" asp-for="Id"/>
+        </form>
+    </div>
+    <!-- form end -->
+</section>
+
+
+@section css
+{
+    </style>
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- form-wizard -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/forms/wizard/bs-stepper.min.css")" rel="stylesheet" />
+    @if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css/plugins/forms/form-wizard.css")" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/form-wizard.css")" rel="stylesheet" />
+    }
+
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- form-wizard -->
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/forms/form-wizard.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/forms/wizard/bs-stepper.min.js")"></script>
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+
+
+    <script>
+        var saveSuccess = '@Localizer["SaveSuccess"]';
+        var done = '@SharedLocalizer["Done"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+    </script>
+
+    <script src="@Url.Content("~/js/systemSetting/systemSetting.js")" asp-append-version="true"></script>
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

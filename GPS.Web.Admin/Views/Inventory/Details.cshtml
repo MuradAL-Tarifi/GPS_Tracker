@@ -1,0 +1,108 @@
+﻿@model GPS.Domain.Views.InventoryView
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Helper;
+@using GPS.Web.Admin;
+@using GPS.Domain.DTO;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewHelper viewHelper
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageInventories"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageInventories"];
+    ViewBag.PageBarDescription = Localizer["PageDescription"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+<section class="bs-validation">
+    <div class="row">
+        <!-- Bootstrap Validation -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@SharedLocalizer["InventoryInfo"]</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" id="CreateForm">
+                        <section id="multiple-column-form">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Warehouse.Name" class="form-label">@SharedLocalizer["Warehouse"]</label>
+                                    <input class="form-control" readonly value="@Model.Warehouse.Name" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Gateway.Name" class="form-label">@SharedLocalizer["Gateway"]</label>
+                                    <input class="form-control" readonly value="@Model.Gateway.Name" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Name" class="form-label">@SharedLocalizer["Name"]</label>
+                                    <input class="form-control" readonly value="@Model.Name" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="InventoryNumber" class="form-label">@SharedLocalizer["InventoryNumber"]</label>
+                                    <input class="form-control" readonly value="@Model.InventoryNumber" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="SFDAStoringCategory" class="form-label">@SharedLocalizer["StoringCategory"]</label>
+                                    <input class="form-control" readonly value="@Model.SFDAStoringCategory" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="IsActive" class="form-label">@SharedLocalizer["Status"]</label>
+                                    @if (Model.IsActive)
+                                    {
+                                        <span class="badge badge-success">@SharedLocalizer["Active"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">@SharedLocalizer["NotActive"]</span>
+                                    }
+                                </div>
+                                <div class="form-group  col-12 mt-2" v-if="inventory.inventorySensors && inventory.inventorySensors.length>0">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>@SharedLocalizer["SerialNumber"]</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.InventorySensors)
+                                            {
+                                                <tr>
+                                                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateInventories))
+                                                    {
+                                                        <td>
+                                                            @item.SensorView.Serial
+                                                        </td>
+                                                        <td>
+                                                            @item.SensorView.Name
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="row">
+                            <div class="col-12">
+                                <a asp-action="Index" class="btn btn-outline-secondary">
+                                    <i class="fa fa-rotate-left"></i>
+                                    @SharedLocalizer["Back"]
+                                </a>
+                                @if (Model.IsLinkedWithWasl)
+                                {
+                                    <span class="btn btn-outline-success">
+                                        <i class="fa fa-link"></i>
+                                        @SharedLocalizer["LinkedWithWasl"]
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

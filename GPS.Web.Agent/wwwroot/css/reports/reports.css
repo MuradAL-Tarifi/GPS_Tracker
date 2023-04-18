@@ -1,0 +1,63 @@
+﻿select {
+    height: 40px !important;
+}
+
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: fit-content;
+    }
+}
+
+.report-dtp {
+    font-size: 14px;
+}
+
+    .report-dtp .input-group-text, .report-options .form-control {
+        font-size: inherit;
+    }
+
+/*.dtp-control .form-control {
+    width: 167px;
+    height: auto;
+    padding: 2px 10px;
+    font-size: inherit;
+    display: inline-block;
+}
+
+.dtp-control .input-group {
+    display: inline-flex;
+    width: auto;
+}*/
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    width: auto;
+}
+
+.dates {
+    border-collapse: collapse;
+    border: 0;
+}
+
+    .dates tr {
+        background-color: inherit !important;
+    }
+
+    .dates td {
+        padding: 1px;
+    }
+
+        .dates td:first-child {
+            text-align: right;
+            border: 0;
+        }
+
+        .dates td:last-child {
+            direction: ltr;
+            text-align: center;
+            border: 0;
+        }
+
+.single {
+    padding-left: 40px;
+}

@@ -1,0 +1,98 @@
+﻿@model GPS.Domain.ViewModels.CompanySettingViewModel
+@using System.Web;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+
+<section id="input-file-browser">
+    <form id="AddUpdateForm" asp-action="AddUpdate" asp-controller="CompanySetting" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">@Localizer["UploadLogo"]</h5>
+                        <small class="text-muted">@Localizer["SetUpDefaultCompanyLogo"]</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="custom-file">
+                                    <input accept="image/*" type="file" class="custom-file-input" id="logoInput" asp-for="LogoPhoto">
+                                    <label class="custom-file-label" for="logoInput"></label>
+                                </div>
+                                <div class="card icon-card cursor-pointer text-center mb-2 mx-50">
+                                    <div class="card-body">
+                                        <div class="icon-wrapper"><i class="fa fa-file fa-7x"></i></div>
+                                        <span class="icon-name text-truncate mb-0 mt-1" id="logoInputSize"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                @if (!string.IsNullOrEmpty(Model.LogoFileBase64))
+                                {
+                                    <img id="outPutLogo" class="w-100 h-100" src="@($"data:image/png;base64,{Model.LogoFileBase64}")" />
+                                }
+                                else
+                                {
+                                    <img id="outPutLogo" class="w-100 h-100 d-none" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success btn-submit waves-effect waves-float waves-light">@SharedLocalizer["Save"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+@section css
+{
+
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+
+
+    <script>
+        var saveSuccess = '@SharedLocalizer["SaveSuccess"]';
+        var done = '@SharedLocalizer["Done"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+    </script>
+
+    <script src="@Url.Content("~/js/companySetting/companySetting.js")" asp-append-version="true"></script>
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

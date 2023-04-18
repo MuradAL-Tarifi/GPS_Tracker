@@ -1,0 +1,7 @@
+﻿<environment include="Development">
+    <script src="@Url.Content("~/lib/vue/vue.js")" asp-append-version="true"></script>
+</environment>
+
+<environment exclude="Development">
+    <script src="@Url.Content("~/lib/vue/vue.min.js")" asp-append-version="true"></script>
+</environment>

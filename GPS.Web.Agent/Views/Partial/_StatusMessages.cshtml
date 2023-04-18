@@ -1,0 +1,34 @@
+﻿@using GPS.Web.Agent;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var alertType = (string)TempData["_alert.alertType"];
+    var type = (string)TempData["_alert.type"];
+    var title = (string)TempData["_alert.title"];
+    var text = Html.Raw((string)TempData["_alert.body"]);
+    var cancelText = (string)TempData["_alert.cancelText"];
+    var returnUrl = (string)TempData["_alert.returnUrl"];
+}
+
+@if (!string.IsNullOrEmpty(alertType))
+{
+    <script src="@Url.Content("~/js/alerts.js")"></script>
+    <script>
+        if ('@alertType' == 'alert') {
+            SwalAlertOk('@type', '@title', '@text', function () {
+                if ('@returnUrl') {
+                    window.location.href = '@returnUrl';
+                }
+            });
+        } else if ('@alertType' == 'options') {
+            SwalOptions('@type', '@title', '@text', '@SharedLocalizer["Done"]', '@cancelText', function (result) {
+                  if (result && '@returnUrl') { // done
+                    var decodedURI = '@Html.Raw(System.Web.HttpUtility.UrlDecode(returnUrl))';
+                    decodedURI = decodedURI.replace(/&amp;/g, '&');
+                    window.location.href = decodedURI;
+                }
+            });
+        }
+    </script>
+}

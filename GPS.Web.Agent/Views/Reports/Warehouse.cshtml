@@ -1,0 +1,237 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = SharedLocalizer["WarehousesReport"];
+    var lang = System.Threading.Thread.CurrentThread.CurrentCulture.Name.Equals("en-US") ? "en" : "ar";
+    var isEnglish = lang == "en";
+}
+
+
+<div id="app" v-cloak>
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-12">
+                    <h4>
+                        @SharedLocalizer["WarehousesReport"]
+                        <small></small>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accordion with shadow start -->
+    <section id="accordion-with-shadow">
+        <div class="row">
+            <div class="col-sm-3 overflow-auto" style="max-height:600px">
+                <div id="accordionWrapa10" role="tablist" aria-multiselectable="true">
+                    <div class="card collapse-icon">
+                        <div class="card-header">
+                            <h4 class="card-title">@_loggedUser.FleetName</h4>
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-merge">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-search text-sm"></i></span>
+                                        </div>
+                                        <input v-model="searchText" type="text" class="form-control" placeholder="@SharedLocalizer["Search"]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body" v-for="warehouse in filteredList" v-bind:key="warehouse.id" v-bind:id="'g'+warehouse.id">
+                            <div class="collapse-shadow">
+                                <div class="card">
+                                    <div v-bind:id="'heading'+warehouse.id"
+                                         class="card-header"
+                                         data-toggle="collapse"
+                                         role="button"
+                                         v-bind:data-target="'#accordion'+warehouse.id"
+                                         aria-expanded="false"
+                                         v-bind:data-parent="'#accordion'+warehouse.id">
+                                        <span class="lead collapse-title"> {{warehouse.name}} </span>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm waves-effect"
+                                                v-on:click="selectInventories($event, warehouse)">
+                                            @SharedLocalizer["All"]
+                                        </button>
+                                    </div>
+                                    <div v-bind:id="'accordion'+warehouse.id"
+                                         role="tabpanel"
+                                         v-bind:data-parent="'#accordionWrapa'+warehouse.id"
+                                         v-bind:aria-labelledby="'heading'+warehouse.id"
+                                         class="collapse"
+                                         aria-expanded="false">
+                                        <div class="card-body">
+                                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                                <li v-for="inventory in warehouse.inventories"
+                                                    v-bind:key="inventory.id"
+                                                    v-bind:id="'v'+inventory.id"
+                                                    v-bind:class="{ 'car-selected' : selectedInventory && !selectedInventories && inventory.id == selectedInventory.id }"
+                                                    class="nav-item callout callout-info glass"
+                                                    v-on:click="selectInventory(inventory ,$event, warehouse.name)">
+                                                    <p>
+                                                        {{ inventory.name }}
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8" v-if="selectedInventory && !selectedInventories">
+                <div class="row">
+                    <h3>{{warehouseName}} - {{selectedInventory.name}}</h3>
+                </div>
+                <div class="row" v-if="selectedInventory && selectedInventory.inventorySensors && selectedInventory.inventorySensors.length > 0">
+                    <div class="col-md-4 col-sm-6" v-for="sensor in selectedInventory.inventorySensors">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <div v-bind:class="['avatar p-50 mb-1 ', sensor.color]">
+                                    <div class="avatar-content">
+                                        <i class="font-medium-5 fas fa-temperature-high" data-feather="check"></i>
+                                    </div>
+                                </div>
+                                <h2 class="font-weight-bolder" v-if="sensor.humidity > 0">{{sensor.temperature}}° / {{sensor.humidity}}%</h2>
+                                <h2 class="font-weight-bolder" v-else>{{sensor.temperature}}°</h2>
+                                <p class="card-text">{{sensor.sensorName}} </p>
+                                <p class="card-text">{{sensor.serial}} </p>
+                                <p class="card-text" v-if="sensor.hasAnyRecords">{{formatDatetime(sensor.gpsDate)}}</p>
+                                <div v-if="sensor.isCalibrated" class="badge badge-success">@SharedLocalizer["Calibrated"]</div>
+                                <div v-else class="badge badge-danger">@SharedLocalizer["NotCalibrated"]</div>
+                            </div>
+                            <a :href="historyUrl(sensor.serial)" :class="sensor.btnColor">@SharedLocalizer["Records"]</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h2 class="font-weight-bolder mb-0" v-if="isOnlyAverageTemp">{{avgTemperature}}°</h2>
+                                    <h2 class="font-weight-bolder mb-0" v-else>{{avgTemperature}}° / {{avgHumidity}}%</h2>
+                                    <p class="card-text">المتوسط</p>
+                                </div>
+                                <div class="avatar bg-light-secondary p-50 m-0">
+                                    <div class="avatar-content">
+                                        <i class="font-medium-5 fas fa-temperature-high" data-feather="check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+            <div class="col-sm-9" v-if="selectedInventories">
+                <div v-for="_selectedInventory in selectedInventories">
+                    <div class="card collapse-icon">
+                        <div v-bind:id="'heading'+_selectedInventory.id"
+                             class="card-header"
+                             data-toggle="collapse"
+                             role="button"
+                             v-bind:data-target="'#accordion'+_selectedInventory.id"
+                             aria-expanded="false"
+                             v-bind:data-parent="'#accordion'+_selectedInventory.id">
+                            <span class="lead collapse-title"> {{warehouseName}} - {{_selectedInventory.name}} </span>
+                        </div>
+
+                        <div v-bind:id="'accordion'+_selectedInventory.id"
+                             role="tabpanel"
+                             v-bind:data-parent="'#accordionWrapa'+_selectedInventory.id"
+                             v-bind:aria-labelledby="'heading'+_selectedInventory.id"
+                             class="collapse show"
+                             aria-expanded="false">
+                            <div class="card-body">
+                                <div class="row" v-if="_selectedInventory && _selectedInventory.inventorySensors && _selectedInventory.inventorySensors.length > 0">
+                                    <div class="col-md-4 col-sm-6 mb-1" v-for="sensor in _selectedInventory.inventorySensors">
+                                        <div class="card text-center border-primary">
+                                            <div class="card-body">
+                                                <div v-bind:class="['avatar p-50 mb-1 ', sensor.color]">
+                                                    <div class="avatar-content">
+                                                        <i class="font-medium-5 fas fa-temperature-high" data-feather="check"></i>
+                                                    </div>
+                                                </div>
+                                                <h2 class="font-weight-bolder" v-if="sensor.humidity > 0">{{sensor.temperature}}° / {{sensor.humidity}}%</h2>
+                                                <h2 class="font-weight-bolder" v-else>{{sensor.temperature}}°</h2>
+                                                <p class="card-text">{{sensor.sensorName}} </p>
+                                                <p class="card-text">{{sensor.serial}} </p>
+                                                <p class="card-text" v-if="sensor.hasAnyRecords">{{formatDatetime(sensor.gpsDate)}}</p>
+                                                <div v-if="sensor.isCalibrated" class="badge badge-success">@SharedLocalizer["Calibrated"]</div>
+                                                <div v-else class="badge badge-danger">@SharedLocalizer["NotCalibrated"]</div>
+                                            </div>
+                                            <a :href="historyUrl(sensor.serial)" :class="sensor.btnColor">@SharedLocalizer["Records"]</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Accordion with Shadow end -->
+
+</div>
+
+@section css
+{
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/css/reports/warehouse/dashboard.css")" rel="stylesheet" asp-append-version="true" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/charts/apexcharts.css")" rel="stylesheet" />
+
+    @if (isEnglish)
+    {
+        <link href="@Url.Content("~/css/reports/warehouse/dashboard-en.css")" rel="stylesheet" asp-append-version="true" />
+    }
+    else
+    {
+        <link href="@Url.Content("~/css/reports/warehouse/dashboard-ar.css")" rel="stylesheet" asp-append-version="true" />
+    }
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+
+    @*<partial name="_VueScript" />*@
+
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+    <script src="@Url.Content("~/lib/loadash/lodash.min.js")"></script>
+
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+
+
+    <script src="@Url.Content("~/js/components.js")" asp-append-version="true"></script>
+    <script>
+        var ErrorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var isEnglish = '@isEnglish' == 'True';
+    </script>
+    <script src="@Url.Content("~/js/reports/warehouse/warehouse-dashboard.js")" asp-append-version="true"></script>
+
+
+
+}
+

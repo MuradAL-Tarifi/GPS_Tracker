@@ -1,0 +1,83 @@
+﻿@model StaticPagedList<GPS.Domain.Views.EventLogView>
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization;
+@using GPS.Web.Admin;
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewLocalizer Localizer
+
+@{ var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"); }
+
+<table id="tbOperations" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th>
+                @Localizer["Type"]
+            </th>
+            <th>
+                @Localizer["ObjectId"]
+            </th>
+            <th>
+                @Localizer["ObjectType"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @Localizer["Object"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @Localizer["UserId"]
+            </th>
+            <th data-breakpoints="xs sm">
+                @Localizer["TimeStamp"]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+          <tr>
+                <td>
+                    @{ var typeEnum = (GPS.Domain.DTO.Event)Enum.Parse(typeof(GPS.Domain.DTO.Event), item.Type);
+                        switch (typeEnum)
+                        {
+                            case GPS.Domain.DTO.Event.create:
+                        <label class="label label-primary">
+                            @SharedLocalizer["Create"]
+                        </label> 
+                            break;
+                            case GPS.Domain.DTO.Event.update:
+                        <label class="label label-success">
+                            @SharedLocalizer["Update"]
+                        </label> 
+                            break;
+                            case GPS.Domain.DTO.Event.delete:
+                        <label class="label label-danger">
+                            @SharedLocalizer["Delete"]
+                        </label> 
+                            break;
+                            } 
+                        }
+                </td>
+                <td>
+                    @item.ObjectId
+                </td>
+                <td>
+                    @item.ObjectType
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-success waves-effect" onclick="showContent('@item.ObjectType',@item.Data)">
+                       @Localizer["ShowContent"]
+                    </button>
+                </td>
+                <td>
+                    @(item.User != null ? (isEnglish ? item.User.NameEn : item.User.Name) : "")
+                    <br />
+                    @(item.User != null ? item.User.UserName : "")
+                </td>
+                <td class="ltr text-right">
+                    @item.CreationDate.ToString("yyyy/MM/dd hh:mm tt", new CultureInfo("en-US").DateTimeFormat)
+                </td>
+      </tr>
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

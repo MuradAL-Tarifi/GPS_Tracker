@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GPS.API.History</name>
+    </assembly>
+    <members>
+        <member name="T:GPS.API.History.Controllers.InventoryHistoryController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:GPS.API.History.Controllers.InventoryHistoryController.#ctor(GPS.Services.Inventorys.IInventoryHistoryService)">
+            <summary>
+            
+            </summary>
+            <param name="gatewayHistoryService"></param>
+        </member>
+        <member name="M:GPS.API.History.Controllers.InventoryHistoryController.SensorHistory(System.Int64,System.Int64,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="inventoryId"></param>
+            <param name="sensorSerial"></param>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPS.API.History.Controllers.InventoryHistoryController.PagedHistory(System.Int64,System.Nullable{System.Int64},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Paged Inventory History
+            </summary>
+            <param name="inventoryId"></param>
+            <param name="sensorSerial"></param>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPS.API.History.Controllers.InventoryHistoryController.PagedSensorTemperatureAndHumidityHistoryAsync(System.Int64,System.Int64,System.String,System.String,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.Boolean)">
+            <summary>
+            Paged Temperature And Humidity History
+            </summary>
+            <param name="inventoryId"></param>
+            <param name="sensorSerial"></param>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="groupUpdatesByType"></param>
+            <param name="groupUpdatesValue"></param>
+            <param name="isEnglish"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPS.API.History.Controllers.InventoryHistoryController.GroupedSensorTemperatureAndHumidityHistory(System.Int64,System.Int64,System.String,System.String,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.Boolean)">
+            <summary>
+            Grouped Temperature And Humidity History
+            </summary>
+            <param name="inventoryId"></param>
+            <param name="sensorSerial"></param>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="groupUpdatesByType"></param>
+            <param name="groupUpdatesValue"></param>
+            <param name="isEnglish"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPS.API.History.Controllers.InventoryHistoryController.GetByInventoryId(System.Int64,System.String,System.String)">
+            <summary>
+            inventory history by inventory Id
+            </summary>
+            <param name="inventoryId"></param>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPS.API.History.Controllers.InventoryHistoryController.SensorAverageTemperatureAndHumidityByHour(System.Int64,System.Int64,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="inventoryId"></param>
+            <param name="sensorSerial"></param>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:GPS.API.History.Middlewares.ApiSecurityMiddleware">
+            <summary>
+            Api Security Middleware
+            </summary>
+        </member>
+        <member name="M:GPS.API.History.Middlewares.ApiSecurityMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,GPS.Domain.DTO.AppSettings)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="next"></param>
+            <param name="appSettings"></param>
+        </member>
+        <member name="M:GPS.API.History.Middlewares.ApiSecurityMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPS.API.History.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:GPS.API.History.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

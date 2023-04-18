@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+
+		<style>
+
+			td {
+			padding: 4px;
+			text-align: center;
+			}
+
+			table {
+			border-spacing: 10px;
+			border-collapse: separate;
+			}
+			table, td, th {
+			border: 1px solid;
+			}
+
+			table {
+			width: 100%;
+			border-collapse: collapse;
+			}
+
+		</style>
+	</head>
+	<body style="direction:ltr">
+		<table>
+			<tbody>
+				<tr>
+					<td colspan="3">
+						<h2>{WarehouseInfo}</h2>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<h2>{InventoryInfo}</h2>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<h3>{Date}</h3>
+					</td>
+				</tr>
+				<tr>
+					<td style="width:280px">
+						<h3>{AlertMessageEn}</h3>
+					</td>
+					<td style="width:60px"></td>
+					<td style="width:280px" dir="rtl">
+						<h3>{AlertMessageAr}</h3>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h3>{PropertyEn}</h3>
+					</td>
+					<td></td>
+					<td dir="rtl">
+						<h3>{PropertyAr}</h3>
+					</td>
+				</tr>
+				{AppendHTML}
+
+			</tbody>
+		</table>
+
+	</body>
+</html>

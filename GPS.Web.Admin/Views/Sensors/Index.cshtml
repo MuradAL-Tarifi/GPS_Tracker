@@ -1,0 +1,122 @@
+﻿@model StaticPagedList<GPS.Domain.Views.SensorView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+    ViewBag.PageBarTitle = Localizer["PageTitle"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>
+                                    @SharedLocalizer["Brand"]
+                                </label>
+                                <select id="BrandsSelect" name="BrandId" class="form-control select" asp-items="ViewBag.Brands">
+                                    <option value="0">@SharedLocalizer["All"]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>
+                                    @SharedLocalizer["FilterWorkingAndNotWorkingSensors"]
+                                </label>
+                                <select id="SensorStatusSelect" name="SensorStatus" class="form-control select">
+                                    <option value="-1">@SharedLocalizer["All"]</option>
+                                    <option value="0">@SharedLocalizer["NotWorkingSensors"]</option>
+                                    <option value="1">@SharedLocalizer["WorkingSensors"]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-11">
+                            <div class="form-group">
+                                <label>
+                                    @SharedLocalizer["Search"]
+                                </label>
+                                <input type="text" class="form-control" id="searchInput" placeholder="@SharedLocalizer["Search"]" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <button id="searchbtn" class="btn btn-primary">
+                                @SharedLocalizer["Search"]
+                                <i class="fa fa-search"></i>
+                            </button>
+                            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateSensors))
+                            {
+                                <a onclick="createSensor(@Model.PageNumber)" class="btn btn-primary fw-xxs" style="cursor:pointer">
+                                    <i class="fa fa-plus"></i>
+                                    @SharedLocalizer["AddNewSensor"]
+                                </a>
+                            }
+                        </div>
+                    
+                    </div>
+                </div>
+             </div>
+        </div>
+            <div id="table-div" class="card-body">
+                <div id="PagedDataDiv">
+                    <partial name="~/Views/Sensors/_data.cshtml" model="@Model" />
+                </div>
+                <form asp-action="Delete" id="DeleteForm">
+                    <input type="hidden" name="ItemId" id="ItemId" />
+                    <input type="hidden" name="returnURL" id="returnURL" />
+                </form>
+            </div>
+            <div class="card-footer clearfix center">
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+@section css
+{
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- footable style -->
+    <link href="@Url.Content("~/lib/footable/css/footable.bootstrap.css")" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    @* for pager *@
+    <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- footable -->
+    <script src="@Url.Content("~/lib/footable/js/footable.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script src="@Url.Content("~/js/sensors/sensors.js")" asp-append-version="true"></script>
+    <script>
+        var text = '@Localizer["ConfirmDelete"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var all = '@SharedLocalizer["All"]';
+    </script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

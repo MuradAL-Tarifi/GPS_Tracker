@@ -1,0 +1,136 @@
+﻿@model GPS.Domain.Views.GatewayView
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageGateways"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageGateways"];
+    ViewBag.PageBarDescription = SharedLocalizer["AddNewGateway"];
+}
+
+<section class="bs-validation">
+    <div class="row">
+        <!-- Bootstrap Validation -->
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@SharedLocalizer["AddNewGateway"]</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" id="CreateForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <section id="multiple-column-form">
+                            <div class="rowp">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label">@SharedLocalizer["NameAr"]<star /></label>
+                                    <input id="Name" asp-for="Name" class="form-control" placeholder="@SharedLocalizer["NameAr"]" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                    <span id="uniqueNameValidation" class="text-danger d-none">@Localizer["GatewayNameExists"]</span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="IMEI" class="form-label">@SharedLocalizer["IMEI"]<star /></label>
+                                    <input id="IMEI" asp-for="IMEI" class="new-todo-item-title form-control" placeholder="@SharedLocalizer["IMEI"]" />
+                                    <span asp-validation-for="IMEI" class="text-danger"></span>
+                                    <span id="uniqueIMEIValidation" class="text-danger d-none">@Localizer["IMEIExists"]</span>
+                                </div>
+                                <div class="form-group ltr">
+                                    <label asp-for="SIMNumber" class="form-label">@SharedLocalizer["SIMNumber"]</label>
+                                    <input id="SIMNumber" asp-for="SIMNumber" class="new-todo-item-title form-control" data-inputmask="'mask': '+999999999999', 'placeholder': '+966xxxxxxxxx'" data-mask />
+                                    <span asp-validation-for="SIMNumber" class="text-danger"></span>
+                                    <span id="uniqueNameValidation" class="text-danger d-none">@Localizer["IMEIExists"]</span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ActivationDateText" class="form-label">@SharedLocalizer["ActivationDate"]</label>
+                                    <input type="text" class="form-control new-todo-item-title flatPickr-date" asp-for="ActivationDateText" id="ActivationDateText" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ExpirationDateText" class="form-label">@SharedLocalizer["ExpirationDate"]<star /></label>
+                                    <input type="text" class="form-control new-todo-item-title flatPickr-date" asp-for="ExpirationDateText" id="ExpirationDateText" />
+                                    <span asp-validation-for="ExpirationDateText" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SIMCardExpirationDateText" class="form-label">@SharedLocalizer["SIMCardExpirationDate"]</label>
+                                    <input type="text" class="form-control new-todo-item-title flatPickr-date" asp-for="SIMCardExpirationDateText" id="SIMCardExpirationDateText" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="NumberOfMonths" class="form-label">@SharedLocalizer["NumberOfMonths"]</label>
+                                    <input type="text" id="NumberOfMonths" asp-for="NumberOfMonths" class="new-todo-item-title form-control" placeholder="@SharedLocalizer["NumberOfMonths"]" />
+                                    <span asp-validation-for="NumberOfMonths" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="BrandId" class="form-label">@SharedLocalizer["Brands"]<star /></label>
+                                    <select id="BrandsSelect" asp-for="BrandId" class="form-control new-todo-item-title select2" asp-items="ViewBag.Brands" data-placeholder="-">
+                                    </select>
+                                    <span asp-validation-for="BrandId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <label asp-for="IsActive" class="form-label">@SharedLocalizer["Status"]</label>
+                                        <input asp-for="IsActive" type="checkbox" checked="checked" data-size="normal" data-toggle="toggle" data-on="@SharedLocalizer["Active"]" data-off="@SharedLocalizer["NotActive"]" data-onstyle="success" data-offstyle="danger">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Notes" class="form-label">@SharedLocalizer["Notes"]</label>
+                                    <textarea asp-for="Notes" class="form-control" aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="button" id="savebtn" class="btn btn-primary mr-1">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section css
+ {
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/pickers/flatpickr/flatpickr.min.css")" rel="stylesheet" >
+}
+
+@section Scripts
+         {
+
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+
+    <script src="@Url.Content("~/js/gateway/create.js")" asp-append-version="true"></script>
+
+    <script>
+        var text = '@Localizer["ConfirmCreate"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+    </script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

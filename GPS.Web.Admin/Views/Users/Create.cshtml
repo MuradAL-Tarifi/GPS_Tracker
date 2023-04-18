@@ -1,0 +1,195 @@
+﻿@model GPS.Domain.Views.UserView
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{ ViewData["Title"] = SharedLocalizer["ManageUsers"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageUsers"];
+    ViewBag.PageBarDescription = SharedLocalizer["AddNewUser"]; }
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">@SharedLocalizer["AddNewUser"]</h3>
+            </div>
+            <!-- form start -->
+            <form asp-controller="Users" asp-action="Create" id="CreateForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <section id="multiple-column-form">
+                    <input type="hidden" value="@ViewBag.ReturnURL" name="ReturnURL" />
+                    <div class="row p-1">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="roles-select">@SharedLocalizer["Role"]<star /></label>
+                                <select id="roles-select" name="Role" class="form-control select" asp-items="ViewBag.Roles"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="UserName">@SharedLocalizer["Username"]<star /></label>
+                                <input id="UserName" asp-for="UserName" class="form-control" maxlength="200" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                                <span id="uniqueUsernameValidation" class="text-danger d-none">@Localizer["UsernameExists"]</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Password">@SharedLocalizer["Password"]<star /></label>
+                                <input id="Password" asp-for="Password" class="form-control" maxlength="20" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 agent-content">
+                            <div class="form-group">
+                                <label for="roles-select">@SharedLocalizer["Agent"]<star /></label>
+                                <select id="AgentsSelect" asp-for="AgentId" class="form-control select" asp-items="ViewBag.Agents"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 agent-content">
+                            <div class="form-group">
+                                <label for="roles-select">@SharedLocalizer["Fleet"]<star /></label>
+                                <select id="FleetsSelect" asp-for="FleetId" class="form-control select2" asp-items="ViewBag.Fleets" data-placeholder="-">
+                                </select>
+                            </div>
+                        </div>
+                        @*<div class="col-12 agent-content">
+            <div class="form-group">
+                <label for="roles-select">@SharedLocalizer["Warehouse"]<star /></label>
+                <select id="WarehousesSelect" asp-for="WarehouseIds" class="form-control select2" asp-items="ViewBag.Warehouses" data-placeholder="-">
+                    <option value="0">@SharedLocalizer["All"]</option>
+                </select>
+            </div>
+        </div>*@
+
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="Name">@SharedLocalizer["NameAr"]<star /></label>
+                                <input id="Name" asp-for="Name" class="form-control" maxlength="50" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="NameEn">@SharedLocalizer["NameEn"]<star /></label>
+                                <input id="NameEn" asp-for="NameEn" class="form-control" maxlength="50"  />
+                                <span asp-validation-for="NameEn" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="ManagerEmail">@SharedLocalizer["Email"]</label>
+                                <div class="input-group ltr">
+                                    <input id="Email" asp-for="Email" class="form-control" type="email" maxlength="200" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <span id="uniqueEmailValidation" class="text-danger d-none">@Localizer["EmailExists"]</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="custom-control custom-switch custom-switch-success">
+                                <p class="mb-50">@SharedLocalizer["Status"]</p>
+                                <input type="checkbox" class="custom-control-input" id="IsActive" asp-for="IsActive">
+                                <label class="custom-control-label" for="IsActive">
+                                    <span class="switch-icon-left"><i class="fa fa-check"></i></span>
+                                    <span class="switch-icon-right"><i class="fa fa-multiply"></i></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="ManagerEmail">@SharedLocalizer["ExpirationDate"]<star /></label>
+                                <div class="input-group ltr">
+                                    <input readonly type="text" id="ExpirationDate" asp-for="ExpirationDateText" class="form-control flatPickr-date" placeholder="yyyy/mm/dd" />
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="ExpirationDateText" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 agent-content">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">@SharedLocalizer["WarehousesInventoriesPermission"]<star /></h4>
+                                </div>
+                                <div class="card-body overflow-auto" style="max-height:300px">
+                                    <div id="jstree-warehouses-inventories" class="jstree jstree-5 jstree-rtl jstree-default jstree-checkbox-selection" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="j5_1" aria-busy="false">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="InventoriesIds" id="inventoriesIds" />
+                    </div>
+                </section>
+                <div class="card-footer">
+                    <button type="button" id="savebtn" class="btn btn-primary mr-1">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-pickadate.min.css")" rel="stylesheet">
+
+    <!-- BEGIN: jstree CSS-->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/jstree.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-tree.css")" rel="stylesheet">
+    <!-- END: jstree CSS-->
+
+}
+
+@section Scripts
+{
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- jstree -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/jstree.min.js")"></script>
+
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script>
+        var text = '@Localizer["ConfirmCreate"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var all = '@SharedLocalizer["All"]';
+        var WarehousesInventories =@Html.Raw(ViewBag.WarehousesInventories);
+    </script>
+    <script src="@Url.Content("~/js/users/create.js")" asp-append-version="true"></script>
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}

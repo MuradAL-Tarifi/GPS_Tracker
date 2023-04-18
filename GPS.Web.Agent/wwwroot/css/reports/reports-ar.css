@@ -1,0 +1,28 @@
+﻿.nav-header .input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-radius: 0 0.25rem 0.25rem 0 !important;
+}
+
+.dtp-control .form-control {
+    border-top-left-radius: 0.25rem !important;
+    border-bottom-left-radius: 0.25rem !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    direction: ltr;
+    text-align: right;
+}
+
+.alertify-notifier.ajs-center {
+    left: 26%;
+}
+
+.list-unstyled, .chart-legend, .contacts-list, .users-list, .mailbox-attachments {
+    padding-right: 0 !important;
+}
+
+.dates td:first-child {
+    text-align: left;
+}
+
+.single {
+    padding-right: 32px;
+}

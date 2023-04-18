@@ -1,0 +1,242 @@
+﻿@model GPS.Domain.Views.SensorView
+
+@using System.Web;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = @SharedLocalizer["ManageSensors"];
+    ViewBag.PageBarTitle = @SharedLocalizer["ManageSensors"];
+    ViewBag.PageBarDescription = @SharedLocalizer["AddNewSensor"];
+}
+
+<div class="row" id="app" v-cloak>
+    <div class="col-6 offset-6 pull-opp-dir mb-2" v-if="!isEdit && inventoryId < 1">
+        <div class="custom-control custom-switch custom-control-inline pull-opp-dir">
+            <input type="checkbox" class="custom-control-input" id="enableAddSensorsByExcel" v-model="createByUploadingExcel">
+            <label class="custom-control-label" for="enableAddSensorsByExcel">@SharedLocalizer["EnableAddByUploadingExcel"]</label>
+        </div>
+    </div>
+    <div class="col-md-12" v-if="!createByUploadingExcel">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">@Localizer["SubTitle"]</h3>
+            </div>
+            <form>
+                @Html.AntiForgeryToken()
+                <div class="card-body table-responsive">
+                    <div class="card card-outline card-success">
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["Brand"]
+                                                </label>
+                                                <select class="form-control select" v-model="brandSelected" @@change="onSelectBrand">
+                                                    <option v-for="item in brands" v-bind:value="{ id: item.Value, name: item.Text }">{{item.Text}}</option>
+                                                </select>
+                                                <span v-if="$v.brandSelected.id.$error && !$v.brandSelected.id.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["Name"]
+                                                </label>
+                                                <input type="text" class="form-control" v-model="sensor.name" />
+                                                <span v-if="$v.sensor.name.$error && !$v.sensor.name.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="form-label">@SharedLocalizer["CalibrationDate"]<star /></label>
+                                                <div class="input-group ltr">
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                                    </div>
+                                                    <input type="text" class="form-control flatPickr-date" v-model="sensor.calibrationDate" />
+                                                </div>
+                                                <span v-if="$v.sensor.calibrationDate.$error && !$v.sensor.calibrationDate.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["SerialNumber"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="sensor.serial" />
+                                                <span v-if="$v.sensor.serial.$error && !$v.sensor.serial.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                                <span v-if="isSensorExists" class="text-danger d-block">
+                                                    @SharedLocalizer["ThisSensorAlreadyExists"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12 d-flex align-items-center">
+                                            <button type="button" v-if="!isEdit" class="btn btn-primary mr-1 mt-1" @@click="onSaveSensor" v-bind:disabled="savePending">
+                                                @SharedLocalizer["Create"]
+                                            </button>
+                                            <button type="button" v-if="isEdit" class="btn btn-primary mr-1 mt-1" @@click="onSaveSensorView" v-bind:disabled="savePending">
+                                                @SharedLocalizer["Update"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2" v-if="sensorView.sensorsList && sensorView.sensorsList.length>0">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>@SharedLocalizer["Brand"]</th>
+                                                <th>@SharedLocalizer["Name"]</th>
+                                                <th>@SharedLocalizer["CalibrationDate"]</th>
+                                                <th>@SharedLocalizer["SerialNumber"]</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(item,index) in sensorView.sensorsList">
+                                                <td>
+                                                    {{item.brandName}}
+                                                </td>
+                                                <td>
+                                                    {{item.name}}
+                                                </td>
+                                                <td>
+                                                    {{item.calibrationDate}}
+                                                </td>
+                                                <td>
+                                                    {{item.serial}}
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1" @@click="onDeleteSensor(index)">
+                                                        <i class="fa fa-trash-alt"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" v-if="!isEdit" @@click="onSaveSensorView" v-bind:disabled="savePending">
+                        <i class="fa fa-save"></i>
+                        @SharedLocalizer["Save"]
+                    </button>
+                    <a href="@ViewBag.ReturnURL" style="cursor:pointer" class="btn btn-default">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-12 text-center" v-if="createByUploadingExcel">
+        <a id="exportDeaultExcelFormathbtn" class="btn btn-success" @@click="ExportDeaultExcelFile()">
+            @SharedLocalizer["ExportSampleExcelFormat"]
+            <i class="fa fa-file-excel"></i>
+        </a>
+        <a id="selectExcelBtn" class="btn btn-info mx-1" @@click="SelectExcelFile()">
+            @SharedLocalizer["SelectFile"]
+        </a>
+        <div class="d-none">
+            <input type="file" id="fileInput" name="file" @@change="FileUpload()" />
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 text-center mb-2">
+                <span>{{fileName}}</span>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+                <button type="button" class="btn btn-success btn-block waves-effect waves-float waves-light" @@click="ImportExcelFile()">
+                    @SharedLocalizer["UploadFile"]
+                    <i class="fa fa-upload"></i>
+                </button>
+            </div>
+            <div class="col-12 text-center mt-2" v-if="progressUploadingFile">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <!-- alertify -->
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-pickadate.min.css")" rel="stylesheet">
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+}
+@section Scripts
+{
+    <script src="@Url.Content("~/lib/vue/validators.min.js")"></script>
+    <script src="@Url.Content("~/lib/vue/vuelidate.min.js")"></script>
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <partial name="_VueScript" />
+
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- Alertify -->
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+    <!-- Date-picker dependencies -->
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <!-- alerts-->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script>
+        Vue.config.ignoredElements = ['star'];
+
+        var confirmSave = '@SharedLocalizer["ConfirmSave"]';
+        var done = '@SharedLocalizer["Done"]';
+        var addSuccess = '@Localizer["AddSuccess"]';
+        var fileUploadedSuccessfully = '@Localizer["FileUploadedSuccessfully"]';
+        var updateSuccess = '@Localizer["UpdateSuccess"]';
+        var continueEdit = '@Localizer["ContinueEdit"]';
+        var addNewSensor = '@SharedLocalizer["AddNewSensor"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var text = '@Localizer["ConfirmCreate"]';
+        var errorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var sensorModel = JSON.parse("@(Html.Raw(HttpUtility.JavaScriptStringEncode(Json.Serialize(Model).ToString())))");
+        var ReturnURL = '@Html.Raw(System.Web.HttpUtility.UrlDecode(ViewBag.ReturnURL))';
+
+    </script>
+
+    <script src="@Url.Content("~/js/sensors/create.js")" asp-append-version="true"></script>
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+
+}

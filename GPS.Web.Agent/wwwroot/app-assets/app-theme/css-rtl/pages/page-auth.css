@@ -1,0 +1,150 @@
+.auth-wrapper {
+  display : -webkit-box;
+  display : -webkit-flex;
+  display : -ms-flexbox;
+  display :         flex;
+  -webkit-flex-basis : 100%;
+  -ms-flex-preferred-size : 100%;
+          flex-basis : 100%;
+  min-height : 100vh;
+  min-height : calc(var(--vh, 1vh) * 100);
+  width : 100%;
+}
+
+.auth-wrapper .auth-inner {
+  width : 100%;
+  position : relative;
+}
+
+.auth-wrapper.auth-v1 {
+  -webkit-box-align : center;
+  -webkit-align-items : center;
+  -ms-flex-align : center;
+          align-items : center;
+  -webkit-box-pack : center;
+  -webkit-justify-content : center;
+  -ms-flex-pack : center;
+          justify-content : center;
+  overflow : hidden;
+}
+
+.auth-wrapper.auth-v1 .auth-inner:before {
+  width : 244px;
+  height : 243px;
+  content : ' ';
+  position : absolute;
+  top : -54px;
+  right : -46px;
+}
+
+@media (max-width: 575.98px) {
+  .auth-wrapper.auth-v1 .auth-inner:before {
+    display : none;
+  }
+}
+
+.auth-wrapper.auth-v1 .auth-inner:after {
+  width : 272px;
+  height : 272px;
+  content : ' ';
+  position : absolute;
+  bottom : -55px;
+  left : -75px;
+  z-index : -1;
+}
+
+@media (max-width: 575.98px) {
+  .auth-wrapper.auth-v1 .auth-inner:after {
+    display : none;
+  }
+}
+
+.auth-wrapper.auth-v2 {
+  -webkit-box-align : start;
+  -webkit-align-items : flex-start;
+  -ms-flex-align : start;
+          align-items : flex-start;
+}
+
+.auth-wrapper.auth-v2 .auth-inner {
+  height : 100vh;
+  overflow-y : auto;
+  height : calc(var(--vh, 1vh) * 100);
+}
+
+.auth-wrapper.auth-v2 .brand-logo {
+  position : absolute;
+  top : 2rem;
+  right : 2rem;
+  margin : 0;
+  z-index : 1;
+}
+
+.auth-wrapper.auth-v1 .auth-inner {
+  max-width : 400px;
+}
+
+.auth-wrapper .brand-logo {
+  display : -webkit-box;
+  display : -webkit-flex;
+  display : -ms-flexbox;
+  display :         flex;
+  -webkit-box-pack : center;
+  -webkit-justify-content : center;
+  -ms-flex-pack : center;
+          justify-content : center;
+  margin : 1rem 0 2rem 0;
+}
+
+.auth-wrapper .brand-logo .brand-text {
+  font-weight : 600;
+}
+
+.auth-wrapper .auth-footer-btn .btn {
+  padding : 0.6rem !important;
+}
+
+.auth-wrapper .auth-footer-btn .btn:not(:last-child) {
+  margin-left : 1rem;
+}
+
+@media (min-width: 1200px) {
+  .auth-wrapper.auth-v2 .auth-card {
+    width : 400px;
+  }
+}
+
+.auth-wrapper .auth-bg {
+  background-color : #FFFFFF;
+}
+
+.dark-layout .auth-wrapper .auth-bg {
+  background-color : #283046;
+}
+
+@media (max-height: 625px) {
+  .dark-layout .auth-wrapper .auth-inner {
+    background-color : #283046;
+  }
+  .auth-wrapper .auth-bg {
+    padding-top : 3rem;
+  }
+  .auth-wrapper .auth-inner {
+    background-color : #FFFFFF;
+    padding-bottom : 0rem;
+  }
+  .auth-wrapper.auth-v2 .brand-logo {
+    width : 100%;
+    display : -webkit-box;
+    display : -webkit-flex;
+    display : -ms-flexbox;
+    display :         flex;
+    -webkit-box-pack : unset;
+    -webkit-justify-content : unset;
+    -ms-flex-pack : unset;
+            justify-content : unset;
+    position : relative;
+    right : 0;
+    padding-right : 1.5rem;
+  }
+}

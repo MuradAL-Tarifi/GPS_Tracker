@@ -1,0 +1,110 @@
+﻿@model StaticPagedList<GPS.Domain.Views.ReportScheduleView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@using System.Threading;
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+
+<table id="tbReports" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @SharedLocalizer["ReportName"]
+            </th>
+            <th>
+                @SharedLocalizer["ReportType"]
+            </th>
+
+            <th>
+                @SharedLocalizer["SchedulingDetails"]
+            </th>
+            <th>
+                @SharedLocalizer["Status"]
+            </th>
+            <th data-breakpoints="xs sm"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@(index)">
+                <td>@index</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReportTypeLookup.Name)
+                </td>
+                <td>
+                    @if (item.Daily == true)
+                    {
+                        @if (isEnglish)
+                        {
+                            <span class="d-block">
+                                Every <span class="text-success text-bold">@item.DailyRepeat</span> Day - At <input type="time" value="@item.DailyTime" disabled class="text-success text-bold time-view" />
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="d-block">
+                                كل <span class="text-success text-bold">@item.DailyRepeat</span> يوم - الساعة <input type="time" value="@item.DailyTime" disabled class="text-success text-bold time-view" />
+                            </span>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge badge-success">@SharedLocalizer["Active"]</span>
+
+                        @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageReportSchedule))
+                        {
+                        <button type="button" onclick="ConfirmDeActivate(@item.Id)" class="btn btn-icon btn-sm  btn-outline-danger waves-effect mx-1">
+                            <i class="fa fa-times"></i>
+                            @SharedLocalizer["DeActivate"]
+                        </button>
+                        }
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@SharedLocalizer["NotActive"]</span>
+                        @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageReportSchedule))
+                        {
+                        <button type="button" onclick="ConfirmActivate(@item.Id)" class="btn btn-icon btn-sm  btn-outline-success waves-effect mx-1">
+                            <i class="fa fa-check"></i>
+                            @SharedLocalizer["Activate"]
+                        </button>
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-icon btn-sm rounded-circle btn-outline-info waves-effect mx-1">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ManageReportSchedule))
+                    {
+                        <a asp-action="Create" asp-route-id="@item.Id" class="btn btn-icon btn-sm rounded-circle btn-outline-warning waves-effect mx-1">
+                            <i class="far fa-edit"></i>
+                        </a>
+
+                        <button type="button" onclick="ConfirmDelete(@item.Id)" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1">
+                            <i class="fa fa-trash-alt"></i>
+                        </button>
+                    }
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

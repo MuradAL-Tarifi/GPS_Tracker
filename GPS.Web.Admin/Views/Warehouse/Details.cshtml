@@ -1,0 +1,202 @@
+﻿@model GPS.Domain.ViewModels.WarehouDetailsViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using  GPS.Domain.DTO;
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewHelper viewHelper
+
+@{
+    ViewData["Title"] = SharedLocalizer["ManageWarehouses"];
+    ViewBag.PageBarTitle = SharedLocalizer["ManageWarehouses"];
+    ViewBag.PageBarDescription = Localizer["PageDescription"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+<section class="bs-validation">
+    <div class="row">
+        <!-- Bootstrap Validation -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@SharedLocalizer["WarehouseInfo"]</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" id="CreateForm">
+                        <section id="multiple-column-form">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.Fleet.Name" class="form-label">@SharedLocalizer["NameAr"]</label>
+                                    <input class="form-control" readonly value="@(Model.WarehouseView.Fleet != null ? (isEnglish ? Model.WarehouseView.Fleet.NameEn : Model.WarehouseView.Fleet.Name) : "-")" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.Name" class="form-label">@SharedLocalizer["Name"]</label>
+                                    <input class="form-control" readonly value="@Model.WarehouseView.Name" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.Phone" class="form-label">@SharedLocalizer["Phone"]</label>
+                                    <input class="form-control" readonly value="@Model.WarehouseView.Phone" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.Address" class="form-label">@SharedLocalizer["Address"]</label>
+                                    <input class="form-control" readonly value="@Model.WarehouseView.Address" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.City" class="form-label">@SharedLocalizer["City"]</label>
+                                    <input class="form-control" readonly value="@Model.WarehouseView.City" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.Longitude" class="form-label">@SharedLocalizer["Location"]</label>
+                                    <label class="form-control" style="">
+                                        @if (Model.WarehouseView.Latitude.HasValue && Model.WarehouseView.Longitude.HasValue && Model.WarehouseView.Latitude != 0.0000000m && Model.WarehouseView.Longitude != 0.0000000m)
+                                        {
+                                            <a target='_blank' href='https://maps.google.com/maps?q=loc:@Model.WarehouseView.Latitude,@Model.WarehouseView.Longitude'>@Model.WarehouseView.Latitude,@Model.WarehouseView.Longitude</a>
+                                        }
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.LandCoordinates" class="form-label">@SharedLocalizer["WarehouseCoordinates"]</label>
+                                    <pre dir="ltr" class="form-control text-left h-auto" style="max-width:500px">
+                                       @Model.WarehouseView.LandCoordinates
+                                    </pre>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.LandAreaInSquareMeter" class="form-label">@SharedLocalizer["LandAreaInSquareMeter"]</label>
+                                    <input class="form-control" readonly value="@Model.WarehouseView.LandAreaInSquareMeter" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.LandAreaInSquareMeter" class="form-label">@SharedLocalizer["LandAreaInSquareMeter"]</label>
+                                    <input class="form-control" readonly value="@Model.WarehouseView.LandAreaInSquareMeter" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.LicenseNumber" class="form-label">@SharedLocalizer["LicenseNumber"]</label>
+                                    <input class="form-control" readonly value="@Model.WarehouseView.LicenseNumber" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.LicenseIssueDate" class="form-label">@SharedLocalizer["LicenseIssueDate"]</label>
+                                    <div class="input-group ltr">
+                                        <input class="form-control" readonly value="@Model.WarehouseView.LicenseIssueDate" />
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.LicenseExpiryDate" class="form-label">@SharedLocalizer["LicenseExpiryDate"]</label>
+                                    <div class="input-group ltr">
+                                        <input class="form-control" readonly value="@Model.WarehouseView.LicenseExpiryDate" />
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.ManagerMobile" class="form-label">@SharedLocalizer["ManagerMobileNumber"]</label>
+                                    <div class="input-group ltr">
+                                        <input class="form-control" readonly value="@Model.WarehouseView.ManagerMobile" />
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.Email" class="form-label">@SharedLocalizer["EmailAddress"]</label>
+                                    <div class="input-group ltr">
+                                        <input class="form-control" readonly value="@Model.WarehouseView.Email" />
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="WarehouseView.IsActive" class="form-label">@SharedLocalizer["Status"]</label>
+                                    @if (Model.WarehouseView.IsActive)
+                                    {
+                                        <span class="badge badge-success">@SharedLocalizer["Active"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">@SharedLocalizer["NotActive"]</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <a asp-action="Index" class="btn btn-outline-secondary">
+                                        <i class="fa fa-rotate-left"></i>
+                                        @SharedLocalizer["Back"]
+                                    </a>
+
+                                    @if (Model.WarehouseView.IsLinkedWithWasl)
+                                    {
+                                        <span class="btn btn-outline-success">
+                                            <i class="fa fa-link"></i>
+                                            @SharedLocalizer["LinkedWithWasl"]
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.LsInventorySensors.Count > 0)
+    {
+        <div class="col-sm-12">
+            <div class="card collapse-icon">
+                <div class="card-header">
+                    <h4 class="card-title">@SharedLocalizer["Inventories"]</h4>
+                </div>
+
+                <div class="card-body">
+                    <p class="card-text"></p>
+                    <div class="collapse-margin" id="accordionInventories">
+                        @foreach (var inventory in Model.LsInventorySensors)
+                        {
+                            <div class="card">
+                                <div class="card-header" id="headingOne" data-toggle="collapse" role="button" data-target="#collapse_@(inventory.InventoryView.Id)" aria-expanded="false" aria-controls="collapse_@(inventory.InventoryView.Id)">
+                                    <span class="lead collapse-title">@inventory.InventoryView.Name</span>
+                                </div>
+                                <div id="collapse_@(inventory.InventoryView.Id)" class="collapse" aria-labelledby="headingOne" data-parent="#accordionInventories">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-nowrap">#</th>
+                                                        <th scope="col" class="text-nowrap">@SharedLocalizer["Name"]</th>
+                                                        <th scope="col" class="text-nowrap">@SharedLocalizer["SerialNumber"]</th>
+                                                        <th scope="col" class="text-nowrap">@SharedLocalizer["CalibrationDate"]</th>
+                                                        @*<th scope="col" class="text-nowrap">@SharedLocalizer["Brand"]</th>*@
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (int i = 0; i < inventory.LsSensor.Count; i++)
+                                                    {
+                                                    <tr>
+                                                        <td class="text-nowrap">@(i+1)</td>
+                                                        <td class="text-nowrap">@(inventory.LsSensor[i].Name)</td>
+                                                        <td class="text-nowrap">@(inventory.LsSensor[i].Serial)</td>
+                                                        <td class="text-nowrap">@(inventory.LsSensor[i].CalibrationDate.HasValue ? inventory.LsSensor[i].CalibrationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "")</td>
+                                                        @*<td class="text-nowrap">@(inventory.LsSensor[i].Brand.Name)</td>*@
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+

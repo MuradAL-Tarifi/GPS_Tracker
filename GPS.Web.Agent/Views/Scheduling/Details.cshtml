@@ -1,0 +1,226 @@
+﻿@using System.Threading;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = SharedLocalizer["ScheduleReportDetails"];
+    ViewBag.PageBarTitle = SharedLocalizer["ScheduleReportDetails"];
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+}
+
+<section class="bs-validation" id="app" v-cloak>
+    <div class="row">
+        <!-- Bootstrap Validation -->
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@SharedLocalizer["ReportInfo"]</h4>
+                </div>
+                <div class="card-body" v-if="!loading">
+                   <section id="multiple-column-form">
+                       <div class="rowp">
+                           <div class="form-group">
+                               <label class="form-label">@SharedLocalizer["ReportType"]</label>
+                               <span type="text" class="form-control">
+                                   {{reportOptions.reportTypeName}}
+                               </span>
+                           </div>
+                           <div class="form-group" v-if="isAlertsReport && reportOptions.reportTypeId">
+                               <label class="form-label">@SharedLocalizer["AlertType"]</label>
+                               <span type="text" class="form-control">
+                                   {{reportOptions.AlertTypeName}}
+                               </span>
+                           </div>
+                           <div class="form-group" v-if="(isInventoryHistoryReport || isInventorySensorsHistoryReport) && reportOptions.reportTypeId">
+                               <label class="form-label">@SharedLocalizer["Warehouse"]</label>
+                               <span type="text" class="form-control">
+                                   {{reportOptions.warehouseName}}
+                               </span>
+                           </div>
+                           <div class="form-group" v-if="isInventoryHistoryReport || isInventorySensorsHistoryReport">
+                               <label class="form-label">@SharedLocalizer["Inventory"]</label>
+                               <span type="text" class="form-control">
+                                   {{reportOptions.inventoryName}}
+                               </span>
+                           </div>
+                           <div class="form-group" v-if="isInventorySensorsHistoryReport">
+                               <label class="form-label">@SharedLocalizer["Sensor"]</label>
+                               <span type="text" class="form-control">
+                                   {{reportOptions.sensorName}}
+                               </span>
+                           </div>
+                           <div class="form-group" v-if="reportOptions.reportTypeId && canGroupUpdates">
+                               <label class="form-label">@SharedLocalizer["groupUpdatesBy"]</label>
+                               <div class="form-group">
+                                   <div v-if="reportOptions.groupUpdatesByType=='day'" class="d-inline">
+                                       @SharedLocalizer["Each"]
+                                       <input type="number" style="width:60px" v-model="reportOptions.groupUpdatesValue" disabled />
+                                       @SharedLocalizer["TheDay"]
+                                   </div>
+                                   <div v-else-if="reportOptions.groupUpdatesByType=='hour'" class="d-inline">
+                                       -
+                                       @SharedLocalizer["Each"]
+                                       <input type="number" style="width:60px" v-model="reportOptions.groupUpdatesValue" disabled />
+                                       @SharedLocalizer["TheHour"]
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="form-label">@SharedLocalizer["ReportName"]</label>
+                               <span type="text" class="form-control">
+                                   {{reportOptions.name}}
+                               </span>
+                           </div>
+                           <div class="form-group">
+                               <label class="form-label">@SharedLocalizer["ReportScheduling"]</label>
+                           </div>
+                           <div class="form-group">
+                               <label class="form-label">@SharedLocalizer["SchedulingType"]</label>
+                           </div>
+
+                           <div class="form-group">
+                               <table v-if="reportOptions.scheduling.daily || reportOptions.scheduling.weekly || reportOptions.scheduling.monthly|| reportOptions.Yearly">
+                                   <thead>
+                                       <tr>
+                                           <th>@SharedLocalizer["SchedulingType"]</th>
+                                           <th>@SharedLocalizer["Details"]</th>
+                                       </tr>
+                                   </thead>
+                                   <tr v-if="reportOptions.scheduling.daily">
+                                       <td>
+                                           @SharedLocalizer["Daily"]
+                                       </td>
+                                       <td>
+                                           إرسال التقرير كل <span class="text-success text-bold">{{reportOptions.scheduling.dailyRepeat}}</span> يوم الساعة <input type="time" v-model="reportOptions.scheduling.dailyTime" disabled class="text-success text-bold time-view" />
+                                       </td>
+                                   </tr>
+                                   <tr v-if="reportOptions.scheduling.weekly">
+                                       <td>
+                                           @SharedLocalizer["Weekly"]
+                                       </td>
+                                       <td>
+                                           إرسال التقرير كل <span class="text-success text-bold">{{reportOptions.scheduling.weeklyRepeat}}</span> اسبوع يوم <span class="text-success text-bold">{{getDayOfWeek()}}</span> الساعة <input type="time" v-model="reportOptions.scheduling.weeklyTime" disabled class="text-success text-bold time-view" />
+                                       </td>
+                                   </tr>
+                                   <tr v-if="reportOptions.scheduling.monthly">
+                                       <td>
+                                           @SharedLocalizer["Monthly"]
+                                       </td>
+                                       <td>
+                                           إرسال التقرير كل <span class="text-success text-bold">{{reportOptions.scheduling.monthlyRepeat}}</span> شهر اليوم <span class="text-success text-bold">{{reportOptions.scheduling.dayOfMonthId}}</span> الساعة <input type="time" v-model="reportOptions.scheduling.monthlyTime" disabled class="text-success text-bold time-view" />
+                                       </td>
+                                   </tr>
+                               </table>
+                           </div>
+                           <div class="form-group">
+                               <label class="form-label">@SharedLocalizer["SendToEmails"]</label>
+                               <span class="form-control">
+                                   {{reportOptions.scheduling.emails}}
+                               </span>
+                           </div>
+
+                           <div class="form-group">
+                               <label class="form-label">@SharedLocalizer["ReportFileType"]</label>
+                               <span class="p-1 d-inline-block" v-if="reportOptions.scheduling.pdf">
+                                   <i style="font-size: 48px;" class="fa fa-file-pdf text-danger"></i> @SharedLocalizer["PDF"]
+                               </span>
+                               @*<span class="p-1 d-inline-block" v-if="reportOptions.scheduling.excel">
+                                   <i style="font-size: 48px;" class="fa fa-file-excel text-success"></i> @SharedLocalizer["Excel"]
+                               </span>*@
+                           </div>
+                           <div class="form-group">
+                               <label v-if="reportOptions.isActive" class="text-success">
+                                   @SharedLocalizer["Active"]
+                               </label>
+                               <label v-else class="text-danger">
+                                   @SharedLocalizer["NotActive"]
+                               </label>
+                           </div>
+                           <div class="row">
+                               <div class="col-12">
+                                   <a asp-action="Index" class="btn btn-outline-secondary">
+                                       <i class="fa fa-rotate-left"></i>
+                                       @SharedLocalizer["Back"]
+                                   </a>
+                               </div>
+                           </div>
+                       </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section css
+{
+    <style>
+        .report th {
+            background-color: rgb(79, 129, 189);
+            font-weight: bold;
+            height: 50px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .title {
+            background-color: rgb(220, 230, 241);
+            font-weight: bold;
+        }
+
+        .time-view {
+            background: transparent;
+            border: 0;
+            margin-right: -27px;
+        }
+    </style>
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+
+    @*<partial name="_VueScript" />*@
+
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+    <script src="@Url.Content("~/lib/loadash/lodash.min.js")"></script>
+
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/lib/sweet-alert/sweetalert2.js")"></script>
+
+    <!-- alerts -->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script>
+        var reportScheduleId = '@Html.Raw(@ViewBag.ReportScheduleId)';
+        var fleetName = '@Html.Raw(@ViewBag.FleetName)';
+        var ErrorMessage = '@SharedLocalizer["ErrorMessage"]';
+
+        var days = ['@SharedLocalizer["Saturday"]', '@SharedLocalizer["Sunday"]', '@SharedLocalizer["Monday"]', '@SharedLocalizer["Tuesday"]', '@SharedLocalizer["Wednesday"]',
+            '@SharedLocalizer["Thursday"]', '@SharedLocalizer["Friday"]'];
+    </script>
+
+    <script src="@Url.Content("~/js/reports/scheduling/details.js")" asp-append-version="true"></script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+}
