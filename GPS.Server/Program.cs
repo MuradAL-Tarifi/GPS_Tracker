@@ -47,8 +47,10 @@ namespace GPS.Server
 
                         services.AddSingleton<IConnectionMultiplexer>(x => {
                             var options = ConfigurationOptions.Parse(_configration.GetValue<string>("RedisConnection:server"));
-                        //options.Password = _configration.GetValue<string>("RedisConnection:password");
+                            //options.Password = _configration.GetValue<string>("RedisConnection:password");
+                            options.AbortOnConnectFail = false;
                         return ConnectionMultiplexer.Connect(options);
+
                         });
                         services.AddScoped<IRD07WifigatewayListener, RD07WifigatewayListener>();
                         services.AddScoped<IRD07gatewayListener, RD07gatewayListener>();

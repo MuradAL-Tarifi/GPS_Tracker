@@ -48,6 +48,8 @@ namespace GPS.API.Server
 
                 var options = ConfigurationOptions.Parse(Configuration.GetValue<string>("RedisConnection:server"));
                 //options.Password = Configuration.GetValue<string>("RedisConnection:password");
+                options.AbortOnConnectFail = false;
+
                 return ConnectionMultiplexer.Connect(options);
             });
             services.AddSingleton<ICacheService, RedisCachService>();
