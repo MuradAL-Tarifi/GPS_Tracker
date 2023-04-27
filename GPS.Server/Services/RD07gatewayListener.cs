@@ -43,7 +43,7 @@ namespace GPS.Server.Services
                 string protocols = Encoding.ASCII.GetString(buffer, 4, 2);
 
                 if (protocols == "$$")
-                {
+                { 
                     RD07Data _RD07Data = new RD07Data();
 
                     var generic = new TZONE.LoRa.Protocols.Generic().Analysis(buffer);
