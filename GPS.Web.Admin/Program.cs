@@ -39,6 +39,7 @@ namespace GPS.Web.Admin
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+
                 })
             .ConfigureLogging(logging =>
             {

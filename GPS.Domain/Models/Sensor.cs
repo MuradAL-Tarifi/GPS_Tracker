@@ -21,5 +21,7 @@ namespace GPS.Domain.Models
         public string UpdatedBy { get; set; }
         [ForeignKey("BrandId")]
         public Brand Brand { get; set; }
+        public DateTime? DueDate { get; set; }
+
     }
 }

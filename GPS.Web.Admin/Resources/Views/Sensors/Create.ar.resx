@@ -135,6 +135,9 @@
   <data name="DeleteSuccess" xml:space="preserve">
     <value>تم حذف الحساس</value>
   </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>تاريخ انتهاء المعايرة</value>
+  </data>
   <data name="FileUploadedSuccessfully" xml:space="preserve">
     <value>تم رفع الملف بنجاح</value>
   </data>

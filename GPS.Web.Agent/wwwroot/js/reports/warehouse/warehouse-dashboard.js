@@ -150,6 +150,9 @@ var app = new Vue({
         formatDatetime: function (date) {
             return moment(date).format("YYYY/MM/DD hh:mm A");
         },
+        formatDateOnly: function (date) {
+            return moment(date).format("YYYY/MM/DD");
+        },
         //viewHistory: function (sensorSerial) {
         //    var self = this;
 

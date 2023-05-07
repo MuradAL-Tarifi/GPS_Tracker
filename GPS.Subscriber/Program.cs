@@ -35,7 +35,7 @@ namespace GPS.Subscriber
                     {
                         var options = ConfigurationOptions.Parse(_configration.GetValue<string>("RedisConnection:server"));
                         //options.Password = _configration.GetValue<string>("RedisConnection:password");
-                        options.AbortOnConnectFail = false;
+                        //options.AbortOnConnectFail = false;
 
                         return ConnectionMultiplexer.Connect(options);
                     });

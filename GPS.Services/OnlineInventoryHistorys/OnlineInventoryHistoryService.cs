@@ -173,6 +173,7 @@ namespace GPS.Services.OnlineInventoryHistorys
                             Humidity = onlineInventoryHistory.Humidity,
                             IsLowVoltage = onlineInventoryHistory.IsLowVoltage,
                             GpsDate = onlineInventoryHistory.GpsDate,
+                            DueDate = item.Sensor.DueDate,
                             Alram = onlineInventoryHistory.Alram,
                             GSMStatus = onlineInventoryHistory.GSMStatus,
                             SensorName = item.Sensor.Name,

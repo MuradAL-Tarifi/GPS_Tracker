@@ -135,6 +135,9 @@
   <data name="DeleteSuccess" xml:space="preserve">
     <value>Sensor Deleted</value>
   </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
   <data name="FileUploadedSuccessfully" xml:space="preserve">
     <value>File Uploaded Successfully</value>
   </data>

@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using GPS.Web.Admin;
 @using System.Globalization
+@inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResources> SharedLocalizer
 
 @{
@@ -28,6 +29,9 @@
                 @SharedLocalizer["CalibrationDate"]
             </th>
             <th>
+                @Localizer["DueDate"]
+            </th>
+            <th>
                 @SharedLocalizer["SerialNumber"]
             </th>
 
@@ -50,6 +54,9 @@
                 </td>
                 <td class="ar-font">
                     @(item.CalibrationDate.HasValue ? item.CalibrationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "")
+                </td>
+                <td class="ar-font">
+                    @(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Serial)

@@ -41,6 +41,9 @@ var app = new Vue({
         formatDatetime: function (date) {
             return moment(date).format("YYYY/MM/DD hh:mm A");
         },
+        formatDateOnly: function (date) {
+            return moment(date).format("YYYY/MM/DD");
+        },
         stopUpdates: function () {
             var self = this;
             clearInterval(self.timer);

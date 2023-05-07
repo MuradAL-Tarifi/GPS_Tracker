@@ -18,6 +18,7 @@ var app = new Vue({
             brandId: 0,
             brandName: '',
             calibrationDate: '',
+            dueDate: '',
             serial: '',
             name: '',
         },
@@ -37,6 +38,7 @@ var app = new Vue({
         sensor: {
            // brandId: { required: function (value) { return value > 0; } },
             calibrationDate: { required: validators.required },
+            dueDate: { required: validators.required },
             serial: {
                 required: validators.required
             },

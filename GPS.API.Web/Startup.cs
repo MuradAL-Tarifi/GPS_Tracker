@@ -116,7 +116,7 @@ namespace GPS.API.Web
             services.AddSingleton<IConnectionMultiplexer>(x =>
             {
                 var options = ConfigurationOptions.Parse("127.0.01:6379");
-                options.AbortOnConnectFail = false;
+                //options.AbortOnConnectFail = false;
                 //options.Password = _configration.GetValue<string>("RedisConnection:password");
 
                 return ConnectionMultiplexer.Connect(options);

@@ -72,6 +72,20 @@
                                         </div>
                                         <div class="col-sm-3 col-xs-12">
                                             <div class="form-group">
+                                                <label class="form-label">@Localizer["DueDate"]<star /></label>
+                                                <div class="input-group ltr">
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                                    </div>
+                                                    <input type="text" class="form-control flatPickr-date" v-model="sensor.dueDate" />
+                                                </div>
+                                                <span v-if="$v.sensor.dueDate.$error && !$v.sensor.dueDate.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
                                                 <label>
                                                     @SharedLocalizer["SerialNumber"]<star />
                                                 </label>
@@ -101,6 +115,7 @@
                                                 <th>@SharedLocalizer["Brand"]</th>
                                                 <th>@SharedLocalizer["Name"]</th>
                                                 <th>@SharedLocalizer["CalibrationDate"]</th>
+                                                <th>@Localizer["dueDate"]</th>
                                                 <th>@SharedLocalizer["SerialNumber"]</th>
                                                 <th></th>
                                             </tr>
@@ -115,6 +130,9 @@
                                                 </td>
                                                 <td>
                                                     {{item.calibrationDate}}
+                                                </td>
+                                                <td>
+                                                    {{item.dueDate}}
                                                 </td>
                                                 <td>
                                                     {{item.serial}}

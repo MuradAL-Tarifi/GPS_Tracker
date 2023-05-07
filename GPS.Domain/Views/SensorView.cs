@@ -29,6 +29,7 @@ namespace GPS.Domain.Views
         public BrandView Brand { get; set; }
         public List<SensorView> SensorsList { get; set; }
         public string InventoryName { get; set; }
+        public DateTime? DueDate { get; set; }
 
     }
 }

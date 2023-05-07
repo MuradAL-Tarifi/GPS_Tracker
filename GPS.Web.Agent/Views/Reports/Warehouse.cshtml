@@ -109,8 +109,10 @@
                                 <p class="card-text">{{sensor.sensorName}} </p>
                                 <p class="card-text">{{sensor.serial}} </p>
                                 <p class="card-text" v-if="sensor.hasAnyRecords">{{formatDatetime(sensor.gpsDate)}}</p>
+                                <p class="card-text">{{sensor.dueDate ? formatDateOnly(sensor.dueDate) : "No Due Date"}}</p>
                                 <div v-if="sensor.isCalibrated" class="badge badge-success">@SharedLocalizer["Calibrated"]</div>
                                 <div v-else class="badge badge-danger">@SharedLocalizer["NotCalibrated"]</div>
+                                <div v-if="sensor.isExpired" class="badge badge-danger">@SharedLocalizer["DueDateExpired"]</div>
                             </div>
                             <a :href="historyUrl(sensor.serial)" :class="sensor.btnColor">@SharedLocalizer["Records"]</a>
                         </div>
@@ -171,8 +173,10 @@
                                                 <p class="card-text">{{sensor.sensorName}} </p>
                                                 <p class="card-text">{{sensor.serial}} </p>
                                                 <p class="card-text" v-if="sensor.hasAnyRecords">{{formatDatetime(sensor.gpsDate)}}</p>
+                                                <p class="card-text">{{sensor.dueDate ? formatDateOnly(sensor.dueDate) : "No Due Date"}}</p>
                                                 <div v-if="sensor.isCalibrated" class="badge badge-success">@SharedLocalizer["Calibrated"]</div>
                                                 <div v-else class="badge badge-danger">@SharedLocalizer["NotCalibrated"]</div>
+                                                <div v-if="sensor.isExpired" class="badge badge-danger">@SharedLocalizer["DueDateExpired"]</div>
                                             </div>
                                             <a :href="historyUrl(sensor.serial)" :class="sensor.btnColor">@SharedLocalizer["Records"]</a>
                                         </div>

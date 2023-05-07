@@ -96,6 +96,7 @@ namespace GPS.DataAccess.Repository.Sensors
             sensor.UpdatedBy = sensorView.UpdatedBy;
             sensor.UpdatedDate = DateTime.Now;
             sensor.CalibrationDate = sensorView.CalibrationDate;
+            sensor.DueDate= sensorView.DueDate;
             _dbContext.Sensor.Update(sensor);
             return await _dbContext.SaveChangesAsync() > 0;
         }

@@ -14,6 +14,7 @@ namespace GPS.Domain.ViewModels
         public decimal? Humidity { get; set; }
         public bool? IsLowVoltage { get; set; }
         public DateTime GpsDate { get; set; }
+        public DateTime? DueDate { get; set; }
         public string Alram { get; set; }
         public string GSMStatus { get; set; }
         public string SensorName { get; set; }
@@ -96,5 +97,19 @@ namespace GPS.Domain.ViewModels
             }
         }
         public bool IsCalibrated { get; set; }
+        public bool IsExpired
+        {
+            get
+            {
+                if (DueDate != null)
+                {
+                    return DateTime.Now.Date > DueDate.Value.Date;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

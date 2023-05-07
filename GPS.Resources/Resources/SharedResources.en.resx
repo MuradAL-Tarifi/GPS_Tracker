@@ -498,6 +498,9 @@
   <data name="DriverNotExists" xml:space="preserve">
     <value>Driver is not exists</value>
   </data>
+  <data name="DueDateExpired" xml:space="preserve">
+    <value>Due date has expired</value>
+  </data>
   <data name="Duration" xml:space="preserve">
     <value>Duration</value>
   </data>
