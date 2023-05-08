@@ -4,7 +4,6 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using GPS.Web.Admin;
 @using System.Globalization
-@inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResources> SharedLocalizer
 
 @{
@@ -29,7 +28,7 @@
                 @SharedLocalizer["CalibrationDate"]
             </th>
             <th>
-                @Localizer["DueDate"]
+                @SharedLocalizer["DueDate"]
             </th>
             <th>
                 @SharedLocalizer["SerialNumber"]
