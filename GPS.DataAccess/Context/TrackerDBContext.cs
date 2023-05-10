@@ -33,6 +33,10 @@ namespace GPS.DataAccess.Context
             builder.Entity<AlertTypeLookup>().HasQueryFilter(p => !p.IsDeleted);
             base.OnModelCreating(builder);
         }
+        public virtual DbSet<AlertBySensor> AlertBySensor { get; set; }
+        public virtual DbSet<AlertTracker> AlertTracker { get; set; }
+        public virtual DbSet<Smtpchecker> Smtpchecker { get; set; }
+        public virtual DbSet<Smtpsetting> Smtpsetting { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }

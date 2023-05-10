@@ -3,11 +3,16 @@
     [UserId]             NVARCHAR (MAX) NULL,
     [FleetId]            BIGINT         NOT NULL,
     [ReportTypeLookupId] INT            NOT NULL,
+    [VehicleId]          BIGINT         NULL,
+    [GeofenceId]         BIGINT         NULL,
     [WarehouseId]        BIGINT         NULL,
     [InventoryId]        BIGINT         NULL,
     [SensorSerial]       BIGINT         NULL,
     [AlertTypeLookupId]  INT            NULL,
     [Name]               NVARCHAR (MAX) NULL,
+    [Engine]             BIT            NULL,
+    [SpeedFrom]          INT            NULL,
+    [SpeedTo]            INT            NULL,
     [NewerToOlder]       BIT            NOT NULL,
     [Daily]              BIT            NULL,
     [Weekly]             BIT            NULL,
@@ -26,13 +31,13 @@
     [IsEnglish]          BIT            NOT NULL,
     [PDF]                BIT            NULL,
     [Excel]              BIT            NULL,
+    [GroupUpdatesByType] NVARCHAR (MAX) NULL,
+    [GroupUpdatesValue]  INT            NULL,
     [IsDeleted]          BIT            NOT NULL,
     [CreatedDate]        DATETIME2 (7)  NULL,
     [CreatedBy]          NVARCHAR (MAX) NULL,
     [UpdatedDate]        DATETIME2 (7)  NULL,
     [UpdatedBy]          NVARCHAR (MAX) NULL,
-    [GroupUpdatesByType] VARCHAR (4)    NULL,
-    [GroupUpdatesValue]  INT            NULL,
     CONSTRAINT [PK_ReportSchedule] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_ReportSchedule_DayOfWeekLookup_DayOfWeekId] FOREIGN KEY ([DayOfWeekId]) REFERENCES [dbo].[DayOfWeekLookup] ([Id]),
     CONSTRAINT [FK_ReportSchedule_Fleet_FleetId] FOREIGN KEY ([FleetId]) REFERENCES [dbo].[Fleet] ([Id]) ON DELETE CASCADE,
@@ -40,6 +45,8 @@
     CONSTRAINT [FK_ReportSchedule_ReportTypeLookup_ReportTypeLookupId] FOREIGN KEY ([ReportTypeLookupId]) REFERENCES [dbo].[ReportTypeLookup] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_ReportSchedule_Warehouse_WarehouseId] FOREIGN KEY ([WarehouseId]) REFERENCES [dbo].[Warehouse] ([Id])
 );
+
+
 
 
 GO

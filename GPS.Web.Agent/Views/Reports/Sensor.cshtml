@@ -54,6 +54,10 @@
                                 @SharedLocalizer["Search"]
                                 <i class="fa fa-search"></i>
                             </button>
+                            <button id="exportbtn" class="btn btn-primary">
+                                @SharedLocalizer["ExportToExcel"]
+                                <i class="fa fa-file-excel-o"></i>
+                            </button>
                             @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.AddUpdateSensors))
                             {
                                 <a onclick="createSensor(@Model.PageNumber)" class="btn btn-primary fw-xxs" style="cursor:pointer">
@@ -97,7 +101,9 @@
 }
 
 @section Scripts
-{
+    {
+        <!-- Axios -->
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
     @* for pager *@
     <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
     <!-- Sweet Alert2 -->

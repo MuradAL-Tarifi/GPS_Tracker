@@ -597,6 +597,9 @@
   <data name="ExportSampleExcelFormat" xml:space="preserve">
     <value>Export Sample Excel Format</value>
   </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>Export To Excel</value>
+  </data>
   <data name="ExtensionNumber" xml:space="preserve">
     <value>Extension Number</value>
   </data>

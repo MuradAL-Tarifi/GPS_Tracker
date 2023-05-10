@@ -52,6 +52,9 @@ $(document).ready(function () {
     $('#searchbtn').click(function () {
         Search();
     });
+    $('#exportbtn').click(function () {
+        ExportToExcel();
+    });
 });
 
 function InitFootable() {
@@ -72,7 +75,13 @@ function Search() {
     SensorStatus = $("#SensorStatusSelect").val();
     GetData();
 }
-
+function ExportToExcel() {
+    var text = $('#searchInput').val().trim();
+    SearchString = text;
+    BrandId = $("#BrandsSelect").val();
+    SensorStatus = $("#SensorStatusSelect").val();
+    ExportToExcelData();
+}
 function GetData() {
     $.ajax({
         url: hostName + '/Reports/Sensor',
@@ -86,6 +95,31 @@ function GetData() {
     });
 }
 
+function ExportToExcelData() {
+
+axios({
+    method: 'get',
+    url: hostName + '/Reports/Sensor/ExportSensorsData',
+    responseType: 'blob', // important
+    data: {
+        SensorStatus: SensorStatus, BrandId: BrandId, search: SearchString 
+    }
+}).then(function (response) {
+    debugger;
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'WorkingAndNotWorkingSensorReport' + '.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+})
+    .catch(function (error) {
+        if (error.response.status != 404) {
+            alertify.notify(ErrorMessage, 'error').dismissOthers();
+        }
+    });
+}
 function PagedListSuccess() {
     InitFootable();
 }

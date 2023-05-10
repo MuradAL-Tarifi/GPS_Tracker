@@ -25,6 +25,9 @@
                 @SharedLocalizer["Inventory"]
             </th>
             <th>
+                @SharedLocalizer["Warehouse"]
+            </th>
+            <th>
                 @SharedLocalizer["CalibrationDate"]
             </th>
             <th>
@@ -46,6 +49,9 @@
                 </td>
                 <td class="ar-font">
                     @Html.DisplayFor(modelItem => item.InventoryName)
+                </td>
+                <td class="ar-font">
+                    @Html.DisplayFor(modelItem => item.WarehouseName)
                 </td>
                 <td class="ar-font">
                     @(item.CalibrationDate.HasValue ? item.CalibrationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "")

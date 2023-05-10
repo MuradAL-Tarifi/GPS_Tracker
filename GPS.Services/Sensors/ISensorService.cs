@@ -58,5 +58,6 @@ namespace GPS.Services.Sensors
         Task<ReturnResult<List<SensorView>>> GetAllAsync(int? BrandId = null);
 
         Task<bool> IsSensorExistsAsync(string SensorSN);
+
     }
 }

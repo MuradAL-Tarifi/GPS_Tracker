@@ -20,6 +20,15 @@ namespace GPS.API.Server.Services
         Task<Inventory> GetInventoryById(long Id);
         Task<List<string>> GetSensorsSerialByInventoryId(long InventoryId);
         Task<string> GetSensorSN(string Serial);
+        Task<Smtpchecker> GetSMTPCheckerBySerial(string Serial);
+        Task<AlertBySensor> GetAlertBySensorBySerial(string Serial);
+        Task<AlertTracker> GetAlertTrackerBySerial(string Serial);
+        Task<int> UpdateSMTPCheckerAsync(Smtpchecker smtpchecker);
+        Task<int> InsertAlertTrackerAsync(AlertTracker alertTracker);
+        Task<AlertTrakerDataLight> GetAlertTrakerDataLightAsync(string Serial, long? InventoryId, long? WarehouseId);
+        Task<List<Smtpsetting>> GetSmtpsettingsAsync();
+        Task<int> UpdateSmtpsettingAsync(int Id);
+
     }
     public class DapperRepository : IDapperRepository
     {
@@ -60,6 +69,42 @@ namespace GPS.API.Server.Services
                 parameters.Add("Serial", sensorSerial.ToLower());
 
                 return await connection.QueryFirstOrDefaultAsync<OnlineInventoryHistory>(sql, parameters);
+            }
+        }
+        public async Task<Smtpchecker> GetSMTPCheckerBySerial(string sensorSerial)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var sql = "select * from SMTPChecker where LOWER(TRIM(Serial)) = @Serial";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("Serial", sensorSerial.ToLower());
+
+                return await connection.QueryFirstOrDefaultAsync<Smtpchecker>(sql, parameters);
+            }
+        }
+        public async Task<AlertBySensor> GetAlertBySensorBySerial(string sensorSerial)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var sql = "select * from AlertBySensor where LOWER(TRIM(Serial)) = @Serial";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("Serial", sensorSerial.ToLower());
+
+                return await connection.QueryFirstOrDefaultAsync<AlertBySensor>(sql, parameters);
+            }
+        }
+        public async Task<AlertTracker> GetAlertTrackerBySerial(string sensorSerial)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var sql = "select * from AlertTracker where LOWER(TRIM(Serial)) = @Serial";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("Serial", sensorSerial.ToLower());
+
+                return await connection.QueryFirstOrDefaultAsync<AlertTracker>(sql, parameters);
             }
         }
         public async Task<int> InsertOnlineInventoryHistoryAsync(OnlineInventoryHistory onlineInventoryHistory)
@@ -104,6 +149,33 @@ namespace GPS.API.Server.Services
                 parameters.Add("GpsDate", onlineInventoryHistory.GpsDate);
                 parameters.Add("Alram", onlineInventoryHistory.Alram);
                 parameters.Add("GSMStatus", onlineInventoryHistory.GSMStatus);
+
+                return await connection.ExecuteAsync(sql, parameters);
+            }
+        }
+        public async Task<int> UpdateSMTPCheckerAsync(Smtpchecker smtpchecker)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var sql = $@"Update SMTPChecker
+                                    SET 
+                                    Serial =@Serial ,
+                                    IsSendHumidity=@IsSendHumidity,
+                                    IsSendHumiditySecond=@IsSendHumiditySecond,
+                                    IsSendTemperature=@IsSendTemperature,
+                                    IsSendTemperatureSecond=@IsSendTemperatureSecond,
+                                    UpdatedDateHumidity=@UpdatedDateHumidity,
+                                    UpdatedDateTemperature=@UpdatedDateTemperature
+                                    where Serial =@Serial ";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("Serial", smtpchecker.Serial);
+                parameters.Add("IsSendHumidity", smtpchecker.IsSendHumidity);
+                parameters.Add("IsSendHumiditySecond", smtpchecker.IsSendHumiditySecond);
+                parameters.Add("IsSendTemperature", smtpchecker.IsSendTemperature);
+                parameters.Add("IsSendTemperatureSecond", smtpchecker.IsSendTemperatureSecond);
+                parameters.Add("UpdatedDateHumidity", smtpchecker.UpdatedDateHumidity);
+                parameters.Add("UpdatedDateTemperature", smtpchecker.UpdatedDateTemperature);
 
                 return await connection.ExecuteAsync(sql, parameters);
             }
@@ -190,6 +262,93 @@ namespace GPS.API.Server.Services
                 parameters.Add("Serial", Serial.ToLower());
 
                 return await connection.QueryFirstOrDefaultAsync<string>(sql, parameters);
+            }
+        }
+        public async Task<int> InsertAlertTrackerAsync(AlertTracker alertTracker)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var sql = @"Insert into AlertTracker values 
+                                                    (@UserName,@AlertDateTime,@AlertType,@MonitoredUnit,@MessageForValue,
+                                                    @Serial,@Zone,@WarehouseName,@SendTo,@IsSend,@AlertId,@Interval);";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("UserName", alertTracker.UserName);
+                parameters.Add("AlertDateTime", alertTracker.AlertDateTime);
+                parameters.Add("AlertType", alertTracker.AlertType);
+                parameters.Add("MonitoredUnit", alertTracker.MonitoredUnit);
+                parameters.Add("MessageForValue", alertTracker.MessageForValue);
+                parameters.Add("Serial", alertTracker.Serial);
+                parameters.Add("Zone", alertTracker.Zone);
+                parameters.Add("WarehouseName", alertTracker.WarehouseName);
+                parameters.Add("SendTo", alertTracker.SendTo);
+                parameters.Add("IsSend", alertTracker.IsSend);
+                parameters.Add("AlertId", alertTracker.AlertId);
+                parameters.Add("Interval", alertTracker.Interval);
+
+                return await connection.ExecuteAsync(sql, parameters);
+            }
+        }
+        public async Task<AlertTrakerDataLight> GetAlertTrakerDataLightAsync(string Serial, long? InventoryId, long? WarehouseId)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                AlertTrakerDataLight alertTrakerDataLight=new AlertTrakerDataLight();
+                var sql = @"select Name + '( '+Serial +' )' from Sensor
+                                                            where Serial = @Serial";
+                var parameters = new DynamicParameters();
+                parameters.Add("Serial", Serial.ToLower());
+
+                alertTrakerDataLight.MonitoredUnit= await connection.QueryFirstOrDefaultAsync<string>(sql, parameters);
+
+
+                var sql2 = @"select f.NameEn 
+                                            from Inventory i , Warehouse w, Fleet f
+                                            where i.WarehouseId=w.Id and w.FleetId=f.Id and 
+                                            i.Id = @InventoryId";
+                var parameters2 = new DynamicParameters();
+                parameters2.Add("InventoryId", InventoryId);
+
+                alertTrakerDataLight.Zone = await connection.QueryFirstOrDefaultAsync<string>(sql2, parameters2);
+
+
+                var sql3 = @"select Name
+                                        from  Warehouse
+                                        where Id = @WarehouseId";
+                var parameters3 = new DynamicParameters();
+                parameters3.Add("WarehouseId", WarehouseId);
+
+                alertTrakerDataLight.WarehouseName = await connection.QueryFirstOrDefaultAsync<string>(sql3, parameters3);
+
+                return alertTrakerDataLight;
+            }
+        }
+
+        public async Task<List<Smtpsetting>> GetSmtpsettingsAsync()
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var sql = @"Select * from SMTPSetting where CurrentEmailNumber <100";
+
+
+                var smtpsetting = await connection.QueryAsync<Smtpsetting>(sql);
+                return smtpsetting.ToList();
+            }
+        }
+
+        public async Task<int> UpdateSmtpsettingAsync(int Id)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var sql = @"Update SMTPSetting
+                                        set CurrentEmailNumber=((select  CurrentEmailNumber from SMTPSetting where Id=@Id) + 1)
+                                        where Id = @Id";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("Id", Id);
+
+
+                return await connection.ExecuteAsync(sql, parameters);
             }
         }
     }

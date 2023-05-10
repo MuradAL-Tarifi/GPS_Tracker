@@ -591,6 +591,9 @@
   <data name="ExportSampleExcelFormat" xml:space="preserve">
     <value>تحميل نموذج التعبئة</value>
   </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>تصدير إلى اكسيل</value>
+  </data>
   <data name="ExtensionNumber" xml:space="preserve">
     <value>التحويلة</value>
   </data>

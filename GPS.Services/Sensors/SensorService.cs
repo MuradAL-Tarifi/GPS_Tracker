@@ -65,6 +65,8 @@ namespace GPS.Services.Sensors
                     if (lsInventorySensor.Where(x => x.SensorId == sensorView.Id).Count() > 0)
                     {
                         sensorView.InventoryName = lsInventorySensor.Where(x => x.SensorId == sensorView.Id).FirstOrDefault().Inventory.Name;
+                        sensorView.WarehouseName = lsInventorySensor.Where(x => x.SensorId == sensorView.Id).FirstOrDefault().Inventory.Warehouse.Name;
+
                     }
                     lsSensorView.Add(sensorView);
                 }

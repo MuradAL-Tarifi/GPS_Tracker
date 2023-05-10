@@ -1,4 +1,6 @@
-﻿using GPS.API.Proxy;
+﻿
+using DXApplicationFDA.Infra.Services;
+using GPS.API.Proxy;
 using GPS.Domain.DTO;
 using GPS.Domain.ViewModels;
 using GPS.Domain.Views;
@@ -12,6 +14,7 @@ using GPS.Web.Agent.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
@@ -264,7 +267,51 @@ namespace GPS.Web.Agent.Controllers
 
             return View(PagedResult);
         }
+        // GET: ExportSensorsData
+        [UserPrivilege(Privilege = AgentPrivilegeTypeEnum.ViewWorkingAndNotWorkingSensorReport)]
+        [HttpGet("[Controller]/Sensor/ExportSensorsData")]
+        public async Task<IActionResult> ExportSensorsData([FromBody] int? SensorStatus, int? BrandId = null ,string search = "")
+        {
+            BrandId = BrandId == 0 ? null : BrandId;
+            var pageNumber = 1;
+            //var pageSize =  10;
+            SensorStatus = SensorStatus < 0 ? null : SensorStatus;
 
+            ViewBag.Action = "Export Sensors Data";
+
+            var result = await _SensorService.SearchAsync(_loggedUser.FleetId, SensorStatus, BrandId, search, pageNumber, 999999999);
+            if (!result.IsSuccess)
+            {
+                return View(_viewHelper.GetErrorPage(result.HttpCode));
+            }
+            DataTable dtHeader=new DataTable();
+            dtHeader.Columns.Add("BrandName");
+            dtHeader.Columns.Add("SensorName");
+            dtHeader.Columns.Add("InventoryName");
+            dtHeader.Columns.Add("WarehouseName");
+            dtHeader.Columns.Add("CalibrationDate");
+            dtHeader.Columns.Add("Serial");
+            dtHeader.Rows.Add("Brand Name", "Sensor Name" , "Inventory Name", "Warehouse Name",
+                "Calibration Date" , "Serial Number");
+            List<SensorsData> sensorsData = new List<SensorsData>();
+            foreach (var item in result.Data.List)
+            {
+                sensorsData.Add(new SensorsData
+                {
+                    BrandName=item.Brand.Name,
+                    CalibrationDate=item.CalibrationDate,
+                    InventoryName=item.InventoryName,
+                    SensorName=item.Name,
+                    Serial = item.Serial,
+                    WarehouseName = item.WarehouseName
+                });
+            }
+            ExportDto fileData = ExportDataService.ExportDataToFile(sensorsData,dtHeader, "Sensor Data Report",null);
+            var file = new FileContentResult(fileData.Content, fileData.ContentType);
+            file.FileDownloadName = "WorkingAndNotWorkingSensorReport"+ ".xlsx";
+            
+            return File(fileData.Content, fileData.ContentType, file.FileDownloadName);
+        }
         [UserPrivilege(Privilege = AgentPrivilegeTypeEnum.ViewInventoryHistoryReport)]
         public IActionResult WarehouseInventory()
         {
