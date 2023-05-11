@@ -31,6 +31,9 @@
                 @SharedLocalizer["CalibrationDate"]
             </th>
             <th>
+                @SharedLocalizer["DateOfTheLastReading"]
+            </th>
+            <th>
                 @SharedLocalizer["SerialNumber"]
             </th>
 
@@ -55,6 +58,9 @@
                 </td>
                 <td class="ar-font">
                     @(item.CalibrationDate.HasValue ? item.CalibrationDate.Value.ToString("yyyy/MM/dd", new CultureInfo("en-US").DateTimeFormat) : "")
+                </td>
+                                <td class="ar-font">
+                    @(item.CalibrationDate.HasValue ? item.DateOfTheLastReading.Value.ToString(new CultureInfo("en-US").DateTimeFormat) : "")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Serial)

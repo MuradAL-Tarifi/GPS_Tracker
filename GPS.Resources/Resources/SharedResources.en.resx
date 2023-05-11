@@ -411,6 +411,9 @@
   <data name="DateOfBirth" xml:space="preserve">
     <value>Date of birth</value>
   </data>
+  <data name="DateOfTheLastReading" xml:space="preserve">
+    <value>Date Of The Last Reading</value>
+  </data>
   <data name="Day" xml:space="preserve">
     <value>Day</value>
   </data>

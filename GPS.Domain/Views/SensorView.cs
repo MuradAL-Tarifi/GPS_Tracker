@@ -31,6 +31,7 @@ namespace GPS.Domain.Views
         public string InventoryName { get; set; }
         public string WarehouseName { get; set; }
         public DateTime? DueDate { get; set; }
+        public DateTime? DateOfTheLastReading { get; set; }
 
     }
 }
