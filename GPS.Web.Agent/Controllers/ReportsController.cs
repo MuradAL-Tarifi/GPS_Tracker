@@ -1,4 +1,5 @@
 ﻿
+using DocumentFormat.OpenXml.Wordprocessing;
 using DXApplicationFDA.Infra.Services;
 using GPS.API.Proxy;
 using GPS.Domain.DTO;
@@ -6,8 +7,10 @@ using GPS.Domain.ViewModels;
 using GPS.Domain.Views;
 using GPS.Helper;
 using GPS.Services.Alerts;
+using GPS.Services.Fleets;
 using GPS.Services.Lookups;
 using GPS.Services.Sensors;
+using GPS.Services.WareHouses;
 using GPS.Web.Agent.AppCode;
 using GPS.Web.Agent.AppCode.Helpers;
 using GPS.Web.Agent.Models;
@@ -26,6 +29,8 @@ namespace GPS.Web.Agent.Controllers
         private readonly IInventoryHistoryReportApiProxy _inventoryHistoryReportApiProxy;
         private readonly IOnlineInventoryHistoryApiProxy _onlineInventoryHistoryApiProxy;
         private readonly IAlertApiProxy _alertApiProxy;
+        private readonly IWarehouseService _warehouseService;
+        private readonly IFleetService _fleetService;
         private readonly ISensorService _SensorService;
         public ReportsController(
             IInventoryHistoryReportApiProxy inventoryHistoryReportApiProxy,
@@ -34,11 +39,16 @@ namespace GPS.Web.Agent.Controllers
             LoggedInUserProfile loggedUser,
             ISensorService SensorService,
             IAlertApiProxy alertApiProxy,
-            ILookupsService lookupsService) : base(viewHelper, loggedUser, lookupsService)
+            ILookupsService lookupsService,
+            IWarehouseService warehouseService,
+            IFleetService fleetService
+            ) : base(viewHelper, loggedUser, lookupsService)
         {
             _inventoryHistoryReportApiProxy = inventoryHistoryReportApiProxy;
             _onlineInventoryHistoryApiProxy = onlineInventoryHistoryApiProxy;
             _alertApiProxy = alertApiProxy;
+            this._warehouseService = warehouseService;
+            this._fleetService = fleetService;
             _SensorService = SensorService;
         }
 
@@ -339,6 +349,135 @@ namespace GPS.Web.Agent.Controllers
         {
             var result = await _inventoryHistoryReportApiProxy.InventorySensorHistoryReportPDF(filterInventoryHistory);
             return File(result.Data, "application/pdf", "Report.pdf");
+        }
+        [UserPrivilege(Privilege = AgentPrivilegeTypeEnum.ViewAlertsReport)]
+        public async Task<IActionResult> AlertReport(long? warehouseId, long? inventoryId, long? sensorId , string fromDate, string toDate,int? page = 1, int? show = 100)
+        {
+            warehouseId = warehouseId == 0 ? null : warehouseId;
+            inventoryId = inventoryId == 0 ? null : inventoryId;
+            sensorId = sensorId == 0 ? null : sensorId;
+            var pageNumber = page ?? 1;
+            var pageSize = show ?? 100;
+
+            //warehouseId = await LoadWarehouses(warehouseId);
+            //await LoadInventories(warehouseId.Value, inventoryId);
+            //await LoadInventorySensorsBySensorId(inventoryId, sensorId);
+
+            var PagedResult = new StaticPagedList<AlertTrackerViewModel>(new List<AlertTrackerViewModel>(), pageNumber, pageSize, 0);
+            //if (!warehouseId.HasValue || string.IsNullOrEmpty(fromDate) || string.IsNullOrEmpty(toDate))
+            //{
+            //    return View(PagedResult);
+            //}
+
+            // Save current query in ViewBag for pager
+            ViewBag.CurrentQuery = new Dictionary<string, string>()
+            {
+                { "warehouseId", warehouseId.ToString() },
+                { "inventoryId", inventoryId.ToString() },
+                { "sensorId", sensorId.ToString() },
+                { "fromDate", fromDate },
+                { "toDate", toDate },
+                { "show", pageSize.ToString() }
+            };
+            ViewBag.Action = "AlertReport";
+            var warehouserName = "";
+            var sensorNumber = "";
+            var fleetName = "";
+            if (warehouseId != null)
+            {
+                var warehouserResult = await _warehouseService.FindByIdAsync(warehouseId);
+                warehouserName = warehouserResult.Data.Name;
+            }
+            if (sensorId != null)
+            {
+                var sensorResult = await _SensorService.FindbyIdAsync(sensorId);
+                sensorNumber = sensorResult.Data.Serial;
+            }
+            if (_loggedUser.FleetName != null)
+            {
+                var fleetResult = await _fleetService.FindByIdAsync(_loggedUser.FleetId);
+                fleetName = fleetResult.Data.NameEn;
+            }
+            var result = await _alertApiProxy.PagedAlertsTracker(warehouserName, fleetName, sensorNumber,fromDate, toDate, pageNumber, pageSize);
+            if (!result.IsSuccess && result.HttpCode != HttpCode.NotFound)
+            {
+                return View(_viewHelper.GetErrorPage(result.HttpCode));
+            }
+
+            // Convert result data list to StaticPagedList
+            if (result.IsSuccess)
+            {
+                PagedResult = new StaticPagedList<AlertTrackerViewModel>(result.Data.List, pageNumber, pageSize, result.Data.TotalRecords);
+            }
+
+            // Check if request is ajax request
+            if (HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView("_customAlarm", PagedResult);
+            }
+            return View(PagedResult);
+        }
+        // GET: ExportAlertReport
+        [UserPrivilege(Privilege = AgentPrivilegeTypeEnum.ViewAlertsReport)]
+        [HttpGet("[Controller]/Sensor/ExportAlertReport/{warehouseId}/{inventoryId}/{sensorId}/{fromDate}/{toDate}")]
+        public async Task<IActionResult> ExportAlertReport(int? warehouseId, int? inventoryId, int? sensorId, string fromDate, string toDate)
+        {
+            var warehouserName = "";
+            var sensorNumber = "";
+            var fleetName = "";
+            if (warehouseId != null)
+            {
+                var warehouserResult = await _warehouseService.FindByIdAsync(warehouseId);
+                warehouserName = warehouserResult.Data.Name;
+            }
+            if (sensorId != null)
+            {
+                var sensorResult = await _SensorService.FindbyIdAsync(sensorId);
+                sensorNumber = sensorResult.Data.Serial;
+            }
+            if (_loggedUser.FleetName != null)
+            {
+                var fleetResult = await _fleetService.FindByIdAsync(_loggedUser.FleetId);
+                fleetName = fleetResult.Data.NameEn;
+            }
+            var result = await _alertApiProxy.PagedAlertsTracker(warehouserName, fleetName, sensorNumber, fromDate, toDate, 1, 999999999);
+            if (!result.IsSuccess && result.HttpCode != HttpCode.NotFound)
+            {
+                return View(_viewHelper.GetErrorPage(result.HttpCode));
+            }
+
+            DataTable dtHeader = new DataTable();
+            dtHeader.Columns.Add("AlertType");
+            dtHeader.Columns.Add("MessageForValue");
+            dtHeader.Columns.Add("AlertDateTime");
+            dtHeader.Columns.Add("ToEmails");
+            dtHeader.Columns.Add("MonitoredUnit");
+            dtHeader.Columns.Add("SensorNumber");
+            dtHeader.Columns.Add("Warehouse");
+            dtHeader.Columns.Add("Fleet");
+
+            dtHeader.Rows.Add("Alert Type", "Message For Value", "Alert Date Time", "To Emails",
+                "Monitored Unit", "Sensor Number", "Warehouse", "Fleet");
+            List<AlertReportDto> alertReports = new List<AlertReportDto>();
+            foreach (var item in result.Data.List)
+            {
+                alertReports.Add(new AlertReportDto
+                {
+                    AlertDateTime= item.AlertDateTime,
+                    AlertType= item.AlertType,
+                    MessageForValue= item.MessageForValue,
+                    MonitoredUnit= item.MonitoredUnit,
+                    ToEmails = item.SendTo,
+                    SensorNumber = item.Serial,
+                    Warehouse = item.WarehouseName,
+                    Fleet = item.Zone
+                });
+            }
+            ExportDto fileData = ExportDataService.ExportDataToFile(alertReports, dtHeader, "Alert Data Report", null);
+            var file = new FileContentResult(fileData.Content, fileData.ContentType);
+            file.FileDownloadName = "AlertReport" + ".xlsx";
+
+            return File(fileData.Content, fileData.ContentType, file.FileDownloadName);
         }
     }
 }

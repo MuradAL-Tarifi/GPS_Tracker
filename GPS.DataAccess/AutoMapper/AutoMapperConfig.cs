@@ -63,6 +63,8 @@ namespace GPS.DataAccess.AutoMapper
                 CreateMap<Alert, AlertView>();
                 CreateMap<AlertView, Alert>();
 
+                CreateMap<AlertTracker, AlertTrackerViewModel>();
+                CreateMap<AlertTrackerViewModel, AlertTracker>();
                 // user, role privilegeType
                 CreateMap<User, UserView>();
                 CreateMap<UserView, User>();

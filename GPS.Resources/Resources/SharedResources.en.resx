@@ -234,8 +234,14 @@
   <data name="AgentRole" xml:space="preserve">
     <value>Agent</value>
   </data>
+  <data name="AlarmReports" xml:space="preserve">
+    <value>Alarm Reports</value>
+  </data>
   <data name="Alert" xml:space="preserve">
     <value>Alert</value>
+  </data>
+  <data name="AlertDateTime" xml:space="preserve">
+    <value>Alert Date </value>
   </data>
   <data name="AlertReport" xml:space="preserve">
     <value>Alert Report</value>
@@ -942,6 +948,9 @@
   <data name="MaxWeight" xml:space="preserve">
     <value>Max Weight</value>
   </data>
+  <data name="MessageForValue" xml:space="preserve">
+    <value>Alert Value</value>
+  </data>
   <data name="Min" xml:space="preserve">
     <value>Min</value>
   </data>
@@ -965,6 +974,9 @@
   </data>
   <data name="Monday" xml:space="preserve">
     <value>Monday</value>
+  </data>
+  <data name="MonitoredUnit" xml:space="preserve">
+    <value>Monitored Unit</value>
   </data>
   <data name="Monthly" xml:space="preserve">
     <value>Monthly</value>

@@ -1,0 +1,181 @@
+﻿@model StaticPagedList<GPS.Domain.ViewModels.AlertTrackerViewModel>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@using System.Threading;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = SharedLocalizer["SensorHistoryReport"];
+    ViewBag.PageBarTitle = SharedLocalizer["SensorHistoryReport"];
+
+    var lang = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US") ? "en" : "ar";
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+
+    string warehouseId = "";
+    string inventoryId = "";
+    string sensorId = "";
+    var query = (Dictionary<string, string>)ViewBag.CurrentQuery;
+    if (query != null)
+    {
+        warehouseId = query["warehouseId"];
+        inventoryId = query["inventoryId"];
+        sensorId = query["sensorId"];
+    }
+}
+<div id="app" v-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header ">
+                    <div class="row col-12">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label> @SharedLocalizer["Warehouse"]</label>
+                                <v-select dir="ltr" :options="optionWarehouses"  label="text" v-model="warehouseId" @@input="onSelectWarehouse($event)">
+                                    <div slot="no-options">@SharedLocalizer["All"]</div>
+                                </v-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label>@SharedLocalizer["Inventory"]</label>
+                                <v-select dir="ltr" :options="optionInventories" label="text" v-model="inventoryId" @@input="onSelectInventory($event)">
+                                    <div slot="no-options">@SharedLocalizer["All"]</div>
+                                </v-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label>@SharedLocalizer["Sensor"]</label>
+                                <v-select dir="ltr" :options="optionSensors" label="text" v-model="sensorId">
+                                    <div slot="no-options">@SharedLocalizer["All"]</div>
+                                </v-select>
+                            </div>
+                        </div>
+@*                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <label>@SharedLocalizer["AlertType"]</label>
+                                <select class="form-control" id="AlertType" name="alertTypeLookupId" v-model="alertTypeLookupId">
+                                    <option value="0">@SharedLocalizer["All"]</option>
+                                    <option value="1">@SharedLocalizer["HumidityOutOfRang"]</option>
+                                    <option value="2">@SharedLocalizer["TemperatureOutOfRang"]</option>
+                                    <option value="3">@SharedLocalizer["TemperatureAndHumidityOutOfRang"]</option>
+                                </select>
+                            </div>
+                        </div>*@
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group dtp-control">
+                                <label>@SharedLocalizer["FromDate"]</label>
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                    </div>
+                                    <input type="text" id="fp-date-time" class="form-control flatPickr-date" placeholder="YYYY-MM-DD" readonly="readonly" v-model="fromDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group dtp-control">
+                                <label>@SharedLocalizer["ToDate"]</label>
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                    </div>
+                                    <input type="text" id="fp-date-time" class="form-control flatPickr-date" placeholder="YYYY-MM-DD" readonly="readonly" v-model="toDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 pt-1 pb-1">
+                            <button class="btn btn-primary" @@click="search()" v-bind:disabled="!canSearch()">
+                                @SharedLocalizer["Search"]
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button id="exportbtn" class="btn btn-primary" @@click="ExportToExcelData()">
+                                @SharedLocalizer["ExportToExcel"]
+                                <i class="fa fa-file-excel-o"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div id="table-div" class="card-body">
+                    <div id="PagedDataDiv">
+                        <partial name="~/Views/Reports/_customAlarm.cshtml" model="@Model" />
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="card-footer clearfix center">
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+@section css
+    {
+    <!-- vue select -->
+    <link href="@Url.Content("~/lib/vue-select/vue-select.css")" rel="stylesheet" />
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+    <!-- alertify -->
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+    <!-- Pace style -->
+    <link href="@Url.Content("~/lib/pace/pace.css")" rel="stylesheet" />
+    <!-- footable style -->
+    <link href="@Url.Content("~/lib/footable/css/footable.bootstrap.css")" rel="stylesheet" />
+}
+
+@section Scripts
+    {
+    <!-- Axios -->
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+    @* vue validators *@
+    <script src="@Url.Content("~/lib/vue/validators.min.js")"></script>
+    @* vue vuelidate *@
+    <script src="@Url.Content("~/lib/vue/vuelidate.min.js")"></script>
+    @* axios *@
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+    @* vue select *@
+    <script src="@Url.Content("~/lib/vue-select/vue-select.js")"></script>
+    <!-- development version, includes helpful console warnings -->
+    @*<partial name="_VueScript" />*@
+
+
+    @* for pager *@
+    <script src="@Url.Content("~/lib/jquery/jquery.unobtrusive-ajax.min.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- Alertify -->
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+    <!-- PACE -->
+    <script src="@Url.Content("~/lib/pace/pace.js")"></script>
+    <!-- footable -->
+    <script src="@Url.Content("~/lib/footable/js/footable.js")"></script>
+
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+
+    <script>
+        var errorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var saveSuccessMSG = '@Localizer["SaveSuccessMSG"]';
+        var addCustomAlert = '@Localizer["AddCustomAlert"]';
+        var editCustomAlert = '@Localizer["EditCustomAlert"]';
+        var deleteSuccessMSG = '@Localizer["DeleteSuccessMSG"]';
+        var confirmDelete = '@Localizer["ConfirmDelete"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var all = '@SharedLocalizer["All"]';
+    </script>
+
+    <script src="@Url.Content("~/js/reports/warehouse/alertReport.js")" asp-append-version="true"></script>
+}

@@ -2,6 +2,7 @@
 using GPS.DataAccess.Repository.Accounts;
 using GPS.DataAccess.Repository.Agents;
 using GPS.DataAccess.Repository.Alerts;
+using GPS.DataAccess.Repository.AlertTracker;
 using GPS.DataAccess.Repository.Brands;
 using GPS.DataAccess.Repository.CustomAlerts;
 using GPS.DataAccess.Repository.EmailHistorys;
@@ -86,6 +87,8 @@ namespace GPS.DataAccess.Repository.UnitOfWork
         private IReportScheduleRepository _reportScheduleRepository;
         public IReportScheduleRepository ReportScheduleRepository => _reportScheduleRepository = _reportScheduleRepository ?? new ReportScheduleRepository(_dbContext);
 
+        private IAlertTrackerRepository _AlertTrackerRepository;
+        public IAlertTrackerRepository AlertTrackerRepository => _AlertTrackerRepository = _AlertTrackerRepository ?? new AlertTrackerRepository(_dbContext);
 
         private ICustomAlertRepository _customAlertRepository;
         public ICustomAlertRepository CustomAlertRepository => _customAlertRepository = _customAlertRepository ?? new CustomAlertRepository(_dbContext);

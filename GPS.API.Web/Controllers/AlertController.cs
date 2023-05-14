@@ -1,6 +1,7 @@
 ﻿using GPS.Domain.DTO;
 using GPS.Domain.ViewModels;
 using GPS.Services.Alerts;
+using GPS.Services.AlertTracker;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,16 @@ namespace GPS.API.Web.Controllers
     public class AlertController : ControllerBase
     {
         private readonly IAlertService _alertService;
+        private readonly IAlertTrackerService _alertTrackerService;
+
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="alertService"></param>
-        public AlertController(IAlertService alertService)
+        public AlertController(IAlertService alertService, IAlertTrackerService alertTrackerService)
         {
             _alertService = alertService;
+            _alertTrackerService = alertTrackerService;
         }
         /// <summary>
         /// Get Top 100 Alerts By UserId
@@ -75,6 +79,24 @@ namespace GPS.API.Web.Controllers
             var result = await _alertService.UpdateAlertsAsReadAsync(listParam.ids, userId);
             return Ok(result);
         }
-        
+        /// <summary>
+        /// Paged Alerts History
+        /// </summary>
+        /// <param name="warehouseName"></param>
+        /// <param name="fleetName"></param>
+        /// <param name="sensorNumber"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/v1/alert/paged-alert-tracker")]
+        [Produces(typeof(ReturnResult<PagedResult<AlertTrackerViewModel>>))]
+        public async Task<IActionResult> PagedAlertsTracker(string warehouseName, string fleetName, string sensorNumber, string fromDate, string toDate, int pageNumber, int pageSize)
+        {
+            var result = await _alertTrackerService.GetPagedAlertsTrackerAsync(warehouseName, fleetName, sensorNumber, fromDate, toDate, pageNumber, pageSize);
+            return Ok(result);
+        }
     }
 }

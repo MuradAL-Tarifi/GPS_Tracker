@@ -234,8 +234,14 @@
   <data name="AgentRole" xml:space="preserve">
     <value>عميل</value>
   </data>
+  <data name="AlarmReports" xml:space="preserve">
+    <value>تقارير الانذارات</value>
+  </data>
   <data name="Alert" xml:space="preserve">
     <value>التنبيه</value>
+  </data>
+  <data name="AlertDateTime" xml:space="preserve">
+    <value>تاريخ الإنذار</value>
   </data>
   <data name="AlertReport" xml:space="preserve">
     <value>تقرير الإنذارات</value>
@@ -939,6 +945,9 @@
   <data name="MaxWeight" xml:space="preserve">
     <value>أقصى وزن</value>
   </data>
+  <data name="MessageForValue" xml:space="preserve">
+    <value>قيمة الإنذار</value>
+  </data>
   <data name="Min" xml:space="preserve">
     <value>أدنى</value>
   </data>
@@ -962,6 +971,9 @@
   </data>
   <data name="Monday" xml:space="preserve">
     <value>الاثنين</value>
+  </data>
+  <data name="MonitoredUnit" xml:space="preserve">
+    <value>رقم و اسم الحساس</value>
   </data>
   <data name="Monthly" xml:space="preserve">
     <value>شهري</value>

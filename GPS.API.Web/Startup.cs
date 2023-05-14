@@ -9,6 +9,7 @@ using GPS.Domain.DTO;
 using GPS.Integration.EmailIntegrations;
 using GPS.Redis;
 using GPS.Services.Alerts;
+using GPS.Services.AlertTracker;
 using GPS.Services.EmailHistorys;
 using GPS.Services.EventLogs;
 using GPS.Services.Inventorys;
@@ -135,6 +136,7 @@ namespace GPS.API.Web
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IEmailHistoryService, EmailHistoryService>();
             services.AddScoped<IAlertService, AlertService>();
+            services.AddScoped<IAlertTrackerService, AlertTrackerService>();
             services.AddScoped<IEmailIntegration, EmailIntegration>();  
             #endregion
 

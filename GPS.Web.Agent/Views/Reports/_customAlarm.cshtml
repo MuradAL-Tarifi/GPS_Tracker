@@ -1,0 +1,81 @@
+﻿@model StaticPagedList<GPS.Domain.ViewModels.AlertTrackerViewModel>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Agent;
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbtbAlertReport" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th data-breakpoints="xs sm" style="width:5%">
+                
+            </th>
+            <th data-breakpoints="xs sm" style="width:10%">
+                @SharedLocalizer["AlertType"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:10%">
+                @SharedLocalizer["MessageForValue"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:10%">
+                @SharedLocalizer["AlertDateTime"]
+            </th>
+            <th data-breakpoints="xs sm" style="width: 15%;">
+                @SharedLocalizer["ToEmails"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:15%">
+                @SharedLocalizer["MonitoredUnit"]
+            </th>
+            <th data-breakpoints="xs sm" style="width:10%">
+                @SharedLocalizer["SensorNumber"]
+            </th>
+            <th data-breakpoints="xs sm" style="width: 5%;">
+                @SharedLocalizer["Warehouse"]
+            </th>
+            <th data-breakpoints="xs sm" style="width: 15%;">
+                @SharedLocalizer["Fleet"]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@(index)">
+                <td>@index</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlertType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MessageForValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlertDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SendTo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MonitoredUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Serial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WarehouseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Zone)
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

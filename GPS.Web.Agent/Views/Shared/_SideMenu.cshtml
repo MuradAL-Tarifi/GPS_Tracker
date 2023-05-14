@@ -89,10 +89,19 @@
                         </li>
                     }
 
-                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewAlertsReport))
+@*                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewAlertsReport))
                     {
                         <li id="AlertsReportLi" class="nav-item">
                             <a asp-action="Alert" asp-controller="Reports" class="nav-link">
+                                <i class="nav-icon fas fa-warehouse"></i>
+                                <span class="menu-item text-truncate text-wrap">@SharedLocalizer["AlertReport"] </span>
+                            </a>
+                        </li>
+                    }*@
+                    @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AgentPrivilegeTypeEnum.ViewAlertsReport))
+                    {
+                        <li id="AlertsReportLi" class="nav-item">
+                            <a asp-action="AlertReport" asp-controller="Reports" class="nav-link">
                                 <i class="nav-icon fas fa-warehouse"></i>
                                 <span class="menu-item text-truncate text-wrap">@SharedLocalizer["AlertReport"] </span>
                             </a>

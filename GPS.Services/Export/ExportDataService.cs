@@ -45,8 +45,8 @@ namespace DXApplicationFDA.Infra.Services
                                 if (dataSource[j].GetType().GetProperty(properties[i].Name).PropertyType == typeof(DateTime) || dataSource[j].GetType().GetProperty(properties[i].Name).PropertyType == typeof(DateTime?))
                                 {
                                     var date = dataSource[j].GetType().GetProperty(properties[i].Name).GetValue(dataSource[j], null);
-                                    worksheet.Cell(currentRow, Cell).Value = date != null ? Convert.ToDateTime(date).ToString("yyyy-MM-dd") : null;
-                                    worksheet.Cell(currentRow, Cell).Style.DateFormat.Format = "yyyy-MM-dd";
+                                    worksheet.Cell(currentRow, Cell).Value = date != null ? Convert.ToDateTime(date) : null;
+                                    //worksheet.Cell(currentRow, Cell).Style.DateFormat.Format = "yyyy-MM-dd";
                                 }
                                 else if (dataSource[j].GetType().GetProperty(properties[i].Name).PropertyType == typeof(List<string>))
                                 {

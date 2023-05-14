@@ -1,5 +1,6 @@
 ﻿using GPS.Domain.DTO;
 using GPS.Domain.ViewModels;
+using GPS.Domain.Views;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -44,5 +45,18 @@ namespace GPS.API.Proxy
         /// <returns></returns>
         [Post("/api/v1/alert/read-alert-by-user/{userId}")]
         Task<ReturnResult<bool>> UpdateAlertsAsRead(string userId, ListParam listParam);
+        /// <summary>
+        /// Paged Alerts History
+        /// </summary>
+        /// <param name="warehouseName"></param>
+        /// <param name="fleetName"></param>
+        /// <param name="sensorNumber"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [Get("/api/v1/alert/paged-alert-tracker")]
+        Task<ReturnResult<PagedResult<AlertTrackerViewModel>>> PagedAlertsTracker(string warehouseName, string fleetName, string sensorNumber, string fromDate, string toDate, int pageNumber, int pageSize);
     }
 }

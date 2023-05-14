@@ -1,6 +1,7 @@
 ﻿using GPS.DataAccess.Repository.Accounts;
 using GPS.DataAccess.Repository.Agents;
 using GPS.DataAccess.Repository.Alerts;
+using GPS.DataAccess.Repository.AlertTracker;
 using GPS.DataAccess.Repository.Brands;
 using GPS.DataAccess.Repository.CustomAlerts;
 using GPS.DataAccess.Repository.EmailHistorys;
@@ -47,6 +48,6 @@ namespace GPS.DataAccess.Repository.UnitOfWork
         IAlertsRepository AlertsRepository { get; }
         IInventoryCustomAlertsWatcherRepository InventoryCustomAlertsWatcherRepository { get; }
         ISystemSettingRepository SystemSettingRepository { get; }
-        
+        IAlertTrackerRepository AlertTrackerRepository { get; }
     }
 }
