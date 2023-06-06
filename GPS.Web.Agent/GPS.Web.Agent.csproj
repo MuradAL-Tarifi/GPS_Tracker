@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="appsettings.Production.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\js\reports\sensors\sensors.js" />
     <None Include="wwwroot\js\users\create.js" />
     <None Include="wwwroot\js\users\details.js" />

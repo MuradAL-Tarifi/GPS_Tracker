@@ -99,7 +99,7 @@ namespace GPS.DataAccess.Repository.Inventorys
         }
         public async Task<List<InventorySensor>> GetListInventorySensor(List<long> sensorIds)
         {
-            return await _dbContext.InventorySensor.Where(x => sensorIds.Contains(x.SensorId)).Include(x => x.Inventory).ToListAsync();
+            return await _dbContext.InventorySensor.Where(x => sensorIds.Contains(x.SensorId)).Include(x => x.Inventory).ThenInclude(x=>x.Warehouse).ToListAsync();
         }
 
         public async Task<List<InventorySensor>> GetListInventorySensorByInventoryIdsAsync(List<long> inventoryIds)

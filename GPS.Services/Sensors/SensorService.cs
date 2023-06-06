@@ -67,7 +67,7 @@ namespace GPS.Services.Sensors
                         var onlineIH = await _unitOfWork.OnlineInventoryHistoryRepository.GetBySensorSerialAsync(sensorView.Serial);
                         sensorView.InventoryName = lsInventorySensor.Where(x => x.SensorId == sensorView.Id).FirstOrDefault().Inventory.Name;
                         sensorView.WarehouseName = lsInventorySensor.Where(x => x.SensorId == sensorView.Id).FirstOrDefault().Inventory.Warehouse.Name;
-                        sensorView.DateOfTheLastReading = onlineIH.GpsDate;
+                        sensorView.DateOfTheLastReading = onlineIH != null ?onlineIH.GpsDate:null;
 
                     }
                     lsSensorView.Add(sensorView);

@@ -951,25 +951,26 @@ namespace GPS.Services.Inventorys
                     var fleet = inventorySensor.Inventory.Warehouse.Fleet;
                     //var base64FleetLogo = string.Empty;
                     var imgExtention = string.Empty;
-                    if (fleet.LogoPhotoByte != null)
-                    {
-                        if (fleet.LogoPhotoByte.Length > 0)
-                        {
-                            //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
-                            imgExtention = fleet.LogoPhotoExtention;
-                            SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", fleet.LogoPhotoByte, fleet.Id + fleet.LogoPhotoExtention);
-                        }
-                    }
+                    var x = Directory.GetCurrentDirectory();
+                    //if (fleet.LogoPhotoByte != null)
+                    //{
+                    //    if (fleet.LogoPhotoByte.Length > 0)
+                    //    {
+                    //        //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
+                    //        imgExtention = fleet.LogoPhotoExtention;
+                    //        SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", fleet.LogoPhotoByte, fleet.Id + fleet.LogoPhotoExtention);
+                    //    }
+                    //}
                     
-                    if (string.IsNullOrEmpty(imgExtention))
-                    {
-                        if (systemSetting.LogoPhotoByte != null)
-                        {
-                            //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
-                            imgExtention = ".png";
-                            SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", systemSetting.LogoPhotoByte, fleet.Id + imgExtention);
-                        }
-                    }
+                    //if (string.IsNullOrEmpty(imgExtention))
+                    //{
+                    //    if (systemSetting.LogoPhotoByte != null)
+                    //    {
+                    //        //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
+                    //        imgExtention = ".png";
+                    //        SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", systemSetting.LogoPhotoByte, fleet.Id + imgExtention);
+                    //    }
+                    //}
 
                     var headerInfo = result.Data.HeaderInfo;
 
@@ -992,8 +993,8 @@ namespace GPS.Services.Inventorys
                     var dataBodyHtml = new StringBuilder();
 
                     //var src = !string.IsNullOrEmpty(base64FleetLogo) ? $"data:image/{fleet.LogoPhotoExtention}; base64,{base64FleetLogo}" : logoPath;
-                    var src = !string.IsNullOrEmpty(imgExtention) ? _hostingEnvironment.ContentRootPath + @"\assets\imgs\" + fleet.Id + imgExtention : logoPath;
-
+                    // var src = !string.IsNullOrEmpty(imgExtention) ? _hostingEnvironment.ContentRootPath + @"\assets\imgs\" + fleet.Id + imgExtention : logoPath;
+                    var src = @"C:\LogoFolder\logo.png";
                     headerHtml.Append($@"<html><head></head><body>
                                                     <table class='table' dir='{dir}'>
                                              <tr>
@@ -1200,6 +1201,7 @@ namespace GPS.Services.Inventorys
                 }
                 catch (Exception ex)
                 {
+                    _logger.LogError(ex, ex.Message);
                     finalResult.ServerError(ex.Message);
                 }
             }
@@ -1241,25 +1243,25 @@ namespace GPS.Services.Inventorys
                     var fleet = inventory.Warehouse.Fleet;
                     var systemSetting = await _unitOfWork.SystemSettingRepository.LoadSystemSettingAsync();
                     var imgExtention = string.Empty;
-                    if (fleet.LogoPhotoByte != null)
-                    {
-                        if (fleet.LogoPhotoByte.Length > 0)
-                        {
-                            //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
-                            imgExtention = fleet.LogoPhotoExtention;
-                            SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", fleet.LogoPhotoByte, fleet.Id + fleet.LogoPhotoExtention);
-                        }
-                    }
+                    //if (fleet.LogoPhotoByte != null)
+                    //{
+                    //    if (fleet.LogoPhotoByte.Length > 0)
+                    //    {
+                    //        //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
+                    //        imgExtention = fleet.LogoPhotoExtention;
+                    //        SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", fleet.LogoPhotoByte, fleet.Id + fleet.LogoPhotoExtention);
+                    //    }
+                    //}
 
-                    if (string.IsNullOrEmpty(imgExtention))
-                    {
-                        if (systemSetting.LogoPhotoByte != null)
-                        {
-                            //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
-                            imgExtention = ".png";
-                            SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", systemSetting.LogoPhotoByte, fleet.Id + imgExtention);
-                        }
-                    }
+                    //if (string.IsNullOrEmpty(imgExtention))
+                    //{
+                    //    if (systemSetting.LogoPhotoByte != null)
+                    //    {
+                    //        //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
+                    //        imgExtention = ".png";
+                    //        SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", systemSetting.LogoPhotoByte, fleet.Id + imgExtention);
+                    //    }
+                    //}
 
 
                     #region Create Html Template
@@ -1268,8 +1270,8 @@ namespace GPS.Services.Inventorys
 
                     //var src = !string.IsNullOrEmpty(base64FleetLogo) ? $"data:image/{fleet.LogoPhotoExtention}; base64,{base64FleetLogo}" : logoPath;
 
-                    var src = !string.IsNullOrEmpty(imgExtention) ? _hostingEnvironment.ContentRootPath + @"\assets\imgs\"+ fleet.Id + imgExtention : logoPath;
-
+                    //var src = !string.IsNullOrEmpty(imgExtention) ? _hostingEnvironment.ContentRootPath + @"\assets\imgs\"+ fleet.Id + imgExtention : logoPath;
+                    var src = @"C:\LogoFolder\logo.png";
                     string dir = isEnglish ? "ltr" : "rtl";
                     var colSpan = 1;
                     if (!string.IsNullOrEmpty(groupUpdatesByType))
@@ -1753,25 +1755,25 @@ namespace GPS.Services.Inventorys
                     var imgExtention = string.Empty;
 
 
-                    if (fleet.LogoPhotoByte != null)
-                    {
-                        if (fleet.LogoPhotoByte.Length > 0)
-                        {
-                            //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
-                            imgExtention = fleet.LogoPhotoExtention;
-                            SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", fleet.LogoPhotoByte, fleet.Id + fleet.LogoPhotoExtention);
-                        }
-                    }
+                    //if (fleet.LogoPhotoByte != null)
+                    //{
+                    //    if (fleet.LogoPhotoByte.Length > 0)
+                    //    {
+                    //        //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
+                    //        imgExtention = fleet.LogoPhotoExtention;
+                    //        SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", fleet.LogoPhotoByte, fleet.Id + fleet.LogoPhotoExtention);
+                    //    }
+                    //}
 
-                    if (string.IsNullOrEmpty(imgExtention))
-                    {
-                        if (systemSetting.LogoPhotoByte != null)
-                        {
-                            //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
-                            imgExtention = ".png";
-                            SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", systemSetting.LogoPhotoByte, fleet.Id + imgExtention);
-                        }
-                    }
+                    //if (string.IsNullOrEmpty(imgExtention))
+                    //{
+                    //    if (systemSetting.LogoPhotoByte != null)
+                    //    {
+                    //        //base64FleetLogo = Convert.ToBase64String(fleet.LogoPhotoByte);
+                    //        imgExtention = ".png";
+                    //        SaveImage(_hostingEnvironment.ContentRootPath + @"\assets\imgs", systemSetting.LogoPhotoByte, fleet.Id + imgExtention);
+                    //    }
+                    //}
 
 
                     #region Create Html Template
@@ -1780,8 +1782,8 @@ namespace GPS.Services.Inventorys
 
                     //var src = !string.IsNullOrEmpty(base64FleetLogo) ? $"data:image/{fleet.LogoPhotoExtention}; base64,{base64FleetLogo}" : logoPath;
 
-                    var src = !string.IsNullOrEmpty(imgExtention) ? _hostingEnvironment.ContentRootPath + @"\assets\imgs\" + fleet.Id + imgExtention : logoPath;
-
+                    //var src = !string.IsNullOrEmpty(imgExtention) ? _hostingEnvironment.ContentRootPath + @"\assets\imgs\" + fleet.Id + imgExtention : logoPath;
+                    var src = @"C:\LogoFolder\logo.png";
                     string dir = filterInventoryHistory.isEnglish ? "ltr" : "rtl";
                     var colSpan = 1;
                     if (!string.IsNullOrEmpty(filterInventoryHistory.groupUpdatesByType))

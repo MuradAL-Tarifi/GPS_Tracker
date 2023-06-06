@@ -162,175 +162,33 @@ namespace GPS.API.Server.Services
         }
         public async Task checkAlert(InventoryHistoryView inventoryHistoryView)
         {
-            var sensor = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
-            var sensorData = await _dapperRepository.GetSMTPCheckerBySerial(inventoryHistoryView.Serial);
-            if (sensorData != null)
+            try
             {
-                var alertTrakerDataLight = await _dapperRepository.GetAlertTrakerDataLightAsync(sensor.Serial, sensor.InventoryId, sensor.WarehouseId);
-                // Temperature Check
-                if (Convert.ToDouble(inventoryHistoryView.Temperature) <= sensor.MaxValueTemperature && Convert.ToDouble(inventoryHistoryView.Temperature) >= sensor.MinValueTemperature)
+                var sensor = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
+                var sensorData = await _dapperRepository.GetSMTPCheckerBySerial(inventoryHistoryView.Serial);
+                if (sensorData != null && sensor != null)
                 {
-                    Smtpchecker smtpchecker = new Smtpchecker
+                    var alertTrakerDataLight = await _dapperRepository.GetAlertTrakerDataLightAsync(sensor.Serial, sensor.InventoryId, sensor.WarehouseId);
+                    // Temperature Check
+                    if (Convert.ToDouble(inventoryHistoryView.Temperature) <= sensor.MaxValueTemperature && Convert.ToDouble(inventoryHistoryView.Temperature) >= sensor.MinValueTemperature)
                     {
-                        Serial = sensorData.Serial,
-                        IsSendHumidity = sensorData.IsSendHumidity,
-                        IsSendHumiditySecond = sensorData.IsSendHumiditySecond,
-                        IsSendTemperature = false,
-                        IsSendTemperatureSecond = false,
-                        UpdatedDateHumidity = sensorData.UpdatedDateHumidity,
-                        UpdatedDateTemperature = inventoryHistoryView.GpsDate,
-                    };
-                    await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
-
-                }
-                else if (sensorData.IsSendTemperature == false && sensorData.IsSendTemperatureSecond == false && sensorData.UpdatedDateTemperature.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
-                {
-                    // OutSide Temperature
-                    if (Convert.ToDouble(inventoryHistoryView.Temperature) > sensor.MaxValueTemperature || Convert.ToDouble(inventoryHistoryView.Temperature) < sensor.MinValueTemperature)
-                    {
-                        AlertTracker alertTracker = new AlertTracker()
-                        {
-                            UserName = sensor.UserName,
-                            AlertDateTime = inventoryHistoryView.GpsDate,
-                            AlertType = "Out Of Range!",
-                            MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                            MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;",
-                            Serial = inventoryHistoryView.Serial,
-                            Zone = alertTrakerDataLight.Zone,
-                            WarehouseName = alertTrakerDataLight.WarehouseName,
-                            SendTo = sensor.ToEmails,
-                            Interval = 60,
-                            IsSend = true,
-                            AlertId = Convert.ToInt32(inventoryHistoryView.Id)
-                        };
-
-                        var result = await _dapperRepository.InsertAlertTrackerAsync(alertTracker);
                         Smtpchecker smtpchecker = new Smtpchecker
                         {
                             Serial = sensorData.Serial,
                             IsSendHumidity = sensorData.IsSendHumidity,
                             IsSendHumiditySecond = sensorData.IsSendHumiditySecond,
-                            IsSendTemperature = true,
-                            IsSendTemperatureSecond = sensorData.IsSendTemperatureSecond,
-                            UpdatedDateHumidity = sensorData.UpdatedDateHumidity,
-                            UpdatedDateTemperature = inventoryHistoryView.GpsDate,
-                        };
-                        await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
-                        var smtpsettings = await _dapperRepository.GetSmtpsettingsAsync();
-                        var settingsCount = smtpsettings.Count();
-                        var count = 0;
-
-                        var alertBySensorrResult = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
-
-
-                        var emails = alertBySensorrResult.ToEmails.Split(",");
-                        if (emails != null)
-                        {
-                            bool results = false;
-                            foreach (var email in emails)
-                            {
-                                var smtpsetting = smtpsettings[count];
-                                results = false;
-                                results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
-                                if (results)
-                                {
-                                    await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
-                                    count++;
-                                    if (count >= settingsCount)
-                                    {
-                                        count = 0;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (sensorData.IsSendTemperature == true && sensorData.IsSendTemperatureSecond == false && sensorData.UpdatedDateTemperature.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
-                {
-                    // OutSide Temperature
-                    if (Convert.ToDouble(inventoryHistoryView.Temperature) > sensor.MaxValueTemperature || Convert.ToDouble(inventoryHistoryView.Temperature) < sensor.MinValueTemperature)
-                    {
-                        AlertTracker alertTracker = new AlertTracker()
-                        {
-                            UserName = sensor.UserName,
-                            AlertDateTime = inventoryHistoryView.GpsDate,
-                            AlertType = "Out Of Range!",
-                            MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                            MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;",
-                            Serial = inventoryHistoryView.Serial,
-                            Zone = alertTrakerDataLight.Zone,
-                            WarehouseName = alertTrakerDataLight.WarehouseName,
-                            SendTo = sensor.ToEmails,
-                            Interval = 60,
-                            IsSend = true,
-                            AlertId = Convert.ToInt32(inventoryHistoryView.Id)
-                        };
-                        var result = await _dapperRepository.InsertAlertTrackerAsync(alertTracker);
-
-                        Smtpchecker smtpchecker = new Smtpchecker
-                        {
-                            Serial = sensorData.Serial,
-                            IsSendHumidity = sensorData.IsSendHumidity,
-                            IsSendHumiditySecond = sensorData.IsSendHumiditySecond,
-                            IsSendTemperature = sensorData.IsSendTemperature,
-                            IsSendTemperatureSecond = true,
+                            IsSendTemperature = false,
+                            IsSendTemperatureSecond = false,
                             UpdatedDateHumidity = sensorData.UpdatedDateHumidity,
                             UpdatedDateTemperature = inventoryHistoryView.GpsDate,
                         };
                         await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
 
-                        var smtpsettings = await _dapperRepository.GetSmtpsettingsAsync();
-                        var settingsCount = smtpsettings.Count();
-                        var count = 0;
-
-                        var alertBySensorrResult = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
-
-
-                        var emails = alertBySensorrResult.ToEmails.Split(",");
-                        if (emails != null)
-                        {
-                            bool results = false;
-                            foreach (var email in emails)
-                            {
-                                var smtpsetting = smtpsettings[count];
-                                results = false;
-                                results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
-                                if (results)
-                                {
-                                    await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
-                                    count++;
-                                    if (count >= settingsCount)
-                                    {
-                                        count = 0;
-                                    }
-                                }
-                            }
-                        }
                     }
-                }
-                 sensor = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
-                 sensorData = await _dapperRepository.GetSMTPCheckerBySerial(inventoryHistoryView.Serial);
-                if (inventoryHistoryView.Humidity != -100000)
-                {
-                    if (Convert.ToDouble(inventoryHistoryView.Humidity) <= sensor.MaxValueHumidity && Convert.ToDouble(inventoryHistoryView.Humidity) >= sensor.MinValueHumidity)
+                    else if (sensorData.IsSendTemperature == false && sensorData.IsSendTemperatureSecond == false && sensorData.UpdatedDateTemperature.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
                     {
-                        Smtpchecker smtpchecker = new Smtpchecker
-                        {
-                            Serial = sensorData.Serial,
-                            IsSendHumidity = false,
-                            IsSendHumiditySecond = false,
-                            IsSendTemperature = sensorData.IsSendTemperature,
-                            IsSendTemperatureSecond = sensorData.IsSendTemperatureSecond,
-                            UpdatedDateHumidity = inventoryHistoryView.GpsDate,
-                            UpdatedDateTemperature = sensorData.UpdatedDateTemperature,
-                        };
-                        await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
-
-                    }
-                    else if (sensorData.IsSendHumidity == false && sensorData.IsSendHumiditySecond == false && sensorData.UpdatedDateHumidity.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
-                    {
-                        //OutSide Humidity
-                        if (Convert.ToDouble(inventoryHistoryView.Humidity) > sensor.MaxValueHumidity || Convert.ToDouble(inventoryHistoryView.Humidity) < sensor.MinValueHumidity)
+                        // OutSide Temperature
+                        if (Convert.ToDouble(inventoryHistoryView.Temperature) > sensor.MaxValueTemperature || Convert.ToDouble(inventoryHistoryView.Temperature) < sensor.MinValueTemperature)
                         {
                             AlertTracker alertTracker = new AlertTracker()
                             {
@@ -338,7 +196,7 @@ namespace GPS.API.Server.Services
                                 AlertDateTime = inventoryHistoryView.GpsDate,
                                 AlertType = "Out Of Range!",
                                 MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                                MessageForValue = "Humidity " + inventoryHistoryView.Humidity,
+                                MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;",
                                 Serial = inventoryHistoryView.Serial,
                                 Zone = alertTrakerDataLight.Zone,
                                 WarehouseName = alertTrakerDataLight.WarehouseName,
@@ -347,19 +205,19 @@ namespace GPS.API.Server.Services
                                 IsSend = true,
                                 AlertId = Convert.ToInt32(inventoryHistoryView.Id)
                             };
+
                             var result = await _dapperRepository.InsertAlertTrackerAsync(alertTracker);
                             Smtpchecker smtpchecker = new Smtpchecker
                             {
                                 Serial = sensorData.Serial,
-                                IsSendHumidity = true,
+                                IsSendHumidity = sensorData.IsSendHumidity,
                                 IsSendHumiditySecond = sensorData.IsSendHumiditySecond,
-                                IsSendTemperature = sensorData.IsSendTemperature,
+                                IsSendTemperature = true,
                                 IsSendTemperatureSecond = sensorData.IsSendTemperatureSecond,
-                                UpdatedDateHumidity = inventoryHistoryView.GpsDate,
-                                UpdatedDateTemperature = sensorData.UpdatedDateTemperature,
+                                UpdatedDateHumidity = sensorData.UpdatedDateHumidity,
+                                UpdatedDateTemperature = inventoryHistoryView.GpsDate,
                             };
                             await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
-
                             var smtpsettings = await _dapperRepository.GetSmtpsettingsAsync();
                             var settingsCount = smtpsettings.Count();
                             var count = 0;
@@ -389,10 +247,10 @@ namespace GPS.API.Server.Services
                             }
                         }
                     }
-                    else if (sensorData.IsSendHumidity == true && sensorData.IsSendHumiditySecond == false && sensorData.UpdatedDateHumidity.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
+                    else if (sensorData.IsSendTemperature == true && sensorData.IsSendTemperatureSecond == false && sensorData.UpdatedDateTemperature.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
                     {
-                        //OutSide Humidity
-                        if (Convert.ToDouble(inventoryHistoryView.Humidity) > sensor.MaxValueHumidity || Convert.ToDouble(inventoryHistoryView.Humidity) < sensor.MinValueHumidity)
+                        // OutSide Temperature
+                        if (Convert.ToDouble(inventoryHistoryView.Temperature) > sensor.MaxValueTemperature || Convert.ToDouble(inventoryHistoryView.Temperature) < sensor.MinValueTemperature)
                         {
                             AlertTracker alertTracker = new AlertTracker()
                             {
@@ -400,7 +258,7 @@ namespace GPS.API.Server.Services
                                 AlertDateTime = inventoryHistoryView.GpsDate,
                                 AlertType = "Out Of Range!",
                                 MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                                MessageForValue = "Humidity " + inventoryHistoryView.Humidity,
+                                MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;",
                                 Serial = inventoryHistoryView.Serial,
                                 Zone = alertTrakerDataLight.Zone,
                                 WarehouseName = alertTrakerDataLight.WarehouseName,
@@ -415,11 +273,11 @@ namespace GPS.API.Server.Services
                             {
                                 Serial = sensorData.Serial,
                                 IsSendHumidity = sensorData.IsSendHumidity,
-                                IsSendHumiditySecond = true,
+                                IsSendHumiditySecond = sensorData.IsSendHumiditySecond,
                                 IsSendTemperature = sensorData.IsSendTemperature,
-                                IsSendTemperatureSecond = sensorData.IsSendTemperatureSecond,
-                                UpdatedDateHumidity = inventoryHistoryView.GpsDate,
-                                UpdatedDateTemperature = sensorData.UpdatedDateTemperature,
+                                IsSendTemperatureSecond = true,
+                                UpdatedDateHumidity = sensorData.UpdatedDateHumidity,
+                                UpdatedDateTemperature = inventoryHistoryView.GpsDate,
                             };
                             await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
 
@@ -452,11 +310,159 @@ namespace GPS.API.Server.Services
                             }
                         }
                     }
+                    sensor = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
+                    sensorData = await _dapperRepository.GetSMTPCheckerBySerial(inventoryHistoryView.Serial);
+                    if (inventoryHistoryView.Humidity != -100000)
+                    {
+                        if (Convert.ToDouble(inventoryHistoryView.Humidity) <= sensor.MaxValueHumidity && Convert.ToDouble(inventoryHistoryView.Humidity) >= sensor.MinValueHumidity)
+                        {
+                            Smtpchecker smtpchecker = new Smtpchecker
+                            {
+                                Serial = sensorData.Serial,
+                                IsSendHumidity = false,
+                                IsSendHumiditySecond = false,
+                                IsSendTemperature = sensorData.IsSendTemperature,
+                                IsSendTemperatureSecond = sensorData.IsSendTemperatureSecond,
+                                UpdatedDateHumidity = inventoryHistoryView.GpsDate,
+                                UpdatedDateTemperature = sensorData.UpdatedDateTemperature,
+                            };
+                            await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
+
+                        }
+                        else if (sensorData.IsSendHumidity == false && sensorData.IsSendHumiditySecond == false && sensorData.UpdatedDateHumidity.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
+                        {
+                            //OutSide Humidity
+                            if (Convert.ToDouble(inventoryHistoryView.Humidity) > sensor.MaxValueHumidity || Convert.ToDouble(inventoryHistoryView.Humidity) < sensor.MinValueHumidity)
+                            {
+                                AlertTracker alertTracker = new AlertTracker()
+                                {
+                                    UserName = sensor.UserName,
+                                    AlertDateTime = inventoryHistoryView.GpsDate,
+                                    AlertType = "Out Of Range!",
+                                    MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
+                                    MessageForValue = "Humidity " + inventoryHistoryView.Humidity,
+                                    Serial = inventoryHistoryView.Serial,
+                                    Zone = alertTrakerDataLight.Zone,
+                                    WarehouseName = alertTrakerDataLight.WarehouseName,
+                                    SendTo = sensor.ToEmails,
+                                    Interval = 60,
+                                    IsSend = true,
+                                    AlertId = Convert.ToInt32(inventoryHistoryView.Id)
+                                };
+                                var result = await _dapperRepository.InsertAlertTrackerAsync(alertTracker);
+                                Smtpchecker smtpchecker = new Smtpchecker
+                                {
+                                    Serial = sensorData.Serial,
+                                    IsSendHumidity = true,
+                                    IsSendHumiditySecond = sensorData.IsSendHumiditySecond,
+                                    IsSendTemperature = sensorData.IsSendTemperature,
+                                    IsSendTemperatureSecond = sensorData.IsSendTemperatureSecond,
+                                    UpdatedDateHumidity = inventoryHistoryView.GpsDate,
+                                    UpdatedDateTemperature = sensorData.UpdatedDateTemperature,
+                                };
+                                await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
+
+                                var smtpsettings = await _dapperRepository.GetSmtpsettingsAsync();
+                                var settingsCount = smtpsettings.Count();
+                                var count = 0;
+
+                                var alertBySensorrResult = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
+
+
+                                var emails = alertBySensorrResult.ToEmails.Split(",");
+                                if (emails != null)
+                                {
+                                    bool results = false;
+                                    foreach (var email in emails)
+                                    {
+                                        var smtpsetting = smtpsettings[count];
+                                        results = false;
+                                        results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
+                                        if (results)
+                                        {
+                                            await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
+                                            count++;
+                                            if (count >= settingsCount)
+                                            {
+                                                count = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (sensorData.IsSendHumidity == true && sensorData.IsSendHumiditySecond == false && sensorData.UpdatedDateHumidity.Value.AddMinutes(30) <= inventoryHistoryView.GpsDate)
+                        {
+                            //OutSide Humidity
+                            if (Convert.ToDouble(inventoryHistoryView.Humidity) > sensor.MaxValueHumidity || Convert.ToDouble(inventoryHistoryView.Humidity) < sensor.MinValueHumidity)
+                            {
+                                AlertTracker alertTracker = new AlertTracker()
+                                {
+                                    UserName = sensor.UserName,
+                                    AlertDateTime = inventoryHistoryView.GpsDate,
+                                    AlertType = "Out Of Range!",
+                                    MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
+                                    MessageForValue = "Humidity " + inventoryHistoryView.Humidity,
+                                    Serial = inventoryHistoryView.Serial,
+                                    Zone = alertTrakerDataLight.Zone,
+                                    WarehouseName = alertTrakerDataLight.WarehouseName,
+                                    SendTo = sensor.ToEmails,
+                                    Interval = 60,
+                                    IsSend = true,
+                                    AlertId = Convert.ToInt32(inventoryHistoryView.Id)
+                                };
+                                var result = await _dapperRepository.InsertAlertTrackerAsync(alertTracker);
+
+                                Smtpchecker smtpchecker = new Smtpchecker
+                                {
+                                    Serial = sensorData.Serial,
+                                    IsSendHumidity = sensorData.IsSendHumidity,
+                                    IsSendHumiditySecond = true,
+                                    IsSendTemperature = sensorData.IsSendTemperature,
+                                    IsSendTemperatureSecond = sensorData.IsSendTemperatureSecond,
+                                    UpdatedDateHumidity = inventoryHistoryView.GpsDate,
+                                    UpdatedDateTemperature = sensorData.UpdatedDateTemperature,
+                                };
+                                await _dapperRepository.UpdateSMTPCheckerAsync(smtpchecker);
+
+                                var smtpsettings = await _dapperRepository.GetSmtpsettingsAsync();
+                                var settingsCount = smtpsettings.Count();
+                                var count = 0;
+
+                                var alertBySensorrResult = await _dapperRepository.GetAlertBySensorBySerial(inventoryHistoryView.Serial);
+
+
+                                var emails = alertBySensorrResult.ToEmails.Split(",");
+                                if (emails != null)
+                                {
+                                    bool results = false;
+                                    foreach (var email in emails)
+                                    {
+                                        var smtpsetting = smtpsettings[count];
+                                        results = false;
+                                        results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
+                                        if (results)
+                                        {
+                                            await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
+                                            count++;
+                                            if (count >= settingsCount)
+                                            {
+                                                count = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
-
             }
-
-
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Cant found AlertBySensor / SMPTChecker for this serial "+ inventoryHistoryView.Serial);
+                _logger.LogError(ex, ex.Message);
+            }
         }
         public bool SendEmailAlarm(string to, AlertTracker alertTracker, string UserName, string Password, string MailAddress)
         {
