@@ -11,5 +11,6 @@ namespace GPS.Models
         public string MonitoredUnit { get; set; }
         public string Zone { get; set; }
         public string WarehouseName { get; set; }
+        public string InventoryName { get; set; }
     }
 }

@@ -196,7 +196,7 @@ namespace GPS.API.Server.Services
                                 AlertDateTime = inventoryHistoryView.GpsDate,
                                 AlertType = "Out Of Range!",
                                 MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                                MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;",
+                                MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;"+ " Limits ("+ sensor.MinValueTemperature +"C - "+ sensor.MaxValueTemperature+"C)",
                                 Serial = inventoryHistoryView.Serial,
                                 Zone = alertTrakerDataLight.Zone,
                                 WarehouseName = alertTrakerDataLight.WarehouseName,
@@ -233,7 +233,7 @@ namespace GPS.API.Server.Services
                                 {
                                     var smtpsetting = smtpsettings[count];
                                     results = false;
-                                    results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
+                                    results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress, alertTrakerDataLight.InventoryName);
                                     if (results)
                                     {
                                         await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
@@ -258,7 +258,7 @@ namespace GPS.API.Server.Services
                                 AlertDateTime = inventoryHistoryView.GpsDate,
                                 AlertType = "Out Of Range!",
                                 MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                                MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;",
+                                MessageForValue = "Temperature " + inventoryHistoryView.Temperature + " &#8451;" + " Limits (" + sensor.MinValueTemperature + "C - " + sensor.MaxValueTemperature + "C)",
                                 Serial = inventoryHistoryView.Serial,
                                 Zone = alertTrakerDataLight.Zone,
                                 WarehouseName = alertTrakerDataLight.WarehouseName,
@@ -296,7 +296,7 @@ namespace GPS.API.Server.Services
                                 {
                                     var smtpsetting = smtpsettings[count];
                                     results = false;
-                                    results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
+                                    results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress, alertTrakerDataLight.InventoryName);
                                     if (results)
                                     {
                                         await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
@@ -340,7 +340,7 @@ namespace GPS.API.Server.Services
                                     AlertDateTime = inventoryHistoryView.GpsDate,
                                     AlertType = "Out Of Range!",
                                     MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                                    MessageForValue = "Humidity " + inventoryHistoryView.Humidity,
+                                    MessageForValue = "Humidity " + inventoryHistoryView.Humidity + " Limits (" + sensor.MinValueHumidity + " - " + sensor.MaxValueHumidity + ")",
                                     Serial = inventoryHistoryView.Serial,
                                     Zone = alertTrakerDataLight.Zone,
                                     WarehouseName = alertTrakerDataLight.WarehouseName,
@@ -377,7 +377,7 @@ namespace GPS.API.Server.Services
                                     {
                                         var smtpsetting = smtpsettings[count];
                                         results = false;
-                                        results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
+                                        results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress, alertTrakerDataLight.InventoryName);
                                         if (results)
                                         {
                                             await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
@@ -402,7 +402,7 @@ namespace GPS.API.Server.Services
                                     AlertDateTime = inventoryHistoryView.GpsDate,
                                     AlertType = "Out Of Range!",
                                     MonitoredUnit = alertTrakerDataLight.MonitoredUnit,
-                                    MessageForValue = "Humidity " + inventoryHistoryView.Humidity,
+                                    MessageForValue = "Humidity " + inventoryHistoryView.Humidity + " Limits (" + sensor.MinValueHumidity + " - " + sensor.MaxValueHumidity + ")",
                                     Serial = inventoryHistoryView.Serial,
                                     Zone = alertTrakerDataLight.Zone,
                                     WarehouseName = alertTrakerDataLight.WarehouseName,
@@ -440,7 +440,7 @@ namespace GPS.API.Server.Services
                                     {
                                         var smtpsetting = smtpsettings[count];
                                         results = false;
-                                        results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress);
+                                        results = SendEmailAlarm(email, alertTracker, smtpsetting.UserName, smtpsetting.Password, smtpsetting.MailAddress, alertTrakerDataLight.InventoryName);
                                         if (results)
                                         {
                                             await _dapperRepository.UpdateSmtpsettingAsync(smtpsetting.Id);
@@ -464,7 +464,7 @@ namespace GPS.API.Server.Services
                 _logger.LogError(ex, ex.Message);
             }
         }
-        public bool SendEmailAlarm(string to, AlertTracker alertTracker, string UserName, string Password, string MailAddress)
+        public bool SendEmailAlarm(string to, AlertTracker alertTracker, string UserName, string Password, string MailAddress,string inventoryName)
         {
             using (SmtpClient smtpClient = new SmtpClient())
             {
@@ -484,7 +484,7 @@ namespace GPS.API.Server.Services
                     message.IsBodyHtml = true;
                     message.Body = $@"    
 <div style=""font-family: 'Times New Roman', Times, serif;font-size: 15px;"">
-        <pre>Hello {alertTracker.UserName},<br>An alarm has been triggered on Accu Tracking<br>Date               {alertTracker.AlertDateTime.Value.ToString("dddd, MMMM, dd, yyyy hh:mm tt")}<br>Type               {alertTracker.AlertType}<br>Monitored unit     {alertTracker.MonitoredUnit}<br>Alarm measurement  {alertTracker.MessageForValue}<br>Recorder           {alertTracker.Serial}<br>Zone               {alertTracker.Zone}<br>Batches            {alertTracker.WarehouseName}<br><br>Regards,<br>Your alert system of Accu Tracking<br><br><small>This message has been generated automatically. Please do not reply</small></pre>
+        <pre>Hello {alertTracker.UserName},<br>An alarm has been triggered on Quality Compliance<br>Date               {alertTracker.AlertDateTime.Value.ToString("dddd, MMMM, dd, yyyy hh:mm tt")}<br>Type               {alertTracker.AlertType}<br>Monitored unit     {alertTracker.MonitoredUnit}<br>Alarm measurement  {alertTracker.MessageForValue}<br>Serial No.         {alertTracker.Serial}<br>Zone               {alertTracker.Zone}<br>Warehouse          {alertTracker.WarehouseName}<br>Inventory          {inventoryName}<br><br>Regards,<br>Your alert system of Quality Compliance<br><br><small>This message has been generated automatically. Please do not reply</small></pre>
     </div>";
                     message.To.Add(to);
 

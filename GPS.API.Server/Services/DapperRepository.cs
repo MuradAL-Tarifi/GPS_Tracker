@@ -320,6 +320,14 @@ namespace GPS.API.Server.Services
 
                 alertTrakerDataLight.WarehouseName = await connection.QueryFirstOrDefaultAsync<string>(sql3, parameters3);
 
+                var sql4 = @"select Name
+                                        from  Inventory
+                                        where Id = @InventoryId";
+                var parameters4 = new DynamicParameters();
+                parameters4.Add("InventoryId", InventoryId);
+
+                alertTrakerDataLight.InventoryName = await connection.QueryFirstOrDefaultAsync<string>(sql4, parameters4);
+
                 return alertTrakerDataLight;
             }
         }
