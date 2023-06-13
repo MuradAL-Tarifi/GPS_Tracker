@@ -41,6 +41,6 @@ namespace GPS.DataAccess.Repository.Warehouses
         Task<List<Warehouse>> FindWarehousesAsync(List<long> warehouseIds);
 
         Task<List<Warehouse>> GetByFleetIdAsync(long fleetId);
-
+        Task<List<Warehouse>> GetAllAsync();
     }
 }

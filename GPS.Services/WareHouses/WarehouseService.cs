@@ -453,6 +453,28 @@ namespace GPS.Services.WareHouses
             return result;
         }
 
+        public async Task<ReturnResult<List<WarehouseView>>> GetAll()
+        {
+            var result = new ReturnResult<List<WarehouseView>>();
 
+            try
+            {
+                var warehouse = await _unitOfWork.WarehouseRepository.GetAllAsync();
+
+                if (warehouse == null)
+                {
+                    result.NotFound(_sharedLocalizer["WarehouseNotExists"]);
+                    return result;
+                }
+
+                result.Success(_mapper.Map<List<WarehouseView>>(warehouse));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message, result);
+                result.ServerError(ex.Message);
+            }
+            return result;
+        }
     }
 }

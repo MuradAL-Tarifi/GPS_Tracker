@@ -1,6 +1,7 @@
 ﻿using GPS.DataAccess.Context;
 using GPS.DataAccess.Repository.Accounts;
 using GPS.DataAccess.Repository.Agents;
+using GPS.DataAccess.Repository.AlertBySensor;
 using GPS.DataAccess.Repository.Alerts;
 using GPS.DataAccess.Repository.AlertTracker;
 using GPS.DataAccess.Repository.Brands;
@@ -14,6 +15,7 @@ using GPS.DataAccess.Repository.Lookups;
 using GPS.DataAccess.Repository.ReportsSchedule;
 using GPS.DataAccess.Repository.SensorAlerts;
 using GPS.DataAccess.Repository.Sensors;
+using GPS.DataAccess.Repository.Smtpchecker;
 using GPS.DataAccess.Repository.SystemSettings;
 using GPS.DataAccess.Repository.Users;
 using GPS.DataAccess.Repository.Warehouses;
@@ -104,7 +106,10 @@ namespace GPS.DataAccess.Repository.UnitOfWork
         
         private ISystemSettingRepository _systemSettingRepository;
         public ISystemSettingRepository SystemSettingRepository => _systemSettingRepository = _systemSettingRepository ?? new SystemSettingRepository(_dbContext);
-
+        private IAlertBySensorRepository _alertBySensorRepository;
+        public IAlertBySensorRepository AlertBySensorRepository => _alertBySensorRepository = _alertBySensorRepository ?? new AlertBySensorRepository(_dbContext);
+        private ISmtpcheckerRepository _smtpcheckerRepository;
+        public ISmtpcheckerRepository SmtpcheckerRepository => _smtpcheckerRepository = _smtpcheckerRepository ?? new SmtpcheckerRepository(_dbContext);
         public void Dispose()
         {
             GC.SuppressFinalize(this);

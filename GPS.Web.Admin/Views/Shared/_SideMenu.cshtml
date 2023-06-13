@@ -39,16 +39,17 @@
                     <li class="nav-item" id="SensorsLi">
                         <a asp-action="Index" asp-controller="Sensors" class="d-flex align-items-center">
                             <i class="fa fa-boxes"></i>
-                            <span class="menu-title text-truncate">Test</span>
+                        <span class="menu-title text-truncate">@Localizer["Sensors"]</span>
+
                         </a>
                     </li>
                 }
             @if (_loggedUser.IsSuperAdmin)
             {
                 <li class="nav-item" id="SensorsLi">
-                    <a asp-action="SensorAlerts" asp-controller="AlertTraker" class="d-flex align-items-center">
+                    <a asp-action="Index" asp-controller="AlertTraker" class="d-flex align-items-center">
                         <i class="fa fa-boxes"></i>
-                        <span class="menu-title text-truncate">@Localizer["Sensors"]</span>
+                        <span class="menu-title text-truncate">@Localizer["ManageAlertBySensor"]</span>
                     </a>
                 </li>
             }

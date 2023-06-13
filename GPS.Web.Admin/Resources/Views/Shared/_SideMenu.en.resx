@@ -141,6 +141,9 @@
   <data name="ManageAccounts" xml:space="preserve">
     <value>Manage Accounts</value>
   </data>
+  <data name="ManageAlertBySensor" xml:space="preserve">
+    <value>Manage Sensor Config</value>
+  </data>
   <data name="Operations" xml:space="preserve">
     <value>Operations</value>
   </data>

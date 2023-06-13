@@ -1,0 +1,219 @@
+﻿@model GPS.Domain.Views.AlertSensorView
+
+@using System.Web;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@{
+    ViewData["Title"] = @SharedLocalizer["ManageAlertBySensor"];
+    ViewBag.PageBarTitle = @SharedLocalizer["ManageAlertBySensor"];
+    ViewBag.PageBarDescription = @SharedLocalizer["AddNewAlertBySensor"];
+}
+<div class="row" id="app">
+    <div class="col-md-12" >
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">@SharedLocalizer["AddNewAlertBySensor"]</h3>
+            </div>
+            <form>
+                <div class="card-body table-responsive">
+                    <div class="card card-outline card-success">
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label> @SharedLocalizer["Warehouse"]<star /></label>
+                                                <select class="form-control select" v-model="WarehouseSelected" @@change="onSelectWarehouse">
+                                                    <option v-for="item in Warehouses.data" v-bind:value="{ id: item.id, name: item.name }">{{item.name}}</option>
+                                                </select>
+                                                <span v-if="$v.WarehouseSelected.id.$error && !$v.WarehouseSelected.id.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label>@SharedLocalizer["Inventory"]<star /></label>
+                                                    <select class="form-control select" v-model="InventorySelected">
+                                                        <option v-for="item in Inventories" v-bind:value="{ id: item.value, name: item.text }">{{item.text}}</option>
+                                                    </select>
+                                                </div>
+                                                <span v-if="$v.InventorySelected.id.$error && !$v.alertSensor.InventorySelected.id.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["MinTemperature"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="alertSensor.minValueTemperature" />
+                                                <span v-if="$v.alertSensor.minValueTemperature.$error && !$v.alertSensor.minValueTemperature.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["MaxTemperature"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="alertSensor.maxValueTemperature" />
+                                                <span v-if="$v.alertSensor.maxValueTemperature.$error && !$v.alertSensor.maxValueTemperature.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["MinHumidity"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="alertSensor.minValueHumidity" />
+                                                <span v-if="$v.alertSensor.minValueHumidity.$error && !$v.alertSensor.minValueHumidity.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["MaxHumidity"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="alertSensor.maxValueHumidity" />
+                                                <span v-if="$v.alertSensor.maxValueHumidity.$error && !$v.alertSensor.maxValueHumidity.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["Name"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="alertSensor.userName" />
+                                                <span v-if="$v.alertSensor.userName.$error && !$v.alertSensor.userName.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["ToEmails"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="alertSensor.toEmails" />
+                                                <span v-if="$v.alertSensor.toEmails.$error && !$v.alertSensor.toEmails.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    @SharedLocalizer["SerialNumber"]<star />
+                                                </label>
+                                                <input type="text" class="form-control" v-model="alertSensor.serial" />
+                                                <span v-if="$v.alertSensor.serial.$error && !$v.alertSensor.serial.required" class="text-danger">
+                                                    @SharedLocalizer["FieldIsRequired"]
+                                                </span>
+                                                <span v-if="isAlertSensorExists" class="text-danger d-block">
+                                                    @SharedLocalizer["ThisSensorAlreadyExists"]
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12 d-flex align-items-center">
+                                            <button type="button" v-if="!isEdit" class="btn btn-primary mr-1 mt-1" @@click="onSaveAlertSensor" v-bind:disabled="savePending">
+                                                @SharedLocalizer["Create"]
+                                            </button>
+                                            <button type="button" v-if="isEdit" class="btn btn-primary mr-1 mt-1" @@click="onSaveAlertSensor" v-bind:disabled="savePending">
+                                                @SharedLocalizer["Update"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="@ViewBag.ReturnURL" style="cursor:pointer" class="btn btn-default">
+                        <i class="fa fa-rotate-left"></i>
+                        @SharedLocalizer["Back"]
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section css
+    {
+    <!-- alertify -->
+    <link href="@Url.Content("~/lib/alertify/alertify.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/lib/alertify/themes/default.css")" rel="stylesheet" />
+    <!-- flatpickr -->
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-flat-pickr.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/forms/pickers/form-pickadate.min.css")" rel="stylesheet">
+    <!-- Sweet Alert2 -->
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/animate/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/vendors/css/extensions/sweetalert2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/app-assets/app-theme/css-rtl/plugins/extensions/ext-component-sweet-alerts.css")" rel="stylesheet" />
+}
+@section Scripts
+    {
+    <script src="@Url.Content("~/lib/vue/validators.min.js")"></script>
+    <script src="@Url.Content("~/lib/vue/vuelidate.min.js")"></script>
+    <script src="@Url.Content("~/lib/axios/axios.min.js")"></script>
+
+    <partial name="_VueScript" />
+
+    <!-- InputMask -->
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.date.extensions.js")"></script>
+    <script src="@Url.Content("~/lib/input-mask/jquery.inputmask.extensions.js")"></script>
+    <!-- validations -->
+    <script src="@Url.Content("~/js/validations.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+    <!-- Sweet Alert2 -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/extensions/sweetalert2.all.min.js")"></script>
+    <script src="@Url.Content("~/app-assets/app-theme/js/scripts/extensions/ext-component-sweet-alerts.js")"></script>
+    <!-- Alertify -->
+    <script src="@Url.Content("~/lib/alertify/alertify.js")"></script>
+    <!-- Date-picker dependencies -->
+    <script src="@Url.Content("~/lib/moment/moment@2.22.js")"></script>
+    <!-- flatpickr -->
+    <script src="@Url.Content("~/app-assets/app-theme/vendors/js/pickers/flatpickr/flatpickr.min.js")"></script>
+    <!-- alerts-->
+    <script src="@Url.Content("~/js/alerts.js")" asp-append-version="true"></script>
+
+    <script>
+        Vue.config.ignoredElements = ['star'];
+
+        var confirmSave = '@SharedLocalizer["ConfirmSave"]';
+        var done = '@SharedLocalizer["Done"]';
+        var addSuccess = '@Localizer["AddSuccess"]';
+        var fileUploadedSuccessfully = '@Localizer["FileUploadedSuccessfully"]';
+        var updateSuccess = '@Localizer["UpdateSuccess"]';
+        var continueEdit = '@Localizer["ContinueEdit"]';
+        var addNewSensor = '@SharedLocalizer["AddNewSensor"]';
+        var yes = '@SharedLocalizer["Yes"]';
+        var cancel = '@SharedLocalizer["Cancel"]';
+        var text = '@Localizer["ConfirmCreate"]';
+        var errorMessage = '@SharedLocalizer["ErrorMessage"]';
+        var AlertSensorModel = JSON.parse("@(Html.Raw(HttpUtility.JavaScriptStringEncode(Json.Serialize(Model).ToString())))");
+        var ReturnURL = '@Html.Raw(System.Web.HttpUtility.UrlDecode(ViewBag.ReturnURL))';
+
+    </script>
+            <script src="@Url.Content("~/js/alertTraker/create.js")" asp-append-version="true" ></script>
+
+    <partial name="~/Views/Partial/_StatusMessages.cshtml" />
+
+}

@@ -1,5 +1,6 @@
 ﻿using GPS.DataAccess.Repository.Accounts;
 using GPS.DataAccess.Repository.Agents;
+using GPS.DataAccess.Repository.AlertBySensor;
 using GPS.DataAccess.Repository.Alerts;
 using GPS.DataAccess.Repository.AlertTracker;
 using GPS.DataAccess.Repository.Brands;
@@ -13,6 +14,7 @@ using GPS.DataAccess.Repository.Lookups;
 using GPS.DataAccess.Repository.ReportsSchedule;
 using GPS.DataAccess.Repository.SensorAlerts;
 using GPS.DataAccess.Repository.Sensors;
+using GPS.DataAccess.Repository.Smtpchecker;
 using GPS.DataAccess.Repository.SystemSettings;
 using GPS.DataAccess.Repository.Users;
 using GPS.DataAccess.Repository.Warehouses;
@@ -49,5 +51,7 @@ namespace GPS.DataAccess.Repository.UnitOfWork
         IInventoryCustomAlertsWatcherRepository InventoryCustomAlertsWatcherRepository { get; }
         ISystemSettingRepository SystemSettingRepository { get; }
         IAlertTrackerRepository AlertTrackerRepository { get; }
+        IAlertBySensorRepository AlertBySensorRepository { get; }
+        ISmtpcheckerRepository SmtpcheckerRepository { get; }
     }
 }

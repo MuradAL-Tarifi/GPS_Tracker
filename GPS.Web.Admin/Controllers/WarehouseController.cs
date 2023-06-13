@@ -161,7 +161,12 @@ namespace GPS.Web.Admin.Controllers
             var result = await _warehouseService.UnlinkWithWasl(id, _loggedUser.UserId);
             return StatusCode((int)result.HttpCode, result);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetAllWarehouses()
+        {
+            var result = await _warehouseService.GetAll();
+            return StatusCode((int)result.HttpCode, result);
+        }
 
     }
 }

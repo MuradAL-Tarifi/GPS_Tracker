@@ -1,0 +1,93 @@
+﻿@model StaticPagedList<GPS.Domain.Views.AlertSensorView>
+
+@using X.PagedList;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using GPS.Web.Admin;
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+@inject IViewHelper viewHelper
+
+@{
+    var isEnglish = Thread.CurrentThread.CurrentCulture.Name.Equals("en-US");
+    var index = Model.FirstItemOnPage;
+}
+
+<table id="tbAlertBySensor" class="table table-bordered table-striped" data-empty="@SharedLocalizer["NoData"]">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @SharedLocalizer["Fleet"]
+            </th>
+            <th>
+                @SharedLocalizer["Warehouse"]
+            </th>
+            <th>
+                @SharedLocalizer["Inventory"]
+            </th>
+            <th>
+                @SharedLocalizer["SensorNumber"]
+            </th>
+            <th>
+                @SharedLocalizer["MinTemperature"]
+            </th>
+            <th>
+                @SharedLocalizer["MaxTemperature"]
+            </th>
+            <th>
+                @SharedLocalizer["MinHumidity"]
+            </th>
+            <th>
+                @SharedLocalizer["MaxHumidity"]
+            </th>
+            <th>
+                @SharedLocalizer["ToEmails"]
+            </th>
+            <th data-breakpoints="xs sm"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@(index)">
+                <td>@index</td>
+                <td>
+                    @(isEnglish ? @Html.DisplayFor(modelItem => item.Warehouse.Fleet.NameEn) : @Html.DisplayFor(modelItem => item.Warehouse.Fleet.Name))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Warehouse.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inventory.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Serial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinValueTemperature)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxValueTemperature)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinValueHumidity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxValueHumidity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToEmails)
+                </td>
+                <td>
+                    <a onclick="editAlertBySensor(@item.Id, @Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-warning waves-effect mx-1">
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <button type="button" onclick="ConfirmDelete(@item.Id,@Model.PageNumber)" class="btn btn-icon btn-sm rounded-circle btn-outline-danger waves-effect mx-1">
+                        <i class="fa fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+<partial name="~/Views/Partial/_Pager.cshtml" model="@Model" />

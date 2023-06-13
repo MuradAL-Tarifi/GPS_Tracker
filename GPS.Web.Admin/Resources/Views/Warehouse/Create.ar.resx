@@ -129,6 +129,9 @@
   <data name="ContinueEdit" xml:space="preserve">
     <value>متابعة التعديل</value>
   </data>
+  <data name="DeleteSuccessAlertBySensor" xml:space="preserve">
+    <value>تم حذف اعدادات الحساس بنجاح</value>
+  </data>
   <data name="UpdateSuccess" xml:space="preserve">
     <value>تم تعديل بيانات المستودع</value>
   </data>

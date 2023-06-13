@@ -1,9 +1,11 @@
 ﻿using GPS.Domain.DTO;
+using GPS.Domain.Models;
 using GPS.Services.Lookups;
 using GPS.Web.Admin.AppCode.Helpers;
 using GPS.Web.Admin.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -64,12 +66,22 @@ namespace GPS.Web.Admin.Controllers
         {
             ViewBag.Warehouses = await _viewHelper.GetWarehouses(FleetId, Id);
         }
-
+        protected async Task LoadAllWarehouses()
+        {
+            ViewBag.AllWarehouses = await _viewHelper.GetAllWarehouses();
+        }
         protected async Task LoadInventories(long WarehouseId, long? Id = null)
         {
             ViewBag.Inventories = await _viewHelper.GetInventories(WarehouseId, Id);
         }
-
+        protected async Task<SelectList> GetInventoriesBase(long WarehouseId, long? Id = null)
+        {
+            return await _viewHelper.GetInventories(WarehouseId, Id);
+        }
+        protected async Task<SelectList> GetSensoresBase(long InventoryId)
+        {
+            return await _viewHelper.GetInventorySensorsByInventoryId(InventoryId);
+        }
         protected async Task LoadWarehouseSensors(long InventoryId, long? sensorSerial = null)
         {
             ViewBag.WarehouseSensors = await _viewHelper.GetInventorySensors(InventoryId, sensorSerial);

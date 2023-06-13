@@ -174,6 +174,9 @@
   <data name="AddNewAds" xml:space="preserve">
     <value>Add New Ads</value>
   </data>
+  <data name="AddNewAlertBySensor" xml:space="preserve">
+    <value>Add Sensor Config</value>
+  </data>
   <data name="AddNewDriver" xml:space="preserve">
     <value>Add New Driver</value>
   </data>
@@ -257,6 +260,9 @@
   </data>
   <data name="AlertsReportTitle" xml:space="preserve">
     <value>Engineer Warranty Company - Alerts Report</value>
+  </data>
+  <data name="AlertTrakerNotExists" xml:space="preserve">
+    <value>Sensor Config Not Exists</value>
   </data>
   <data name="AlertType" xml:space="preserve">
     <value>Alert Type</value>
@@ -363,6 +369,9 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>Are you sure you want to deleted selected item ?</value>
   </data>
+  <data name="ConfirmDeleteAlertBySensor" xml:space="preserve">
+    <value>Are you sure you want to deleted selected Sensor Config?</value>
+  </data>
   <data name="ConfirmSave" xml:space="preserve">
     <value>Are you sure ?</value>
   </data>
@@ -443,6 +452,9 @@
   </data>
   <data name="DeleteSuccess" xml:space="preserve">
     <value>Deleted Successfully</value>
+  </data>
+  <data name="DeleteSuccessAlertBySensor" xml:space="preserve">
+    <value>Sensor Conifg Deleted Successfully</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
@@ -887,6 +899,9 @@
   </data>
   <data name="ManageAdsScreen" xml:space="preserve">
     <value>Manage Ads Screen</value>
+  </data>
+  <data name="ManageAlertBySensor" xml:space="preserve">
+    <value>Manage Sensor Config</value>
   </data>
   <data name="ManageFleets" xml:space="preserve">
     <value>Manage Companies</value>

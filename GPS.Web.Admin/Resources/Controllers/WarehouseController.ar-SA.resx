@@ -120,4 +120,7 @@
   <data name="DeleteSuccess" xml:space="preserve">
     <value>تم حذف المستودع بنجاح</value>
   </data>
+  <data name="DeleteSuccessAlertBySensor" xml:space="preserve">
+    <value>تم حذف اعدادات الحساس بنجاح</value>
+  </data>
 </root>

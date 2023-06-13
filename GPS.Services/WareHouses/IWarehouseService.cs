@@ -21,6 +21,6 @@ namespace GPS.Services.WareHouses
         Task<ReturnResult<bool>> UnlinkWithWasl(long id, string updatedBy);
         Task<ReturnResult<List<WarehouseView>>> GetFleetLinkedWithWaslWarehousesAsync(long fleetId);
         Task<ReturnResult<WarehouDetailsViewModel>> FindDetailedWarehouseByIdAsync(long WarehouseId);
-
+        Task<ReturnResult<List<WarehouseView>>> GetAll();
     }
 }

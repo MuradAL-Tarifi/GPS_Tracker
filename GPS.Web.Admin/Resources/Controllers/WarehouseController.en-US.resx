@@ -120,4 +120,7 @@
   <data name="DeleteSuccess" xml:space="preserve">
     <value>Warehouse successfully Deleted</value>
   </data>
+  <data name="DeleteSuccessAlertBySensor" xml:space="preserve">
+    <value>Sensor Conifg Deleted Successfully</value>
+  </data>
 </root>

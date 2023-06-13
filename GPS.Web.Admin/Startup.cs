@@ -40,6 +40,7 @@ using GPS.Integration.WaslIntegrations.Inventories;
 using GPS.Integration.WaslServices.Warehouse;
 using GPS.Integration.WaslServices.Inventories;
 using GPS.Services.SystemSettings;
+using GPS.Services.AlertBySensor;
 
 namespace GPS.Web.Admin
 {
@@ -160,6 +161,7 @@ namespace GPS.Web.Admin
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<IAlertBySensorService, AlertBySensorService>();
             services.AddScoped<ILookupsService, LookupsService>();
             services.AddScoped<IEventLogService, EventLogService>();
             services.AddScoped<IGatewayService, GatewayService>();

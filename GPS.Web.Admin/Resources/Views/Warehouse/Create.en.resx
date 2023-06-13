@@ -129,6 +129,9 @@
   <data name="ContinueEdit" xml:space="preserve">
     <value>Continue Edit</value>
   </data>
+  <data name="DeleteSuccessAlertBySensor" xml:space="preserve">
+    <value>Sensor Conifg Deleted Successfully</value>
+  </data>
   <data name="UpdateSuccess" xml:space="preserve">
     <value>Warehouse Updated</value>
   </data>

@@ -208,5 +208,9 @@ namespace GPS.DataAccess.Repository.Warehouses
         {
             return await _dbContext.Warehouse.Where(x => x.FleetId == fleetId).ToListAsync();
         }
+        public async Task<List<Warehouse>> GetAllAsync()
+        {
+            return await _dbContext.Warehouse.Where(x => x.IsActive == true && x.IsDeleted ==false).ToListAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GPS.Domain.DTO;
+using GPS.Domain.Models;
 using GPS.Domain.Views;
 using GPS.Services.Agents;
 using GPS.Services.Brands;
@@ -7,6 +8,7 @@ using GPS.Services.Lookups;
 using GPS.Services.Sensors;
 using GPS.Services.SystemSettings;
 using GPS.Services.Users;
+using GPS.Services.WareHouses;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -73,6 +75,9 @@ namespace GPS.Web.Admin.AppCode.Helpers
         Task<SelectList> GetInventorySensors(long InventoryId, long? sensorSerial);
 
         Task<SystemSettingView> GetSystemSettings();
+        Task<SelectList> GetAllWarehouses();
+        Task<SelectList> GetInventorySensorsByInventoryId(long InventoryId);
+
     }
 
     public class ViewHelper : IViewHelper
@@ -85,9 +90,11 @@ namespace GPS.Web.Admin.AppCode.Helpers
         private readonly ILookupsService lookupsService;
         private readonly IUserService userService;
         private readonly ISystemSettingService systemSettingService;
+        private readonly IWarehouseService warehouseService;
+
         public ViewHelper(ICultureHelper _cultureHelper, IFleetService _fleetService, IAgentService _agentService,
             ILookupsService _lookupsService, IBrandService _brandService,
-            ISensorService _sensorService, IUserService _userService, ISystemSettingService _systemSettingService)
+            ISensorService _sensorService, IUserService _userService, ISystemSettingService _systemSettingService, IWarehouseService _warehouseService)
         {
             cultureHelper = _cultureHelper;
             fleetService = _fleetService;
@@ -97,6 +104,7 @@ namespace GPS.Web.Admin.AppCode.Helpers
             lookupsService = _lookupsService;
             userService = _userService;
             systemSettingService = _systemSettingService;
+            warehouseService = _warehouseService;
         }
         public SelectList GetPageSizes()
         {
@@ -121,6 +129,11 @@ namespace GPS.Web.Admin.AppCode.Helpers
                 FleetId = result.Data[0].Id;
             }
             return result.IsSuccess ? new SelectList(result.Data, "Id", cultureHelper.GetLocalizedName("Name", "NameEn"), FleetId) : null;
+        }
+        public async Task<SelectList> GetAllWarehouses()
+        {
+            var result = await warehouseService.GetAll();
+            return result.IsSuccess ? new SelectList(result.Data, "Id", cultureHelper.GetLocalizedName("Name", "NameEn")) : null;
         }
         public async Task<SelectList> GetBrand(int? BrandId = null)
         {
@@ -205,6 +218,11 @@ namespace GPS.Web.Admin.AppCode.Helpers
                     result.Data;
             else
                 return new SystemSettingView();
+        }
+        public async Task<SelectList> GetInventorySensorsByInventoryId(long InventoryId)
+        {
+            var result = await lookupsService.GetInventorySensorsAsync(InventoryId);
+            return result.IsSuccess ? new SelectList(result.Data.Select(x => x.SensorView).ToList(), "Serial", "Name") : null;
         }
     }
 }

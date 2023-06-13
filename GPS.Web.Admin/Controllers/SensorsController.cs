@@ -8,6 +8,7 @@ using GPS.Web.Admin.AppCode.Helpers;
 using GPS.Web.Admin.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
@@ -234,6 +235,10 @@ namespace GPS.Web.Admin.Controllers
             }
             return JsonConvert.SerializeObject(isSuccess);
         }
-
+        [HttpGet]
+        public async Task<SelectList> GetInventorySensorsByInventoryId(long InventoryId)
+        {
+            return await GetSensoresBase(InventoryId);
+        }
     }
 }

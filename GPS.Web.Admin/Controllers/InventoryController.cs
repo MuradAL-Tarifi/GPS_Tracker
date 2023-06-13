@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using GPS.Domain.ViewModels;
 using GPS.Services.Inventorys;
 using GPS.Services.Gateways;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GPS.Web.Admin.Controllers
 {
@@ -165,6 +166,11 @@ namespace GPS.Web.Admin.Controllers
         {
             var gateway = await _gatewayService.FindByIdAsync(GatewayId);
             return await GetSensors(gateway.Data.BrandId);
+        }
+        [HttpGet]
+        public async Task<SelectList> GetInventories(int WarehouseId)
+        {
+             return await GetInventoriesBase(WarehouseId);
         }
 
         [HttpGet]
