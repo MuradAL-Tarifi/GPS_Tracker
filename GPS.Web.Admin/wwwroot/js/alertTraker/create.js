@@ -16,6 +16,7 @@ var app = new Vue({
         Warehouses: [],
         WarehouseSelected: '',
         savePending: false,
+        isSensorExists: true,
         alertSensorView: JSON.parse(JSON.stringify(AlertSensorModel)),
         alertSensor: {
             inventoryId: 0,
@@ -42,10 +43,10 @@ var app = new Vue({
             id: { required: function (value) { return value > 0; } }
         },
         alertSensor: {
-            minValueTemperature: { required: function (value) { return value > 0; } },
-            maxValueTemperature: { required: function (value) { return value > 0; } },
-            minValueHumidity: { required: function (value) { return value > 0; } },
-            maxValueHumidity: { required: function (value) { return value > 0; } },
+            minValueTemperature: { required: validators.required },
+            maxValueTemperature: { required: validators.required },
+            minValueHumidity: { required: validators.required },
+            maxValueHumidity: { required: validators.required },
             toEmails: { required: validators.required },
             serial: {required: validators.required},
             userName: { required: validators.required },
@@ -84,7 +85,7 @@ var app = new Vue({
             axios.get(hostName + '/Warehouse/GetAllWarehouses/')
                 .then(function (response) {
                     debugger
-                    self.Warehouses = response.data;
+                    self.Warehouses = response.data.data;
                 })
                 .catch(function (error) { });
         },
@@ -124,69 +125,86 @@ var app = new Vue({
             debugger
             var self = this;
 
-            self.serverSideAlertBySensorValidation(self.alertSensor.serial).then((response) => {
-                debugger
-                if (response.data) {
-                    self.isAlertSensorExists = true;
-                    return;
-                }
-                if (self.isAlertSensorExists) {
-                    return;
-                }
-                SwalConfirm("question", confirmSave, "", yes, cancel, function (result) {
-                    self.savePending = true;
-                    self.alertSensorView.warehouseId = self.WarehouseSelected.id;
-                    self.alertSensorView.inventoryId = self.InventorySelected.id
-                    axios({
-                        method: 'post',
-                        url: hostName + '/AlertTraker/Create',
-                        data: self.alertSensorView,
-                        headers: { 'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val() }
-                    }).then(function (response) {
-                        window.location.href = self.returnURL;
-                        //if (response.data.isSuccess) {
-                        //    var cancelText = self.isEdit ? continueEdit : addNewSensor;
-                        //    var successText = self.isEdit ? updateSuccess : addSuccess;
-                        //    var body = '';
+            self.$v.alertSensor.$touch();
+            self.$v.WarehouseSelected?.$touch();
+            self.$v.InventorySelected?.$touch();
+            if (!self.$v.alertSensor.$invalid && !self.$v.WarehouseSelected?.$invalid && !self.$v.InventorySelected?.$invalid) {
+                self.serverSideSensorValidation(self.alertSensor.serial).then((response1) => {
+                    debugger
+                    if (!response1.data) {
+                        self.isSensorExists = false;
+                        return;
+                    }
+                    if (!self.isSensorExists) {
+                        return;
+                    }
+                    self.serverSideAlertBySensorValidation(self.alertSensor.serial).then((response) => {
+                        debugger
+                        if (response.data) {
+                            self.isAlertSensorExists = true;
+                            return;
+                        }
+                        if (self.isAlertSensorExists) {
+                            return;
+                        }
+                        SwalConfirm("question", confirmSave, "", yes, cancel, function (result) {
+                            self.savePending = true;
+                            self.alertSensorView.warehouseId = self.WarehouseSelected.id;
+                            self.alertSensorView.inventoryId = self.InventorySelected.id
+                            axios({
+                                method: 'post',
+                                url: hostName + '/AlertTraker/Create',
+                                data: self.alertSensorView,
+                                headers: { 'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val() }
+                            }).then(function (response) {
+                                window.location.href = self.returnURL;
+                                //if (response.data.isSuccess) {
+                                //    var cancelText = self.isEdit ? continueEdit : addNewSensor;
+                                //    var successText = self.isEdit ? updateSuccess : addSuccess;
+                                //    var body = '';
 
-                        //    if (self.isEdit) {
-                        //        if (response.data.errorList.length > 0) {
-                        //            $.each(response.data.errorList, function (index, val) {
-                        //                if (body != '') {
-                        //                    body += '<br>';
-                        //                }
-                        //                body += val;
-                        //            });
-                        //        }
-                        //    }
+                                //    if (self.isEdit) {
+                                //        if (response.data.errorList.length > 0) {
+                                //            $.each(response.data.errorList, function (index, val) {
+                                //                if (body != '') {
+                                //                    body += '<br>';
+                                //                }
+                                //                body += val;
+                                //            });
+                                //        }
+                                //    }
 
-                        //    SwalOptions('success', successText, body, done, cancelText, function (result) {
-                        //        if (result) {
-                        //            window.location.href = self.returnURL;
-                        //        }
-                        //        else {
-                        //            if (!self.isEdit) {
-                        //                self.resetSensor();
-                        //            }
-                        //        }
-                        //    });
-                       // }
-                    })
-                        .catch(function (error) {
-                            if (error.response.data.errorList) {
-                                SwalAlert("error", "", error.response.data.errorList[0]);
-                            }
-                            else {
-                                SwalAlert("error", "", errorMessage);
-                            }
-                        }).finally(function () {
-                            self.savePending = false;
+                                //    SwalOptions('success', successText, body, done, cancelText, function (result) {
+                                //        if (result) {
+                                //            window.location.href = self.returnURL;
+                                //        }
+                                //        else {
+                                //            if (!self.isEdit) {
+                                //                self.resetSensor();
+                                //            }
+                                //        }
+                                //    });
+                                // }
+                            })
+                                .catch(function (error) {
+                                    if (error.response.data.errorList) {
+                                        SwalAlert("error", "", error.response.data.errorList[0]);
+                                    }
+                                    else {
+                                        SwalAlert("error", "", errorMessage);
+                                    }
+                                }).finally(function () {
+                                    self.savePending = false;
+                                });
+
                         });
+                    }).catch(function (error) {
 
+                    });
                 });
-            }).catch(function (error) {
 
-            });
+            }
+
 
         },
         onDeleteSensor: function (index) {
@@ -212,6 +230,9 @@ var app = new Vue({
             debugger
             var x = hostName;
             return axios.get(hostName + `/AlertTraker/ValidateAlertBySensor?SensorSN=${sensorSN}`);
+        },
+        serverSideSensorValidation: function (sensorSN) {
+            return axios.get(hostName + `/Sensors/ValidateSensor?SensorSN=${sensorSN}`);
         },
     }
 });

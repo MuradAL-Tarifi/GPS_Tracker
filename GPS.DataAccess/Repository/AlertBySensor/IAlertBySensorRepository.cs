@@ -15,7 +15,7 @@ namespace GPS.DataAccess.Repository.AlertBySensor
         Task<Domain.Models.AlertBySensor> DeleteAsync(long itemId);
         Task<Domain.Models.AlertBySensor> FindbyIdAsync(long? Id);
         Task<bool> IsAlertBySensorExistsAsync(string sensorSN);
-        Task<PagedResult<GPS.Domain.Models.AlertBySensor>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, int pageNumber, int pageSize);
+        Task<PagedResult<GPS.Domain.Models.AlertBySensor>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, string search, int pageNumber, int pageSize);
         Task<bool> UpdateAsync(AlertSensorView alertSensor);
     }
 }

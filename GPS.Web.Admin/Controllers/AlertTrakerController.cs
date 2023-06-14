@@ -34,7 +34,7 @@ namespace GPS.Web.Admin.Controllers
             _alertBySensorService = alertBySensorService;
             _systemSettingService = systemSettingService;
         }
-        public async Task<IActionResult> Index(int? warehouseId = null, long? inventoryId = null, string serial = "",
+        public async Task<IActionResult> Index(int? warehouseId = null, long? inventoryId = null, string serial = "", string search = "",
      int? page = 1, int? show = 25, string returnURL = "")
         {
             await LoadAllWarehouses();
@@ -59,7 +59,7 @@ namespace GPS.Web.Admin.Controllers
                 { "show", pageSize.ToString() }
             };
 
-            var result = await _alertBySensorService.SearchAsync(warehouseId, inventoryId, serial, pageNumber, pageSize);
+            var result = await _alertBySensorService.SearchAsync(warehouseId, inventoryId, serial, search, pageNumber, pageSize);
             if (!result.IsSuccess)
             {
                 return View(_viewHelper.GetErrorPage(result.HttpCode));

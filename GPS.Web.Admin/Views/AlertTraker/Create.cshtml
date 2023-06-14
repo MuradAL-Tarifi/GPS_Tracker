@@ -11,13 +11,14 @@
     ViewBag.PageBarTitle = @SharedLocalizer["ManageAlertBySensor"];
     ViewBag.PageBarDescription = @SharedLocalizer["AddNewAlertBySensor"];
 }
-<div class="row" id="app">
+<div class="row" id="app" v-cloak>
     <div class="col-md-12" >
         <div class="card card-outline card-primary">
             <div class="card-header">
                 <h3 class="card-title">@SharedLocalizer["AddNewAlertBySensor"]</h3>
             </div>
             <form>
+                @Html.AntiForgeryToken()
                 <div class="card-body table-responsive">
                     <div class="card card-outline card-success">
                         <div class="card-body table-responsive">
@@ -28,9 +29,9 @@
                                             <div class="form-group">
                                                 <label> @SharedLocalizer["Warehouse"]<star /></label>
                                                 <select class="form-control select" v-model="WarehouseSelected" @@change="onSelectWarehouse">
-                                                    <option v-for="item in Warehouses.data" v-bind:value="{ id: item.id, name: item.name }">{{item.name}}</option>
+                                                    <option v-for="item in Warehouses" v-bind:value="{ id: item.id, name: item.name }">{{item.name}}</option>
                                                 </select>
-                                                <span v-if="$v.WarehouseSelected.id.$error && !$v.WarehouseSelected.id.required" class="text-danger">
+                                                <span v-if="$v.WarehouseSelected?.id.$error && !$v.WarehouseSelected?.id.required" class="text-danger">
                                                     @SharedLocalizer["FieldIsRequired"]
                                                 </span>
                                             </div>
@@ -43,7 +44,7 @@
                                                         <option v-for="item in Inventories" v-bind:value="{ id: item.value, name: item.text }">{{item.text}}</option>
                                                     </select>
                                                 </div>
-                                                <span v-if="$v.InventorySelected.id.$error && !$v.alertSensor.InventorySelected.id.required" class="text-danger">
+                                                <span v-if="$v.InventorySelected?.id.$error && !$v.alertSensor.InventorySelected?.id.required" class="text-danger">
                                                     @SharedLocalizer["FieldIsRequired"]
                                                 </span>
                                             </div>
@@ -124,6 +125,9 @@
                                                     @SharedLocalizer["FieldIsRequired"]
                                                 </span>
                                                 <span v-if="isAlertSensorExists" class="text-danger d-block">
+                                                    @SharedLocalizer["ThisSensorAlreadyExists"]
+                                                </span>
+                                                <span v-if="!isSensorExists" class="text-danger d-block">
                                                     @SharedLocalizer["ThisSensorAlreadyExists"]
                                                 </span>
                                             </div>

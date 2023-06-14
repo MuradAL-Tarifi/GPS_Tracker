@@ -12,7 +12,7 @@ namespace GPS.Services.AlertBySensor
     {
         
         Task<bool> IsAlertBySensorExistsAsync(string sensorSN);
-        Task<ReturnResult<PagedResult<AlertSensorView>>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, int pageNumber, int pageSize);
+        Task<ReturnResult<PagedResult<AlertSensorView>>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, string search, int pageNumber, int pageSize);
         Task<ReturnResult<AlertSensorView>> FindbyId(long? id);
         Task<ReturnResult<bool>> SaveAsync(AlertSensorView model, string userId);
         Task<ReturnResult<bool>> Delete(long itemId, string userId);

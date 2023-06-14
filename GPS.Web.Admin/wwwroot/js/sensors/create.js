@@ -97,10 +97,11 @@ var app = new Vue({
             self.$v.sensor.$reset();
         },
         onSaveSensor: function ()  {
-
+            debugger
             var self = this;
             //alert(self.sensor.serial);
             self.serverSideSensorValidation(self.sensor.serial).then((response) => {
+                debugger
                 if (response.data) {
                     self.isSensorExists = true;
                     return;

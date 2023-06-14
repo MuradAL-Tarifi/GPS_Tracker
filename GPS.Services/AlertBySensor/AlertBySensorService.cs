@@ -143,12 +143,12 @@ namespace GPS.Services.AlertBySensor
             }
             return false;
         }
-        public async Task<ReturnResult<PagedResult<AlertSensorView>>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, int pageNumber, int pageSize)
+        public async Task<ReturnResult<PagedResult<AlertSensorView>>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, string search, int pageNumber, int pageSize)
         {
             var result = new ReturnResult<PagedResult<AlertSensorView>>();
             try
             {
-                var pagedResult = await _unitOfWork.AlertBySensorRepository.SearchAsync( warehouseId, InventoryId, Serial, pageNumber, pageSize);
+                var pagedResult = await _unitOfWork.AlertBySensorRepository.SearchAsync( warehouseId, InventoryId, Serial, search,pageNumber, pageSize);
 
                 var pagedListView = new PagedResult<AlertSensorView>
                 {

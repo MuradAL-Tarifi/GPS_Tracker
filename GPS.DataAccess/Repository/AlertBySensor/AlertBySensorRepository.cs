@@ -27,13 +27,13 @@ namespace GPS.DataAccess.Repository.AlertBySensor
         }
         public async Task<Domain.Models.AlertBySensor> FindbyIdAsync(long? Id)
         {
-            var sensor = await _dbContext.AlertBySensor.Where(x =>x.Id == Id)
-               .Include(x => x.Inventory).Include(x=>x.Warehouse)
+            var sensor = await _dbContext.AlertBySensor.Where(x => x.Id == Id)
+               .Include(x => x.Inventory).Include(x => x.Warehouse)
                 .AsNoTracking().FirstOrDefaultAsync();
 
             return sensor;
         }
-        public async Task<PagedResult<Domain.Models.AlertBySensor>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, int pageNumber, int pageSize)
+        public async Task<PagedResult<Domain.Models.AlertBySensor>> SearchAsync(long? warehouseId, long? InventoryId, string Serial, string search, int pageNumber, int pageSize)
         {
             var pagedList = new PagedResult<GPS.Domain.Models.AlertBySensor>();
 
@@ -42,12 +42,17 @@ namespace GPS.DataAccess.Repository.AlertBySensor
             pagedList.TotalRecords = await _dbContext.AlertBySensor.Where(x =>
             (!warehouseId.HasValue || x.WarehouseId == warehouseId) &&
             (!InventoryId.HasValue || x.InventoryId == InventoryId) &&
-            ((string.IsNullOrEmpty(Serial) || (x.Serial.Equals(Serial))))).CountAsync();
+            (string.IsNullOrEmpty(Serial) || (x.Serial.Equals(Serial)))&&
+            (string.IsNullOrEmpty(search) || (x.UserName.Contains(search) || x.Serial.Contains(search)
+            || x.ToEmails.Contains(search) || x.CreatedDate.Value.ToString().Contains(search)))).CountAsync();
 
             pagedList.List = await _dbContext.AlertBySensor.Where(x =>
              (!warehouseId.HasValue || x.WarehouseId == warehouseId) &&
             (!InventoryId.HasValue || x.InventoryId == InventoryId) &&
-            ((string.IsNullOrEmpty(Serial) || (x.Serial.Contains(Serial)))))
+            (string.IsNullOrEmpty(Serial) || (x.Serial.Contains(Serial))) &&
+            (string.IsNullOrEmpty(search) || (x.UserName.Contains(search) || x.Serial.Contains(search)
+            || x.ToEmails.Contains(search) || x.CreatedDate.Value.ToString().Contains(search)))
+            )
                     .OrderByDescending(x => x.CreatedDate)
                     .Skip(skip).Take(pageSize)
                     .Include(x => x.Warehouse)
@@ -81,10 +86,10 @@ namespace GPS.DataAccess.Repository.AlertBySensor
             alertSensor.MinValueTemperature = alertSensorView.MinValueTemperature;
             alertSensor.MinValueHumidity = alertSensorView.MinValueTemperature;
             alertSensor.MaxValueHumidity = alertSensorView.MinValueTemperature;
-            alertSensor.InventoryId= alertSensorView.InventoryId;
-            alertSensor.WarehouseId= alertSensorView.WarehouseId;
-            alertSensor.AlertTypeLookupId= alertSensorView.AlertTypeLookupId;
-            
+            alertSensor.InventoryId = alertSensorView.InventoryId;
+            alertSensor.WarehouseId = alertSensorView.WarehouseId;
+            alertSensor.AlertTypeLookupId = alertSensorView.AlertTypeLookupId;
+
             _dbContext.AlertBySensor.Update(alertSensor);
             return await _dbContext.SaveChangesAsync() > 0;
         }

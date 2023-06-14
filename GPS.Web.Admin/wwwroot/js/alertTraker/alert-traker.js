@@ -4,6 +4,7 @@ var warehouseId;
 var inventoryId;
 var serial;
 var id;
+var SearchString;
 $(document).ajaxStart(function () { Pace.restart(); });
 
 $(document).ready(function () {
@@ -21,7 +22,11 @@ $(document).ready(function () {
     if (!serial) {
         serial = '';
     }
-
+    SearchString = urlParams.get('search');
+    if (!SearchString) {
+        SearchString = '';
+    }
+    $('#searchInput').val(SearchString);
     PageSize = urlParams.get('show');
     if (!PageSize) {
         PageSize = 25;
@@ -89,9 +94,11 @@ $(document).ready(function () {
         warehouseId = $("#WarehousSelectId").val();
         inventoryId = $("#InventorySelectId").val();
         serial = $('#selectedSensorsId').val();
+        var text = $('#searchInput').val().trim();
+        SearchString = text;
         $.ajax({
             type: "Get",
-            url: hostName + "/AlertTraker?warehouseId=" + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&page=" + PageNumber + "&show=" + PageSize,  //remember change the controller to your owns.  
+            url: hostName + "/AlertTraker?warehouseId=" + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&search=" + SearchString + "&page=" + PageNumber + "&show=" + PageSize,  //remember change the controller to your owns.  
             success: function (result) {
                 $('#PagedDataDiv').html(result);
                 InitFootable();
@@ -109,9 +116,11 @@ function GetData() {
     warehouseId = $("#WarehousSelectId").val();
     inventoryId = $("#InventorySelectId").val();
     serial = $('#selectedSensorsId').val();
+    var text = $('#searchInput').val().trim();
+    SearchString = text;
     $.ajax({
         type: "Get",
-        url: hostName + "/AlertTraker?warehouseId=" + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&page=" + PageNumber + "&show=" + PageSize,  //remember change the controller to your owns.  
+        url: hostName + "/AlertTraker?warehouseId=" + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&search=" + SearchString + "&page=" + PageNumber + "&show=" + PageSize,  //remember change the controller to your owns.  
         success: function (result) {
             $('#PagedDataDiv').html(result);
             InitFootable();
@@ -121,12 +130,12 @@ function GetData() {
     });
 }
 function createAlertBySensor(pageNumber) {
-    var returnURL = encodeURIComponent(hostName + '/AlertTraker?warehouseId=' + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&page=" + pageNumber + "&show=" + PageSize);
+    var returnURL = encodeURIComponent(hostName + '/AlertTraker?warehouseId=' + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&search=" + SearchString + "&page=" + pageNumber + "&show=" + PageSize);
     window.location.href = hostName + '/AlertTraker/Create?id=' + id + '&returnURL=' + returnURL;
 }
 
 function editAlertBySensor(id, pageNumber) {
-    var returnURL = encodeURIComponent(hostName + '/AlertTraker?warehouseId=' + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&page=" + pageNumber + "&show=" + PageSize);
+    var returnURL = encodeURIComponent(hostName + '/AlertTraker?warehouseId=' + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&search=" + SearchString + "&page=" + pageNumber + "&show=" + PageSize);
     window.location.href = hostName + '/AlertTraker/Create?id=' + id + '&returnURL=' + returnURL;
 }
 function PagedListSuccess() {
@@ -141,7 +150,7 @@ function ConfirmDelete(Id, pageNumber) {
     SwalConfirm("warning", text, "", yes, cancel, function (result) {
         if (result) {
             showLoader();
-            var returnURL = hostName + '/AlertTraker?warehouseId=' + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&page=" + pageNumber + "&show=" + PageSize;
+            var returnURL = hostName + '/AlertTraker?warehouseId=' + warehouseId + "&inventoryId=" + inventoryId + "&serial=" + serial + "&search=" + SearchString + "&page=" + pageNumber + "&show=" + PageSize;
             $("#returnURL").val(returnURL);
             $("#ItemId").val(Id);
             $("#DeleteForm").submit();

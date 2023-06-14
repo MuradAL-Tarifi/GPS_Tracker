@@ -1,49 +1,49 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-    <div data-scroll-to-active="true" class="main-menu menu-fixed menu-light menu-accordion menu-shadow       
-      @(HttpContextAccessor.HttpContext.Request.Cookies["dark-mode-menue-admin"]) 
-      @(HttpContextAccessor.HttpContext.Request.Cookies["light-mode-menue-admin"])" >
-        <div class="navbar-header">
-            <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mr-auto">
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                        <span class="brand-logo">
-                            <img class="companyLogo w-100 h-100"  />
-                        </span>
-                        @*<h2 class="brand-text"></h2>*@
+<div data-scroll-to-active="true" class="main-menu menu-fixed menu-light menu-accordion menu-shadow
+      @(HttpContextAccessor.HttpContext.Request.Cookies["dark-mode-menue-admin"])
+      @(HttpContextAccessor.HttpContext.Request.Cookies["light-mode-menue-admin"])">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item mr-auto">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <span class="brand-logo">
+                        <img class="companyLogo w-100 h-100" />
+                    </span>
+                    @*<h2 class="brand-text"></h2>*@
+                </a>
+            </li>
+            @*<li class="nav-item nav-toggle">
+            <a class="nav-link modern-nav-toggle pr-0 pt-1" data-toggle="collapse">
+            <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
+            <i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i>
+            </a>
+            </li>*@
+        </ul>
+    </div>
+    <div class="shadow-bottom"></div>
+    <div class="main-menu-content mt-2">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewFleets))
+            {
+                <li class="nav-item" id="FleetsLi">
+                    <a asp-action="Index" asp-controller="Fleets" class="d-flex align-items-center">
+                        <i class="fa fa-building">
+                        </i><span class="menu-title text-truncate">@Localizer["Fleets"]</span>
                     </a>
                 </li>
-                @*<li class="nav-item nav-toggle">
-                    <a class="nav-link modern-nav-toggle pr-0 pt-1" data-toggle="collapse">
-                        <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
-                        <i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i>
-                    </a>
-                </li>*@
-            </ul>
-        </div>
-        <div class="shadow-bottom"></div>
-        <div class="main-menu-content mt-2">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewFleets))
-                {
-                    <li class="nav-item" id="FleetsLi">
-                        <a asp-action="Index" asp-controller="Fleets" class="d-flex align-items-center">
-                            <i class="fa fa-building">
-                            </i><span class="menu-title text-truncate">@Localizer["Fleets"]</span>
-                        </a>
-                    </li>
-                }
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewSensors))
-                {
-                    <li class="nav-item" id="SensorsLi">
-                        <a asp-action="Index" asp-controller="Sensors" class="d-flex align-items-center">
-                            <i class="fa fa-boxes"></i>
+            }
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewSensors))
+            {
+                <li class="nav-item" id="SensorsLi">
+                    <a asp-action="Index" asp-controller="Sensors" class="d-flex align-items-center">
+                        <i class="fa fa-boxes"></i>
                         <span class="menu-title text-truncate">@Localizer["Sensors"]</span>
 
-                        </a>
-                    </li>
-                }
+                    </a>
+                </li>
+            }
             @if (_loggedUser.IsSuperAdmin)
             {
                 <li class="nav-item" id="SensorsLi">
@@ -53,100 +53,100 @@
                     </a>
                 </li>
             }
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewGateways))
-                {
-                    <li class="nav-item" id="GatewayLi">
-                        <a asp-action="Index" asp-controller="Gateway" class="d-flex align-items-center">
-                            <i class="fa fa-project-diagram">
-                            </i><span class="menu-title text-truncate">@Localizer["Gateway"]</span>
-                        </a>
-                    </li>
-                }
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewGateways))
+            {
+                <li class="nav-item" id="GatewayLi">
+                    <a asp-action="Index" asp-controller="Gateway" class="d-flex align-items-center">
+                        <i class="fa fa-project-diagram">
+                        </i><span class="menu-title text-truncate">@Localizer["Gateway"]</span>
+                    </a>
+                </li>
+            }
 
 
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewWarehouses))
-                {
-                    <li class="nav-item" id="WarehouseLi">
-                        <a asp-action="Index" asp-controller="Warehouse" class="d-flex align-items-center">
-                            <i class="fa fa-warehouse"></i>
-                            <span class="menu-title text-truncate">@Localizer["Warehouse"]</span>
-                        </a>
-                    </li>
-                }
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewInventories))
-                {
-                    <li class="nav-item" id="InventoryLi">
-                        <a asp-action="Index" asp-controller="Inventory" class="d-flex align-items-center">
-                            <i class="fa fa-boxes"></i>
-                            <span class="menu-title text-truncate">@Localizer["Inventory"]</span>
-                        </a>
-                    </li>
-                }
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewUsers) ||
-                   _loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewOperations))
-                {
-                    <li id="SystemManagementLi" class="nav-item">
-                        <a class="d-flex align-items-center" href="#">
-                            <i class="nav-icon fa fa-cogs"></i>
-                            <span class="menu-title text-truncate">@Localizer["SystemManagement"]</span>
-                        </a>
-                        <ul class="menu-content">
-                            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewUsers))
-                            {
-                                <li id="UsersLi">
-                                    <a asp-action="Index" asp-controller="Users" class="d-flex align-items-center">
-                                        <i class="nav-icon fa fa-users"></i> <span class="menu-item text-truncate">@Localizer["Users"]</span>
-                                    </a>
-                                </li>
-                            }
-                            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewOperations))
-                            {
-                                <li id="OperationsLi">
-                                    <a asp-action="Index" asp-controller="Operations" class="d-flex align-items-center">
-                                        <i class="nav-icon fa fa-history"></i> <span class="menu-item text-truncate">@Localizer["Operations"]</span>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </li>
-                }
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.WASLInquiries))
-                {
-                    <li id="WASLInquiriesLi" class="nav-item">
-                        <a class="d-flex align-items-center" href="#">
-                            <i class="nav-icon fa fa-question"></i>
-                            <span class="menu-title text-truncate">@Localizer["WASLInquiries"]</span>
-                        </a>
-                        <ul class="menu-content">
-                            <li id="WASLOperatingCompaniesLi">
-                                <a asp-action="OperatingCompanies" asp-controller="WASL" class="d-flex align-items-center">
-                                    <i class="far fa-circle nav-icon"></i> <span class="menu-item text-truncate">@Localizer["WASLOperatingCompanies"]</span>
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewWarehouses))
+            {
+                <li class="nav-item" id="WarehouseLi">
+                    <a asp-action="Index" asp-controller="Warehouse" class="d-flex align-items-center">
+                        <i class="fa fa-warehouse"></i>
+                        <span class="menu-title text-truncate">@Localizer["Warehouse"]</span>
+                    </a>
+                </li>
+            }
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewInventories))
+            {
+                <li class="nav-item" id="InventoryLi">
+                    <a asp-action="Index" asp-controller="Inventory" class="d-flex align-items-center">
+                        <i class="fa fa-boxes"></i>
+                        <span class="menu-title text-truncate">@Localizer["Inventory"]</span>
+                    </a>
+                </li>
+            }
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewUsers) ||
+            _loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewOperations))
+            {
+                <li id="SystemManagementLi" class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i class="nav-icon fa fa-cogs"></i>
+                        <span class="menu-title text-truncate">@Localizer["SystemManagement"]</span>
+                    </a>
+                    <ul class="menu-content">
+                        @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewUsers))
+                        {
+                            <li id="UsersLi">
+                                <a asp-action="Index" asp-controller="Users" class="d-flex align-items-center">
+                                    <i class="nav-icon fa fa-users"></i> <span class="menu-item text-truncate">@Localizer["Users"]</span>
                                 </a>
                             </li>
-                            <li id="WASLWarehousesLi">
-                                <a asp-action="Warehouses" asp-controller="WASL" class="d-flex align-items-center">
-                                    <i class="far fa-circle nav-icon"></i><span class="menu-item text-truncate text-wrap">@Localizer["WASLWarehouses"]</span>
+                        }
+                        @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.ViewOperations))
+                        {
+                            <li id="OperationsLi">
+                                <a asp-action="Index" asp-controller="Operations" class="d-flex align-items-center">
+                                    <i class="nav-icon fa fa-history"></i> <span class="menu-item text-truncate">@Localizer["Operations"]</span>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                }
-                @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.SystemSettings))
-                {
-                    <li id="SettingsLi" class="nav-item">
-                        <a class="d-flex align-items-center" href="#">
-                            <i class="nav-icon fa fa-tools"></i>
-                            <span class="menu-title text-truncate">@Localizer["Settings"]</span>
-                        </a>
-                        <ul class="menu-content">
-                            <li id="SystemSettingsLi">
-                                <a asp-action="Index" asp-controller="SystemSetting" class="d-flex align-items-center">
-                                    <i class="far fa-circle nav-icon"></i> <span class="menu-item text-truncate">@Localizer["SystemSettings"]</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                }
-            </ul>
-        </div>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.WASLInquiries))
+            {
+                <li id="WASLInquiriesLi" class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i class="nav-icon fa fa-question"></i>
+                        <span class="menu-title text-truncate">@Localizer["WASLInquiries"]</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li id="WASLOperatingCompaniesLi">
+                            <a asp-action="OperatingCompanies" asp-controller="WASL" class="d-flex align-items-center">
+                                <i class="far fa-circle nav-icon"></i> <span class="menu-item text-truncate">@Localizer["WASLOperatingCompanies"]</span>
+                            </a>
+                        </li>
+                        <li id="WASLWarehousesLi">
+                            <a asp-action="Warehouses" asp-controller="WASL" class="d-flex align-items-center">
+                                <i class="far fa-circle nav-icon"></i><span class="menu-item text-truncate text-wrap">@Localizer["WASLWarehouses"]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            @if (_loggedUser.UserPrivilegesTypeIds.Contains((int)AdminPrivilegeTypeEnum.SystemSettings))
+            {
+                <li id="SettingsLi" class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i class="nav-icon fa fa-tools"></i>
+                        <span class="menu-title text-truncate">@Localizer["Settings"]</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li id="SystemSettingsLi">
+                            <a asp-action="Index" asp-controller="SystemSetting" class="d-flex align-items-center">
+                                <i class="far fa-circle nav-icon"></i> <span class="menu-item text-truncate">@Localizer["SystemSettings"]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+        </ul>
     </div>
+</div>
